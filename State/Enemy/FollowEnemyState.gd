@@ -9,14 +9,12 @@ var player: Player;
 
 func enter():
 	aggroCollider.body_exited.connect(_playerExited)
-	navigation.velocity_computed.connect(_safeVelocityComputed)
 	for body in aggroCollider.get_overlapping_bodies():
 		if body is Player:
 			player = body
 
 func leave():
 	aggroCollider.body_exited.disconnect(_playerExited)
-	navigation.velocity_computed.disconnect(_safeVelocityComputed)
 
 func physicsUpdate(_delta):
 	var direction := enemy.global_position.direction_to(player.global_position)
@@ -32,11 +30,8 @@ func physicsUpdate(_delta):
 	var currentAgentPosition: Vector2 = enemy.global_position
 	var nextPathPosition: Vector2 = navigation.get_next_path_position()
 
-	navigation.set_velocity(currentAgentPosition.direction_to(nextPathPosition) * enemy.speed)
+	enemy.velocity = currentAgentPosition.direction_to(nextPathPosition) * enemy.speed
 
 func _playerExited(body: Node2D):
 	if body is Player:
 		Transitioned.emit(self, "idle")
-
-func _safeVelocityComputed(safeVelocity: Vector2):
-	enemy.velocity = safeVelocity
