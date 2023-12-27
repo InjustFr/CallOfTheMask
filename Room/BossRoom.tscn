@@ -18,6 +18,7 @@ font_size = 64
 script = ExtResource("1_xpkmc")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_axh34")
 
 [node name="TileMap" type="TileMap" parent="NavigationRegion2D"]

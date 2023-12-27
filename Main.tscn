@@ -1,84 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://buyolbdhukp14"]
+[gd_scene load_steps=3 format=3 uid="uid://buyolbdhukp14"]
 
 [ext_resource type="Script" path="res://Level.gd" id="1_aml0s"]
-[ext_resource type="Texture2D" uid="uid://dtj0msbib567x" path="res://Assets/0x72_DungeonTilesetII_v1.6.png" id="1_cf2lp"]
-[ext_resource type="Script" path="res://Player.gd" id="2_hnyi3"]
-[ext_resource type="PackedScene" uid="uid://blcymssdtdd67" path="res://Weapon/ShortSword.tscn" id="3_5eav1"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jki2m"]
-size = Vector2(14, 16)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_c0kcl"]
-radius = 24.0
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3ihgw"]
-atlas = ExtResource("1_cf2lp")
-region = Rect2(128, 68, 16, 28)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_c6byy"]
-atlas = ExtResource("1_cf2lp")
-region = Rect2(144, 68, 16, 28)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_yrwjq"]
-atlas = ExtResource("1_cf2lp")
-region = Rect2(160, 68, 16, 28)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_m87be"]
-atlas = ExtResource("1_cf2lp")
-region = Rect2(176, 68, 16, 28)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_n02su"]
-atlas = ExtResource("1_cf2lp")
-region = Rect2(192, 68, 16, 28)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5tbd8"]
-atlas = ExtResource("1_cf2lp")
-region = Rect2(208, 68, 16, 28)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_k1l0v"]
-atlas = ExtResource("1_cf2lp")
-region = Rect2(224, 68, 16, 28)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jdbaa"]
-atlas = ExtResource("1_cf2lp")
-region = Rect2(240, 68, 16, 28)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_y40kd"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3ihgw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c6byy")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_yrwjq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_m87be")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 7.5
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_n02su")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5tbd8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_k1l0v")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jdbaa")
-}],
-"loop": true,
-"name": &"walk",
-"speed": 10.0
-}]
+[ext_resource type="PackedScene" uid="uid://bmpgm3pr1dgr5" path="res://Player.tscn" id="2_rx5qs"]
 
 [node name="Level" type="Node2D"]
 y_sort_enabled = true
@@ -89,35 +12,4 @@ mandatoryRooms = Array[String](["BossRoom"])
 [node name="Map" type="Node2D" parent="."]
 y_sort_enabled = true
 
-[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("weapon")]
-position = Vector2(56, 40)
-motion_mode = 1
-slide_on_ceiling = false
-platform_on_leave = 2
-script = ExtResource("2_hnyi3")
-weapon = NodePath("WeaponContainer/ShortSword")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2(1, 0)
-shape = SubResource("RectangleShape2D_jki2m")
-
-[node name="BoonPickup" type="Area2D" parent="Player"]
-collision_layer = 0
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/BoonPickup"]
-shape = SubResource("CircleShape2D_c0kcl")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
-y_sort_enabled = true
-position = Vector2(0, -6)
-sprite_frames = SubResource("SpriteFrames_y40kd")
-animation = &"idle"
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-zoom = Vector2(3, 3)
-
-[node name="WeaponContainer" type="Marker2D" parent="Player"]
-position = Vector2(0, 2)
-
-[node name="ShortSword" parent="Player/WeaponContainer" instance=ExtResource("3_5eav1")]
+[node name="Player" parent="." instance=ExtResource("2_rx5qs")]
