@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cneltgs6x0fxa"]
+[gd_scene load_steps=7 format=3 uid="uid://cneltgs6x0fxa"]
 
 [ext_resource type="TileSet" uid="uid://ccjfgso6jgv31" path="res://TileSet.tres" id="1_3khxt"]
 [ext_resource type="Script" path="res://Room/BasicRoom.gd" id="1_xxv86"]
+[ext_resource type="Script" path="res://Enemy/EnemySpawner.gd" id="3_000uj"]
+[ext_resource type="Script" path="res://Enemy/ImpSpawnInfo.gd" id="4_4ui4d"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_6rsdo"]
 vertices = PackedVector2Array(181, 160, 267, 208, 21, 208, 107, 160, 267, 32, 181, 64, 21, 32, 107, 64)
@@ -51,3 +53,19 @@ text = "1"
 label_settings = SubResource("LabelSettings_tyjkg")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="EnemySpawner" type="Node" parent="." node_paths=PackedStringArray("spawn_region", "room")]
+script = ExtResource("3_000uj")
+spawn_region = NodePath("../NavigationRegion2D")
+room = NodePath("..")
+
+[node name="ImpSpawnInfo" type="Node" parent="EnemySpawner"]
+script = ExtResource("4_4ui4d")
+weight = 1
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="EnemySpawner" method="spawn"]

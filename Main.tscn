@@ -6,8 +6,8 @@
 [node name="Level" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_aml0s")
-rooms = Array[String](["BasicRoom", "BasicRoom2"])
-mandatoryRooms = Array[String](["BossRoom"])
+nbRooms = 1
+rooms = Array[String](["BasicRoom"])
 
 [node name="Map" type="Node2D" parent="."]
 y_sort_enabled = true
