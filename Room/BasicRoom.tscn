@@ -64,7 +64,6 @@ script = ExtResource("4_4ui4d")
 weight = 1
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 5.0
 one_shot = true
 autostart = true
 

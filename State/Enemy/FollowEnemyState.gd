@@ -9,9 +9,7 @@ var player: Player;
 
 func enter():
 	aggroCollider.body_exited.connect(_playerExited)
-	for body in aggroCollider.get_overlapping_bodies():
-		if body is Player:
-			player = body
+	player = enemy.get_player()
 
 func leave():
 	aggroCollider.body_exited.disconnect(_playerExited)
@@ -21,9 +19,9 @@ func physicsUpdate(_delta):
 	if abs(direction.x) > 0:
 		enemy.sprite.flip_h = direction.x < 0
 
-	#if enemy.weapon and player.global_position.distance_to(enemy.global_position) < enemy.weapon.range:
-		#Transitioned.emit(self, "attack")
-		#return
+	if enemy.global_position.distance_to(player.global_position) <= enemy.attack_range:
+		Transitioned.emit(self, "attack")
+		return
 
 	navigation.target_position = player.global_position
 

@@ -10,7 +10,6 @@ func enter():
 func leave():
 	aggroCollider.body_entered.disconnect(_playerHeard)
 
-
 func _playerHeard(body: Node2D):
 	if body is Player:
 		Transitioned.emit(self, "follow")

@@ -1,11 +1,11 @@
 extends Node2D
 
+class_name Level
+
 @onready var mapNode : Node2D = $Map
+@onready var player: Player = $Player
 
-@export var mapWidth := 5;
-@export var mapHeight := 5;
 @export var nbRooms = 10;
-
 @export var rooms : Array[String] = []
 @export var mandatoryRooms : Array[String] = []
 
@@ -17,6 +17,8 @@ var roomMap : Dictionary = {}
 var totalRooms := 0
 var roomsGenerated : Array[Vector2i] = []
 
+signal finished
+
 func _ready():
 	for n in rooms:
 		loadedRooms.push_back(load("res://Room/" + n + ".tscn"))
@@ -25,6 +27,8 @@ func _ready():
 
 	_generateRandomRooms()
 	_generateMandatoryRooms()
+
+	player.died.connect(_on_player_death)
 
 
 func _generateRandomRooms() -> void:
@@ -143,3 +147,6 @@ func _generateMandatoryRooms() -> void:
 			i += 1
 
 		_generateNeighboorRoom(roomsGenerated[i], roomScene)
+
+func _on_player_death():
+	finished.emit(false)

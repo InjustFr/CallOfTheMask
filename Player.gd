@@ -5,6 +5,7 @@ class_name Player
 @onready var sprite := $AnimatedSprite2D
 @onready var weaponContainer := $WeaponContainer
 @onready var boonCollider := $BoonPickup
+@onready var healthBar : TextureProgressBar = $HealthBar
 
 @export var speed := 64
 @export var weapon : Weapon
@@ -17,8 +18,15 @@ var spellDmg := 0
 var speedBonus := 0
 var healthBonus := 0
 
+signal died
+
 func _ready():
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	healthBar.max_value = health
+
+func _process(_delta):
+	healthBar.value = health
+	if health <= 0:
+		died.emit()
 
 func _physics_process(_delta):
 	if Input.is_action_just_pressed("left_click"):
@@ -51,3 +59,6 @@ func _pickupBoon():
 			var boon = body.get_parent().selectBoon(body)
 			boon.apply(self)
 			boons.push_back(boon)
+
+func damage(amount: int):
+	health -= amount

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://by5pu1knaktdj"]
+[gd_scene load_steps=3 format=3 uid="uid://by5pu1knaktdj"]
 
 [ext_resource type="Script" path="res://MainMenu.gd" id="1_ln7l0"]
+[ext_resource type="Theme" uid="uid://da1qk48nqy3s2" path="res://Assets/ui_theme.tres" id="2_fq74y"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -21,7 +22,9 @@ grow_vertical = 2
 
 [node name="Button" type="Button" parent="CenterContainer"]
 layout_mode = 2
+theme = ExtResource("2_fq74y")
 theme_override_font_sizes/font_size = 84
 text = "Play"
+flat = true
 
 [connection signal="pressed" from="CenterContainer/Button" to="." method="_on_button_pressed"]

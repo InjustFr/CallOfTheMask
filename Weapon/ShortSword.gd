@@ -43,4 +43,4 @@ func _physics_process(delta):
 func _entity_hit(body: Node2D):
 	if body is Enemy and !hit:
 		hit = true
-		body.damage(damage)
+		body.take_damage(damage)
