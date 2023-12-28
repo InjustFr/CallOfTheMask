@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://kpxb3bc4txks"]
+[gd_scene load_steps=5 format=3 uid="uid://kpxb3bc4txks"]
 
 [ext_resource type="Script" path="res://Game.gd" id="1_d6l61"]
 [ext_resource type="Theme" uid="uid://da1qk48nqy3s2" path="res://Assets/ui_theme.tres" id="2_t22gp"]
@@ -7,12 +7,15 @@
 font_size = 128
 font_color = Color(1, 0, 0, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_2m5h8"]
+
 [node name="Game" type="Node2D"]
 script = ExtResource("1_d6l61")
 
 [node name="DeathMenu" type="CanvasLayer" parent="."]
 process_mode = 3
 layer = 10
+visible = false
 
 [node name="Container" type="Control" parent="DeathMenu"]
 layout_mode = 3
@@ -58,5 +61,20 @@ layout_mode = 2
 theme = ExtResource("2_t22gp")
 text = "Retry"
 flat = true
+
+[node name="Debug" type="CanvasLayer" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Debug"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ControllerLabel" type="Label" parent="Debug/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_t22gp")
+text = "Controller:"
+label_settings = SubResource("LabelSettings_2m5h8")
 
 [connection signal="pressed" from="DeathMenu/Container/VBoxContainer/CenterContainer/Button" to="." method="_restart_game"]

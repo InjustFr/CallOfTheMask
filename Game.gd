@@ -2,13 +2,21 @@ extends Node2D
 
 @onready var player_scene = preload("res://Player.tscn")
 @onready var death_menu_node = $DeathMenu
+@onready var controller_label = $Debug/VBoxContainer/ControllerLabel
 
 var current_scene = null
 var level := 1
+var is_using_controller := false
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	_launch_game()
+
+func _input(event: InputEvent):
+	is_using_controller = event is InputEventJoypadButton or event is InputEventJoypadMotion
+
+func _process(_delta):
+	controller_label.text = "Controller: " + ("1" if is_using_controller else "0")
 
 func _on_level_finished(succeeded: bool) -> void:
 	if !succeeded:

@@ -60,6 +60,7 @@ script = ExtResource("4_4ui4d")
 weight = 1
 
 [node name="Enemies" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
