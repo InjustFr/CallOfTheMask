@@ -3,13 +3,17 @@ extends CharacterBody2D
 class_name Player
 
 @onready var sprite := $AnimatedSprite2D
-@onready var weapon_container := $weapon_container
+@onready var weapon_container := $WeaponContainer
 @onready var boon_collider := $BoonPickup
-@onready var health_bar : TextureProgressBar = $health_bar
+@onready var health_bar : TextureProgressBar = $HealthBar
+@onready var dash_particles : GPUParticles2D = $DashParticles
 
 @export var speed := 80
 @export var weapon : Weapon
 @export var health := 10
+@export var dash_speed := 256
+@export var dash_duration := 0.15
+@export var dash_cooldown := 0.5
 
 var boons := []
 
@@ -17,6 +21,11 @@ var weapon_dmg := 0
 var spell_dmg := 0
 var speed_bonus := 0
 var health_bonus := 0
+
+var direction : Vector2 = Vector2.ZERO
+var dashing := false
+var dash_start := 0
+var dash_end := 0
 
 signal died
 signal player_hit
@@ -33,17 +42,29 @@ func _process(_delta):
 	if health <= 0:
 		died.emit()
 
+	if dashing and dash_duration * 1000 < Time.get_ticks_msec() - dash_start:
+		dashing = false
+		dash_end = Time.get_ticks_msec()
+		dashed.emit()
+
 func _physics_process(_delta):
-	if Input.is_action_just_pressed("left_click"):
-		weapon.use()
-		weapon_used.emit(self, weapon)
+	if not dashing:
+		if Input.is_action_just_pressed("attack"):
+			weapon.use()
+			weapon_used.emit(self, weapon)
 
-	if Input.is_action_just_pressed("use") and boon_collider.monitoring:
-		_pickup_boon()
+		if Input.is_action_just_pressed("use") and boon_collider.monitoring:
+			_pickup_boon()
 
-	var direction = Input.get_vector("a", "d", "w", "s")
+		if Input.is_action_just_pressed("dash"):
+			_dash()
+
+		direction = Input.get_vector("left", "right", "up", "down")
+
 	if direction:
 		velocity = direction * (speed + speed_bonus)
+		if dashing:
+			velocity += direction * dash_speed
 	else:
 		velocity.x = move_toward(velocity.x, 0, (speed + speed_bonus))
 		velocity.y = move_toward(velocity.y, 0, (speed + speed_bonus))
@@ -72,3 +93,11 @@ func damage(amount: int):
 
 func _on_enemy_hit(enemy: Enemy) -> void:
 	enemy_hit.emit(enemy)
+
+func _dash() -> void:
+	var time_elasped = Time.get_ticks_msec() - dash_end
+	if dash_cooldown * 1000 < time_elasped:
+		dashing = true
+		dash_start = Time.get_ticks_msec()
+		dash_particles.process_material.direction = Vector3(-direction.x, -direction.y, 0.0)
+		dash_particles.emitting = true
