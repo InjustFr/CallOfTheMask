@@ -44,3 +44,4 @@ func _entity_hit(body: Node2D):
 	if body is Enemy and !hit:
 		hit = true
 		body.take_damage(damage)
+		enemy_hit.emit(body)

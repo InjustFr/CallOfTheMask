@@ -3,9 +3,9 @@ extends CharacterBody2D
 class_name Player
 
 @onready var sprite := $AnimatedSprite2D
-@onready var weaponContainer := $WeaponContainer
-@onready var boonCollider := $BoonPickup
-@onready var healthBar : TextureProgressBar = $HealthBar
+@onready var weapon_container := $weapon_container
+@onready var boon_collider := $BoonPickup
+@onready var health_bar : TextureProgressBar = $health_bar
 
 @export var speed := 80
 @export var weapon : Weapon
@@ -13,34 +13,40 @@ class_name Player
 
 var boons := []
 
-var weaponDmg := 0
-var spellDmg := 0
-var speedBonus := 0
-var healthBonus := 0
+var weapon_dmg := 0
+var spell_dmg := 0
+var speed_bonus := 0
+var health_bonus := 0
 
 signal died
+signal player_hit
+signal enemy_hit
+signal dashed
+signal weapon_used
 
 func _ready():
-	healthBar.max_value = health
+	health_bar.max_value = health
+	weapon.enemy_hit.connect(_on_enemy_hit)
 
 func _process(_delta):
-	healthBar.value = health
+	health_bar.value = health
 	if health <= 0:
 		died.emit()
 
 func _physics_process(_delta):
 	if Input.is_action_just_pressed("left_click"):
 		weapon.use()
+		weapon_used.emit(self, weapon)
 
-	if Input.is_action_just_pressed("use") and boonCollider.monitoring:
-		_pickupBoon()
+	if Input.is_action_just_pressed("use") and boon_collider.monitoring:
+		_pickup_boon()
 
 	var direction = Input.get_vector("a", "d", "w", "s")
 	if direction:
-		velocity = direction * (speed + speedBonus)
+		velocity = direction * (speed + speed_bonus)
 	else:
-		velocity.x = move_toward(velocity.x, 0, (speed + speedBonus))
-		velocity.y = move_toward(velocity.y, 0, (speed + speedBonus))
+		velocity.x = move_toward(velocity.x, 0, (speed + speed_bonus))
+		velocity.y = move_toward(velocity.y, 0, (speed + speed_bonus))
 
 	if velocity:
 		sprite.play("walk")
@@ -49,16 +55,20 @@ func _physics_process(_delta):
 
 	if abs(direction.x) > 0.01:
 		sprite.flip_h = velocity.x < 0
-		weaponContainer.scale.x = -1 if velocity.x < 0 else 1
+		weapon_container.scale.x = -1 if velocity.x < 0 else 1
 
 	move_and_slide()
 
-func _pickupBoon():
-	for body in boonCollider.get_overlapping_bodies():
+func _pickup_boon():
+	for body in boon_collider.get_overlapping_bodies():
 		if body is StaticBody2D and body.get_parent() is BoonSelector:
 			var boon = body.get_parent().selectBoon(body)
 			boon.apply(self)
 			boons.push_back(boon)
 
 func damage(amount: int):
+	player_hit.emit(self)
 	health -= amount
+
+func _on_enemy_hit(enemy: Enemy) -> void:
+	enemy_hit.emit(enemy)
