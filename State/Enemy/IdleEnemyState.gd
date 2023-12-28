@@ -2,14 +2,15 @@ extends EnemyState
 
 class_name IdleEnemyState
 
-@export var aggroCollider: Area2D
+@export var aggro_collider: Area2D
 
 func enter():
-	aggroCollider.body_entered.connect(_playerHeard)
+	aggro_collider.body_entered.connect(_player_heard)
+	enemy.velocity = Vector2(0.0, 0.0)
 
 func leave():
-	aggroCollider.body_entered.disconnect(_playerHeard)
+	aggro_collider.body_entered.disconnect(_player_heard)
 
-func _playerHeard(body: Node2D):
+func _player_heard(body: Node2D):
 	if body is Player:
-		Transitioned.emit(self, "follow")
+		transitioned.emit(self, "follow")

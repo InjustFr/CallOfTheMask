@@ -12,5 +12,5 @@ func update(_delta):
 	if enemy.global_position.distance_to(player.global_position) < enemy.attack_range:
 		enemy.attack(player)
 	else:
-		Transitioned.emit(self, "follow")
+		transitioned.emit(self, "follow")
 

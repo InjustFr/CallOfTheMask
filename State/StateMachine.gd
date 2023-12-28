@@ -2,9 +2,9 @@ extends Node
 
 class_name StateMachine
 
-@export var initialState: State;
+@export var initial_state: State;
 
-var currentState: State
+var current_state: State
 var states : Dictionary = {}
 
 # Called when the node enters the scene tree for the first time.
@@ -12,31 +12,31 @@ func _ready():
 	for child in get_children():
 		if child is State:
 			states[child.name.to_lower()] = child
-			child.Transitioned.connect(_on_child_transitioned)
+			child.transitioned.connect(_on_child_transitioned)
 
-	if initialState:
-		initialState.enter()
-		currentState = initialState
+	if initial_state:
+		initial_state.enter()
+		current_state = initial_state
 
 func _process(delta):
-	if currentState:
-		currentState.update(delta)
+	if current_state:
+		current_state.update(delta)
 
 func _physics_process(delta):
-	if currentState:
-		currentState.physicsUpdate(delta)
+	if current_state:
+		current_state.physics_update(delta)
 
-func _on_child_transitioned(state: State, newStateName: String):
-	if state != currentState:
+func _on_child_transitioned(state: State, new_state_name: String):
+	if state != current_state:
 		return
 
-	var newState = states.get(newStateName.to_lower())
-	if !newState:
+	var new_state = states.get(new_state_name.to_lower())
+	if !new_state:
 		return
 
-	if currentState:
-		currentState.leave()
+	if current_state:
+		current_state.leave()
 
-	newState.enter()
-	currentState = newState
+	new_state.enter()
+	current_state = new_state
 

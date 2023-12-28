@@ -5,12 +5,12 @@
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_44e31"]
 particle_flag_disable_z = true
-emission_shape_scale = Vector3(10, 1, 1)
-emission_shape = 3
-emission_box_extents = Vector3(1, 1, 1)
+emission_shape = 1
+emission_sphere_radius = 10.0
 direction = Vector3(0, -1, 0)
-initial_velocity_min = 64.0
-initial_velocity_max = 64.0
+spread = 180.0
+initial_velocity_min = 48.0
+initial_velocity_max = 48.0
 angular_velocity_min = 48.0
 angular_velocity_max = 48.0
 gravity = Vector3(0, 0, 0)
@@ -31,9 +31,10 @@ layer_1/z_index = -1
 layer_1/tile_data = PackedInt32Array()
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(0, -16)
 emitting = false
-amount = 512
+amount = 384
 process_material = SubResource("ParticleProcessMaterial_44e31")
-lifetime = 0.45
+lifetime = 0.25
 one_shot = true
 explosiveness = 0.5

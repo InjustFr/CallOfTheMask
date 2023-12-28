@@ -13,5 +13,5 @@ rooms = Array[String](["BasicRoom"])
 y_sort_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("2_l05yr")]
-position = Vector2(120, 88)
+position = Vector2(72, 56)
 wall_min_slide_angle = 0.0

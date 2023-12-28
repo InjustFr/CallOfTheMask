@@ -91,7 +91,7 @@ height = 2
 [sub_resource type="CircleShape2D" id="CircleShape2D_3kp21"]
 radius = 128.0
 
-[node name="Enemy" type="CharacterBody2D"]
+[node name="Imp" type="CharacterBody2D"]
 collision_layer = 3
 motion_mode = 1
 wall_min_slide_angle = 0.0
@@ -124,18 +124,18 @@ texture_under = ExtResource("3_xvork")
 texture_progress = SubResource("GradientTexture2D_oo7tf")
 texture_progress_offset = Vector2(1, 1)
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState")]
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("4_la31t")
-initialState = NodePath("Idle")
+initial_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("aggroCollider", "enemy")]
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("aggro_collider", "enemy")]
 script = ExtResource("5_e8rqw")
-aggroCollider = NodePath("../../AggroRange")
+aggro_collider = NodePath("../../AggroRange")
 enemy = NodePath("../..")
 
-[node name="Follow" type="Node" parent="StateMachine" node_paths=PackedStringArray("aggroCollider", "navigation", "enemy")]
+[node name="Follow" type="Node" parent="StateMachine" node_paths=PackedStringArray("aggro_collider", "navigation", "enemy")]
 script = ExtResource("6_glkgb")
-aggroCollider = NodePath("../../AggroRange")
+aggro_collider = NodePath("../../AggroRange")
 navigation = NodePath("../../NavigationAgent2D")
 enemy = NodePath("../..")
 
@@ -153,4 +153,4 @@ shape = SubResource("CircleShape2D_3kp21")
 path_desired_distance = 4.0
 target_desired_distance = 4.0
 avoidance_enabled = true
-radius = 48.0
+radius = 8.0
