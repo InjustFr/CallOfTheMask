@@ -4,6 +4,7 @@ class_name EnemySpawner
 
 @export var spawn_region: NavigationRegion2D
 @export var room: Room
+@export var enemies_spawning_node: Node2D
 
 var enemy_spawn_infos : Array[EnemySpawnInfo]
 
@@ -37,4 +38,4 @@ func spawn():
 		var enemy : Enemy = enemy_scene.instantiate()
 		enemy.global_position = spawn_point
 
-		room.add_child(enemy)
+		enemies_spawning_node.add_child(enemy)

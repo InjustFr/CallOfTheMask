@@ -2,7 +2,7 @@ extends Weapon
 
 class_name ShortSword
 
-var swingSpeed = 540
+var swingSpeed = 720
 var attack := false
 var up := true
 var hit := false

@@ -8,6 +8,7 @@ var current_time := 0.0
 var can_attack = true
 
 func _process(delta):
+	super(delta)
 	current_time += delta
 	if current_time >= cooldown:
 		can_attack = true

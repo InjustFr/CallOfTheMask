@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://g1ssunauwlh4"]
+
+[ext_resource type="Script" path="res://Room/RightDoor.gd" id="1_tumft"]
+[ext_resource type="TileSet" uid="uid://ccjfgso6jgv31" path="res://TileSet.tres" id="2_purnn"]
+
+[node name="RightDoor" type="Node2D"]
+script = ExtResource("1_tumft")
+
+[node name="TileMap" type="TileMap" parent="."]
+y_sort_enabled = true
+tile_set = ExtResource("2_purnn")
+format = 2
+layer_0/name = "Walls"
+layer_0/y_sort_enabled = true
+layer_0/tile_data = PackedInt32Array(-1, 196608, 9, 65535, 196608, 9, -65537, 196608, 9)
+layer_1/name = "Floor"
+layer_1/y_sort_enabled = true
+layer_1/z_index = -1
+layer_1/tile_data = PackedInt32Array()

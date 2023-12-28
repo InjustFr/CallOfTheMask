@@ -7,7 +7,7 @@ class_name Player
 @onready var boonCollider := $BoonPickup
 @onready var healthBar : TextureProgressBar = $HealthBar
 
-@export var speed := 64
+@export var speed := 80
 @export var weapon : Weapon
 @export var health := 10
 

@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://ct0cltcyadrej"]
+
+[ext_resource type="TileSet" uid="uid://ccjfgso6jgv31" path="res://TileSet.tres" id="1_67hgt"]
+[ext_resource type="Script" path="res://Room/HorizontalDoor.gd" id="1_beh7y"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_44e31"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(10, 1, 1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 64.0
+initial_velocity_max = 64.0
+angular_velocity_min = 48.0
+angular_velocity_max = 48.0
+gravity = Vector3(0, 0, 0)
+
+[node name="HorizontalDoor" type="Node2D"]
+script = ExtResource("1_beh7y")
+
+[node name="TileMap" type="TileMap" parent="."]
+y_sort_enabled = true
+tile_set = ExtResource("1_67hgt")
+format = 2
+layer_0/name = "Walls"
+layer_0/y_sort_enabled = true
+layer_0/tile_data = PackedInt32Array(-65538, 65536, 15, -2, 65536, 16, -131073, 131072, 14, -65537, 131072, 15, -1, 131072, 16, -196608, 196608, 14, -131072, 196608, 15, -65536, 196608, 16, -131071, 262144, 15, -65535, 262144, 16)
+layer_1/name = "Floor"
+layer_1/y_sort_enabled = true
+layer_1/z_index = -1
+layer_1/tile_data = PackedInt32Array()
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 512
+process_material = SubResource("ParticleProcessMaterial_44e31")
+lifetime = 0.45
+one_shot = true
+explosiveness = 0.5
