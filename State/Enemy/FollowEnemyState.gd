@@ -18,11 +18,13 @@ func leave():
 	navigation.velocity_computed.disconnect(_safe_velocity_calculated)
 
 func physics_update(_delta):
+	if !player:
+		return
 	var direction := enemy.global_position.direction_to(player.global_position)
 	if abs(direction.x) > 0:
 		enemy.sprite.flip_h = direction.x < 0
 
-	if enemy.global_position.distance_to(player.global_position) <= enemy.attack_range:
+	if enemy.is_player_in_attack_range():
 		transitioned.emit(self, "attack")
 		return
 

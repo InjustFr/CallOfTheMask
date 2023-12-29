@@ -44,6 +44,8 @@ func _process(_delta):
 
 	if dashing and dash_duration * 1000 < Time.get_ticks_msec() - dash_start:
 		dashing = false
+		collision_layer = 2
+		collision_mask = 9
 		dash_end = Time.get_ticks_msec()
 		dashed.emit()
 
@@ -97,6 +99,8 @@ func _on_enemy_hit(enemy: Enemy) -> void:
 func _dash() -> void:
 	var time_elasped = Time.get_ticks_msec() - dash_end
 	if dash_cooldown * 1000 < time_elasped:
+		collision_layer = 0
+		collision_mask = 1
 		dashing = true
 		dash_start = Time.get_ticks_msec()
 		dash_particles.process_material.direction = Vector3(-direction.x, -direction.y, 0.0)
