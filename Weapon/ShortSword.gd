@@ -2,7 +2,7 @@ extends Weapon
 
 class_name ShortSword
 
-var swingSpeed = 720
+var swing_speed = 720
 var attack := false
 var up := true
 var hit := false
@@ -24,21 +24,21 @@ func _physics_process(delta):
 		rotation = deg_to_rad(30)
 		return
 
-	var currentRotation : float = rad_to_deg(rotation)
+	var current_rotation : float = rad_to_deg(rotation)
 
-	if round(currentRotation) < 30:
+	if round(current_rotation) < 30:
 		monitoring = false
 		attack = false
 		return
 
-	if round(currentRotation) > 90:
+	if round(current_rotation) > 90:
 		up = true
 
 	if up:
-		rotation = deg_to_rad(currentRotation - swingSpeed * delta)
+		rotation = deg_to_rad(current_rotation - swing_speed * delta)
 		return
 
-	rotation = deg_to_rad(currentRotation + swingSpeed * delta)
+	rotation = deg_to_rad(current_rotation + swing_speed * delta)
 
 func _entity_hit(body: Node2D):
 	if body is Enemy and !hit:

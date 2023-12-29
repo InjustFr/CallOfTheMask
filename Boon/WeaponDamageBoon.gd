@@ -8,7 +8,7 @@ func _init():
 	label = "Weapon Damage"
 
 func apply(player: Player):
-	player.weaponDmg += bonus;
+	player.weapon_dmg += bonus;
 
 func reverse(player: Player):
-	player.weaponDmg -= bonus;
+	player.weapon_dmg -= bonus;

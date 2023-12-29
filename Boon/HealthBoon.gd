@@ -8,7 +8,7 @@ func _init():
 	label = "Health"
 
 func apply(player: Player):
-	player.healthBonus += bonus;
+	player.health_bonus += bonus;
 
 func reverse(player: Player):
-	player.healthBonus -= bonus;
+	player.health_bonus -= bonus;

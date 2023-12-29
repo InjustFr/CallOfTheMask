@@ -2,7 +2,7 @@ extends Node
 
 class_name Boon
 
-var iconPath := "icon.svg"
+var icon_path := "icon.svg"
 var label := ""
 
 func apply(_player: Player):
