@@ -6,7 +6,6 @@
 [node name="Level 1" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_s0nwi")
-nbRooms = 1
 rooms = Array[String](["BasicRoom"])
 
 [node name="Map" type="Node2D" parent="."]

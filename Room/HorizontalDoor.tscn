@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://ct0cltcyadrej"]
+[gd_scene load_steps=5 format=3 uid="uid://ct0cltcyadrej"]
 
 [ext_resource type="TileSet" uid="uid://ccjfgso6jgv31" path="res://TileSet.tres" id="1_67hgt"]
 [ext_resource type="Script" path="res://Room/HorizontalDoor.gd" id="1_beh7y"]
@@ -15,6 +15,9 @@ angular_velocity_min = 48.0
 angular_velocity_max = 48.0
 gravity = Vector3(0, 0, 0)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vfb83"]
+size = Vector2(26, 7)
+
 [node name="HorizontalDoor" type="Node2D"]
 script = ExtResource("1_beh7y")
 
@@ -24,7 +27,7 @@ tile_set = ExtResource("1_67hgt")
 format = 2
 layer_0/name = "Walls"
 layer_0/y_sort_enabled = true
-layer_0/tile_data = PackedInt32Array(-65538, 65536, 15, -2, 65536, 16, -131073, 131072, 14, -65537, 131072, 15, -1, 131072, 16, -196608, 196608, 14, -131072, 196608, 15, -65536, 196608, 16, -131071, 262144, 15, -65535, 262144, 16)
+layer_0/tile_data = PackedInt32Array(-65538, 65536, 15, -2, 65536, 16, -131073, 131072, 14, -65537, 327680, 15, -1, 327680, 16, -196608, 196608, 14, -131072, 393216, 15, -65536, 393216, 16, -131071, 262144, 15, -65535, 262144, 16)
 layer_1/name = "Floor"
 layer_1/y_sort_enabled = true
 layer_1/z_index = -1
@@ -38,3 +41,13 @@ process_material = SubResource("ParticleProcessMaterial_44e31")
 lifetime = 0.25
 one_shot = true
 explosiveness = 0.5
+
+[node name="PassingDoorArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PassingDoorArea"]
+position = Vector2(0, -3.5)
+shape = SubResource("RectangleShape2D_vfb83")

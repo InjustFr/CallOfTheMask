@@ -36,6 +36,7 @@ func spawn():
 		var spawn_point = NavigationServer2D.map_get_closest_point(navigation_map, point)
 
 		var enemy : Enemy = enemy_scene.instantiate()
-		enemy.global_position = spawn_point
+		# global to local to Enemies Node coords
+		enemy.global_position = spawn_point - top_left
 
 		enemies_spawning_node.add_child(enemy)

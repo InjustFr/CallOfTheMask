@@ -17,6 +17,8 @@ var room_map : Dictionary = {}
 var total_rooms := 0
 var rooms_generated : Array[Vector2i] = []
 
+var current_room_pos : Vector2i
+
 signal finished
 
 func _ready():
@@ -27,23 +29,25 @@ func _ready():
 
 	_generate_random_rooms()
 	_generate_mandatory_rooms()
+	_setup_room()
 
 	player.died.connect(_on_player_death)
 
 
 func _generate_random_rooms() -> void:
 	var starting_pos = Vector2i(0,0)
+	current_room_pos = starting_pos
 	rooms_generated.push_back(starting_pos)
 	_generate_room(starting_pos)
 
 	var j = 0;
 	while rooms_generated.size() < nb_rooms:
-		var current_room_pos = rooms_generated[j];
-		var nb_rooms_to_generate = randi_range(1, _get_nb_of_available_neighboor_cells(current_room_pos))
+		var room_pos = rooms_generated[j];
+		var nb_rooms_to_generate = randi_range(1, _get_nb_of_available_neighboor_cells(room_pos))
 
 		## if no cells available around this one,
 		## either backtrack if it's the last, or skip it
-		if !_get_nb_of_available_neighboor_cells(current_room_pos):
+		if !_get_nb_of_available_neighboor_cells(room_pos):
 			if j == rooms_generated.size() - 1:
 				j = 0
 				while !_get_nb_of_available_neighboor_cells(rooms_generated[j]):
@@ -58,7 +62,7 @@ func _generate_random_rooms() -> void:
 			if rooms_generated.size() >= nb_rooms:
 				break
 
-			var new_room_pos = _generate_neighboor_room(current_room_pos)
+			var new_room_pos = _generate_neighboor_room(room_pos)
 
 			rooms_generated.push_back(new_room_pos)
 		j += 1
@@ -79,24 +83,24 @@ func _get_offset_vector() -> Vector2i:
 			offset_y = 0
 	return Vector2i(offset_x, offset_y)
 
-func _get_next_room_position(current_room: Room, next_room: Room, offset: Vector2i) -> Vector2:
-	if !current_room:
+func _get_next_room_position(room: Room, next_room: Room, offset: Vector2i) -> Vector2:
+	if !room:
 		return Vector2(0,0)
 
-	var current_room_pos = current_room.global_position
+	var room_pos = room.global_position
 	var next_roomSize = next_room.getSize()
-	var current_roomSize = current_room.getSize()
+	var current_roomSize = room.getSize()
 
 	match offset:
 		Vector2i(-1, 0):
-			var x = current_room.global_position.x - next_roomSize.x
-			return Vector2(current_room_pos.x - next_roomSize.x, current_room_pos.y)
+			var x = room.global_position.x - next_roomSize.x
+			return Vector2(room_pos.x - next_roomSize.x, room_pos.y)
 		Vector2i(1, 0):
-			return Vector2(current_room_pos.x + current_roomSize.x, current_room_pos.y)
+			return Vector2(room_pos.x + current_roomSize.x, room_pos.y)
 		Vector2i(0, -1):
-			return Vector2(current_room_pos.x, current_room_pos.y - next_roomSize.y)
+			return Vector2(room_pos.x, room_pos.y - next_roomSize.y)
 		Vector2i(0, 1):
-			return Vector2(current_room_pos.x, current_room_pos.y + current_roomSize.y)
+			return Vector2(room_pos.x, room_pos.y + current_roomSize.y)
 
 	return Vector2(0,0)
 
@@ -137,6 +141,7 @@ func _generate_room(pos: Vector2i, type: PackedScene = null) -> Room:
 	map_node.add_child(room)
 
 	room_map[pos.y][pos.x] = room
+	room.door_passed.connect(_on_door_passed)
 
 	return room
 
@@ -150,3 +155,25 @@ func _generate_mandatory_rooms() -> void:
 
 func _on_player_death():
 	finished.emit(false)
+
+func _on_door_passed(room_offset: Vector2i) -> void: 
+	current_room_pos += room_offset
+	_setup_room()
+	
+func _setup_room() -> void:
+	var p : Player = find_children("*", "Player")[0]
+	print(current_room_pos)
+	var room : Room = room_map[current_room_pos.y][current_room_pos.x]
+	var room_pos : Vector2i = room.global_position
+	var room_size : Vector2i = room.getSize()
+	p.set_camera_bounds(room_pos, room_pos + room_size)
+	if player.global_position.x < room_pos.x:
+		player.global_position.x = room_pos.x + 16
+	if player.global_position.x >= room_pos.x + room_size.x:
+		player.global_position.x = room_pos.x + room_size.x - 16
+	if player.global_position.y < room_pos.y:
+		player.global_position.y = room_pos.y + 16
+	if player.global_position.y >= room_pos.y + room_size.y:
+		player.global_position.y = room_pos.y + room_size.y - 16
+	await get_tree().create_timer(0.5).timeout
+	room.start_room()

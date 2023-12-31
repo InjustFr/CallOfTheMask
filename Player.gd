@@ -7,6 +7,7 @@ class_name Player
 @onready var boon_collider := $BoonPickup
 @onready var health_bar : TextureProgressBar = $HealthBar
 @onready var dash_particles : GPUParticles2D = $DashParticles
+@onready var camera : Camera2D = $Camera
 
 @export var speed := 80
 @export var weapon : Weapon
@@ -105,3 +106,9 @@ func _dash() -> void:
 		dash_start = Time.get_ticks_msec()
 		dash_particles.process_material.direction = Vector3(-direction.x, -direction.y, 0.0)
 		dash_particles.emitting = true
+		
+func set_camera_bounds(top_left: Vector2i, bottom_right: Vector2i) -> void:
+	camera.limit_left = top_left.x
+	camera.limit_top = top_left.y
+	camera.limit_right = bottom_right.x
+	camera.limit_bottom = bottom_right.y
