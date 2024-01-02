@@ -5,18 +5,27 @@ extends Door
 
 func _ready():
 	door_area.body_entered.connect(_on_body_entered)
-	
+
 func open() -> void:
+	if disabled:
+		return
 	door_area.monitoring = true
 	map.set_cell(0, Vector2i(0, -2), 0, Vector2i(1, 10), 0)
 	map.set_cell(0, Vector2i(0, -1), 0, Vector2i(-1, -1), 0)
 	map.set_cell(0, Vector2i(0, 0), 0, Vector2i(1, 8), 0)
 
 func close() -> void:
+	if disabled:
+		return
+
 	door_area.monitoring = false
 	map.set_cell(0, Vector2i(0, -2), 0, Vector2i(2, 9), 0)
 	map.set_cell(0, Vector2i(0, -1), 0, Vector2i(2, 9), 0)
 	map.set_cell(0, Vector2i(0, 0), 0, Vector2i(2, 9), 0)
+
+func disable() -> void:
+	close()
+	disabled = true
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is Player:

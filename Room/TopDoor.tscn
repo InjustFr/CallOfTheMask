@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=3 uid="uid://dq2cwscalb3k0"]
+
+[ext_resource type="Script" path="res://Room/TopDoor.gd" id="1_1g2c0"]
+[ext_resource type="TileSet" uid="uid://ccjfgso6jgv31" path="res://TileSet.tres" id="2_ou670"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_44e31"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 10.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+initial_velocity_min = 48.0
+initial_velocity_max = 48.0
+angular_velocity_min = 48.0
+angular_velocity_max = 48.0
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vfb83"]
+size = Vector2(26, 7)
+
+[node name="TopDoor" type="Node2D"]
+script = ExtResource("1_1g2c0")
+
+[node name="TileMap" type="TileMap" parent="."]
+y_sort_enabled = true
+tile_set = ExtResource("2_ou670")
+format = 2
+layer_0/name = "Walls"
+layer_0/y_sort_enabled = true
+layer_0/tile_data = PackedInt32Array(-2, 65536, 16, -1, 327680, 16, -65536, 393216, 16, -65535, 262144, 16, -65537, 327680, 15, -131072, 393216, 15, -65538, 65536, 15, -131071, 262144, 15)
+layer_1/name = "Floor"
+layer_1/y_sort_enabled = true
+layer_1/z_index = -1
+layer_1/tile_data = PackedInt32Array(-65537, 65536, 4, -131072, 65536, 4)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(0, -16)
+emitting = false
+amount = 384
+process_material = SubResource("ParticleProcessMaterial_44e31")
+lifetime = 0.25
+one_shot = true
+explosiveness = 0.5
+
+[node name="PassingDoorArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PassingDoorArea"]
+position = Vector2(0, -3.5)
+shape = SubResource("RectangleShape2D_vfb83")

@@ -29,6 +29,7 @@ func _ready():
 
 	_generate_random_rooms()
 	_generate_mandatory_rooms()
+	_remove_unused_doors()
 	_setup_room()
 
 	player.died.connect(_on_player_death)
@@ -62,9 +63,7 @@ func _generate_random_rooms() -> void:
 			if rooms_generated.size() >= nb_rooms:
 				break
 
-			var new_room_pos = _generate_neighboor_room(room_pos)
-
-			rooms_generated.push_back(new_room_pos)
+			_generate_neighboor_room(room_pos)
 		j += 1
 
 func _get_offset_vector() -> Vector2i:
@@ -118,6 +117,19 @@ func _get_nb_of_available_neighboor_cells(cell: Vector2i) -> int:
 
 	return nb
 
+func _get_neighboor_room_positions(cell: Vector2i) -> Array[Vector2i]:
+	var neighboor_rooms :Array[Vector2i] = []
+	if _room_exists(cell + Vector2i(1, 0)):
+		neighboor_rooms.push_back(cell + Vector2i(1, 0))
+	if _room_exists(cell + Vector2i(-1, 0)):
+		neighboor_rooms.push_back(cell + Vector2i(-1, 0))
+	if _room_exists(cell + Vector2i(0, 1)):
+		neighboor_rooms.push_back(cell + Vector2i(0, 1))
+	if _room_exists(cell + Vector2i(0, -1)):
+		neighboor_rooms.push_back(cell + Vector2i(0, -1))
+
+	return neighboor_rooms
+
 func _room_exists(pos: Vector2i) -> bool:
 	return room_map.get(pos.y) != null and room_map[pos.y].get(pos.x) != null
 
@@ -143,6 +155,8 @@ func _generate_room(pos: Vector2i, type: PackedScene = null) -> Room:
 	room_map[pos.y][pos.x] = room
 	room.door_passed.connect(_on_door_passed)
 
+	rooms_generated.push_back(pos)
+
 	return room
 
 func _generate_mandatory_rooms() -> void:
@@ -153,16 +167,20 @@ func _generate_mandatory_rooms() -> void:
 
 		_generate_neighboor_room(rooms_generated[i], room_scene)
 
+func _remove_unused_doors() -> void:
+	for pos in rooms_generated:
+		var room : Room = room_map[pos.y][pos.x]
+		room.disable_door(pos, rooms_generated)
+
 func _on_player_death():
 	finished.emit(false)
 
-func _on_door_passed(room_offset: Vector2i) -> void: 
+func _on_door_passed(room_offset: Vector2i) -> void:
 	current_room_pos += room_offset
 	_setup_room()
-	
+
 func _setup_room() -> void:
 	var p : Player = find_children("*", "Player")[0]
-	print(current_room_pos)
 	var room : Room = room_map[current_room_pos.y][current_room_pos.x]
 	var room_pos : Vector2i = room.global_position
 	var room_size : Vector2i = room.getSize()

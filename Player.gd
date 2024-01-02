@@ -106,7 +106,7 @@ func _dash() -> void:
 		dash_start = Time.get_ticks_msec()
 		dash_particles.process_material.direction = Vector3(-direction.x, -direction.y, 0.0)
 		dash_particles.emitting = true
-		
+
 func set_camera_bounds(top_left: Vector2i, bottom_right: Vector2i) -> void:
 	camera.limit_left = top_left.x
 	camera.limit_top = top_left.y
