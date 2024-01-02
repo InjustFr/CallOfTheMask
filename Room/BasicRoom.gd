@@ -2,6 +2,7 @@ extends Room
 
 class_name BasicRoom
 
+@onready var navigation_region : NavigationRegion2D = $NavigationRegion2D
 @onready var map : TileMap = $NavigationRegion2D/TileMap
 @onready var enemy_container_node : Node2D = $Enemies
 @onready var timer : Timer = $Timer
@@ -19,4 +20,5 @@ func _on_enemy_death(_body: Node2D):
 
 func _on_room_entered() -> void:
 	super()
+	navigation_region.enabled = true
 	timer.start()

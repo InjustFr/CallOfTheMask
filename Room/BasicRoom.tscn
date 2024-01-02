@@ -25,6 +25,7 @@ doors = [NodePath("NavigationRegion2D/BottomDoor"), NodePath("NavigationRegion2D
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_6rsdo")
+enabled = false
 
 [node name="TileMap" type="TileMap" parent="NavigationRegion2D"]
 y_sort_enabled = true
