@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cneltgs6x0fxa"]
+[gd_scene load_steps=11 format=3 uid="uid://cneltgs6x0fxa"]
 
 [ext_resource type="TileSet" uid="uid://ccjfgso6jgv31" path="res://TileSet.tres" id="1_3khxt"]
 [ext_resource type="Script" path="res://Room/BasicRoom.gd" id="1_xxv86"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://Enemy/ImpSpawnInfo.gd" id="4_4ui4d"]
 [ext_resource type="PackedScene" uid="uid://cmjagyra7e6vy" path="res://Room/LeftDoor.tscn" id="4_ykg4i"]
 [ext_resource type="PackedScene" uid="uid://g1ssunauwlh4" path="res://Room/RightDoor.tscn" id="5_irexm"]
+[ext_resource type="Script" path="res://Enemy/SkeletonSpawnInfo.gd" id="8_hm3wj"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_6rsdo"]
 vertices = PackedVector2Array(181, 160, 363, 192, 21, 192, 107, 160, 21, 48, 107, 64, 363, 48, 181, 64)
@@ -61,9 +62,13 @@ spawn_region = NodePath("../NavigationRegion2D")
 room = NodePath("..")
 enemies_spawning_node = NodePath("../Enemies")
 
+[node name="SkeletonSpawnInfo" type="Node" parent="EnemySpawner"]
+script = ExtResource("8_hm3wj")
+weight = 0.5
+
 [node name="ImpSpawnInfo" type="Node" parent="EnemySpawner"]
 script = ExtResource("4_4ui4d")
-weight = 1
+weight = 0.5
 
 [node name="Enemies" type="Node2D" parent="."]
 y_sort_enabled = true

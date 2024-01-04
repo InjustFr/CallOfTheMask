@@ -1,0 +1,203 @@
+[gd_scene load_steps=24 format=3 uid="uid://cqycyxq1nv4pa"]
+
+[ext_resource type="Script" path="res://Enemy/Skeleton.gd" id="1_3ghqt"]
+[ext_resource type="Texture2D" uid="uid://dtj0msbib567x" path="res://Assets/0x72_DungeonTilesetII_v1.6.png" id="2_6xdao"]
+[ext_resource type="Script" path="res://State/StateMachine.gd" id="3_7lfjr"]
+[ext_resource type="Script" path="res://State/Enemy/IdleEnemyState.gd" id="4_jfrwl"]
+[ext_resource type="Script" path="res://State/Enemy/FollowEnemyState.gd" id="5_0yirk"]
+[ext_resource type="Script" path="res://State/Enemy/AttackEnemyState.gd" id="6_j4h2f"]
+[ext_resource type="Texture2D" uid="uid://b2xxl5rs2ijik" path="res://Assets/progress_outline.png" id="7_2dtvq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3kp21"]
+radius = 128.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wipou"]
+radius = 128.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7xj0l"]
+size = Vector2(12, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hvfcx"]
+atlas = ExtResource("2_6xdao")
+region = Rect2(368, 88, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_loiej"]
+atlas = ExtResource("2_6xdao")
+region = Rect2(384, 88, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vy7wr"]
+atlas = ExtResource("2_6xdao")
+region = Rect2(400, 88, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vmkkx"]
+atlas = ExtResource("2_6xdao")
+region = Rect2(416, 88, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q1mpc"]
+atlas = ExtResource("2_6xdao")
+region = Rect2(432, 88, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrk6r"]
+atlas = ExtResource("2_6xdao")
+region = Rect2(448, 88, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_80ao6"]
+atlas = ExtResource("2_6xdao")
+region = Rect2(464, 88, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kod62"]
+atlas = ExtResource("2_6xdao")
+region = Rect2(480, 88, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d8fny"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hvfcx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_loiej")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vy7wr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vmkkx")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 7.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q1mpc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrk6r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_80ao6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kod62")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_ciavx"]
+colors = PackedColorArray(0.870588, 0, 0, 1, 0.870588, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_oo7tf"]
+gradient = SubResource("Gradient_ciavx")
+width = 14
+height = 2
+
+[sub_resource type="Animation" id="Animation_5wpvj"]
+resource_name = "attack"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"spawn_projectile"
+}, {
+"args": [],
+"method": &"spawn_projectile"
+}, {
+"args": [],
+"method": &"spawn_projectile"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_748x7"]
+_data = {
+"attack": SubResource("Animation_5wpvj")
+}
+
+[node name="Skeleton" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 7
+motion_mode = 1
+script = ExtResource("1_3ghqt")
+health = 5
+
+[node name="AggroRange" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AggroRange"]
+shape = SubResource("CircleShape2D_3kp21")
+
+[node name="AttackRange" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
+shape = SubResource("CircleShape2D_wipou")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_7xj0l")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1, -2)
+sprite_frames = SubResource("SpriteFrames_d8fny")
+animation = &"idle"
+frame_progress = 0.373217
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_7lfjr")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("aggro_collider", "enemy")]
+script = ExtResource("4_jfrwl")
+aggro_collider = NodePath("../../AggroRange")
+enemy = NodePath("../..")
+
+[node name="Follow" type="Node" parent="StateMachine" node_paths=PackedStringArray("aggro_collider", "navigation", "enemy")]
+script = ExtResource("5_0yirk")
+aggro_collider = NodePath("../../AggroRange")
+navigation = NodePath("../../NavigationAgent2D")
+enemy = NodePath("../..")
+
+[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy")]
+script = ExtResource("6_j4h2f")
+enemy = NodePath("../..")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 4.0
+target_desired_distance = 4.0
+avoidance_enabled = true
+radius = 8.0
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -20.0
+offset_right = 8.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 50.0
+texture_under = ExtResource("7_2dtvq")
+texture_progress = SubResource("GradientTexture2D_oo7tf")
+texture_progress_offset = Vector2(1, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_748x7")
+}

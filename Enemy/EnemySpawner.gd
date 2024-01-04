@@ -15,7 +15,6 @@ func _ready():
 
 func spawn():
 	var weights := []
-	weights.resize(enemy_spawn_infos.size())
 	var weights_sum = 0
 
 	for si in enemy_spawn_infos:
