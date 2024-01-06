@@ -20,5 +20,7 @@ func _on_enemy_death(_body: Node2D):
 
 func _on_room_entered() -> void:
 	super()
+	if was_cleared:
+		return
 	navigation_region.enabled = true
 	timer.start()

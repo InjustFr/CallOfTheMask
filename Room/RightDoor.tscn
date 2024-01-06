@@ -4,7 +4,7 @@
 [ext_resource type="TileSet" uid="uid://ccjfgso6jgv31" path="res://TileSet.tres" id="2_purnn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oyrgu"]
-size = Vector2(10, 32)
+size = Vector2(8, 32)
 
 [node name="RightDoor" type="Node2D"]
 script = ExtResource("1_tumft")
@@ -28,5 +28,5 @@ monitoring = false
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PassingDoorArea"]
-position = Vector2(-5, 0)
+position = Vector2(-4, 0)
 shape = SubResource("RectangleShape2D_oyrgu")

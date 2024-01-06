@@ -43,3 +43,9 @@ func disable() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if body is Player:
 		door_passed.emit(next_room_offset)
+
+func disable_detection() -> void:
+	door_area.set_deferred("monitoring", false)
+
+func enable_detection() -> void:
+	door_area.monitoring = true

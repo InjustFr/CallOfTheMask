@@ -31,11 +31,10 @@ func spawn_projectile():
 	if !player:
 		return
 	var projectile : EnemyProjectile = projectile_scene.instantiate()
+	get_parent().get_parent().add_child(projectile)
 	projectile.damage = 2
 
 	var dir = (player.global_position - global_position).normalized()
 
 	projectile.global_position = global_position
 	projectile.velocity = projectile_velocity * dir
-
-	get_parent().get_parent().add_child(projectile)
