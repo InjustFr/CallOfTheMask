@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://b2xxl5rs2ijik" path="res://Assets/progress_outline.png" id="7_2dtvq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3kp21"]
-radius = 128.0
+radius = 368.348
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wipou"]
 radius = 128.0
@@ -83,7 +83,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 10.0
+"speed": 7.5
 }]
 
 [sub_resource type="Gradient" id="Gradient_ciavx"]
@@ -127,7 +127,9 @@ collision_layer = 4
 collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_3ghqt")
+projectile_velocity = 48
 health = 5
+speed = 24
 
 [node name="AggroRange" type="Area2D" parent="."]
 collision_layer = 0
@@ -153,7 +155,6 @@ shape = SubResource("RectangleShape2D_7xj0l")
 position = Vector2(-1, -2)
 sprite_frames = SubResource("SpriteFrames_d8fny")
 animation = &"idle"
-frame_progress = 0.373217
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_7lfjr")
