@@ -87,8 +87,8 @@ func _get_next_room_position(room: Room, next_room: Room, offset: Vector2i) -> V
 		return Vector2(0,0)
 
 	var room_pos = room.global_position
-	var next_roomSize = next_room.getSize()
-	var current_roomSize = room.getSize()
+	var next_roomSize = next_room.get_size()
+	var current_roomSize = room.get_size()
 
 	match offset:
 		Vector2i(-1, 0):

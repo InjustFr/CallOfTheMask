@@ -19,7 +19,7 @@ func _ready():
 	for door in doors:
 		door.door_passed.connect(_on_door_passed)
 
-func getSize() -> Vector2:
+func get_size() -> Vector2:
 	return Vector2(0,0)
 
 func start_room():

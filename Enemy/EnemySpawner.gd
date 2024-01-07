@@ -27,7 +27,7 @@ func spawn():
 	var enemies_to_spawn := spawn_info.get_enemies()
 
 	var navigation_map = spawn_region.get_navigation_map()
-	var room_size = room.getSize()
+	var room_size = room.get_size()
 	var top_left = room.global_position
 	var bottom_right = room.global_position + Vector2(room_size)
 	for enemy_scene in enemies_to_spawn:
@@ -35,7 +35,6 @@ func spawn():
 		var spawn_point = NavigationServer2D.map_get_closest_point(navigation_map, point)
 
 		var enemy : Enemy = enemy_scene.instantiate()
-		# global to local to Enemies Node coords
-		enemy.global_position = spawn_point - top_left
-
 		enemies_spawning_node.add_child(enemy)
+		enemy.global_position = spawn_point
+

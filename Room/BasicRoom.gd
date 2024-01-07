@@ -11,7 +11,7 @@ func _ready():
 	enemy_container_node.child_exiting_tree.connect(_on_enemy_death)
 	super()
 
-func getSize():
+func get_size():
 	return map.get_used_rect().size * map.tile_set.tile_size
 
 func _on_enemy_death(_body: Node2D):
@@ -24,3 +24,9 @@ func _on_room_entered() -> void:
 		return
 	navigation_region.enabled = true
 	timer.start()
+
+func _on_room_left() -> void:
+	super()
+	if was_cleared:
+		return
+	navigation_region.enabled = false
