@@ -23,7 +23,7 @@ grow_vertical = 2
 [node name="Button" type="Button" parent="CenterContainer"]
 layout_mode = 2
 theme = ExtResource("2_fq74y")
-theme_override_font_sizes/font_size = 84
+theme_override_font_sizes/font_size = 42
 text = "Play"
 flat = true
 

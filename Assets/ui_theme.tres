@@ -4,7 +4,7 @@
 
 [resource]
 default_font = ExtResource("1_qnnu6")
-default_font_size = 24
-Button/font_sizes/font_size = 48
+default_font_size = 12
+Button/font_sizes/font_size = 24
 Fonts/fonts/large = ExtResource("1_qnnu6")
 Fonts/fonts/normal = ExtResource("1_qnnu6")

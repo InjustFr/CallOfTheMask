@@ -183,7 +183,7 @@ func _setup_room() -> void:
 	var p : Player = find_children("*", "Player")[0]
 	var room : Room = room_map[current_room_pos.y][current_room_pos.x]
 	var room_pos : Vector2i = room.global_position
-	var room_size : Vector2i = room.getSize()
+	var room_size : Vector2i = get_viewport().get_visible_rect().size
 	p.set_camera_bounds(room_pos, room_pos + room_size)
 	if player.global_position.x < room_pos.x:
 		player.global_position.x = room_pos.x + 16
