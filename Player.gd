@@ -8,6 +8,7 @@ class_name Player
 @onready var health_bar : TextureProgressBar = $HealthBar
 @onready var dash_particles : GPUParticles2D = $DashParticles
 @onready var camera : Camera2D = $Camera
+@onready var invulnerable_timer : Timer = $InvulnerableTimer
 
 @export var speed := 80
 @export var weapon : Weapon
@@ -27,6 +28,7 @@ var direction : Vector2 = Vector2.ZERO
 var dashing := false
 var dash_start := 0
 var dash_end := 0
+var invulnerable := false
 
 signal died
 signal player_hit
@@ -37,6 +39,7 @@ signal weapon_used
 func _ready():
 	health_bar.max_value = health
 	weapon.enemy_hit.connect(_on_enemy_hit)
+	invulnerable_timer.timeout.connect(_on_invulnerable_timer_end)
 
 func _process(_delta):
 	health_bar.value = health
@@ -91,8 +94,17 @@ func _pickup_boon():
 			boons.push_back(boon)
 
 func damage(amount: int):
+	if invulnerable:
+		return
 	player_hit.emit(self)
+	sprite.material.set_shader_parameter("blinking", true)
 	health -= amount
+	invulnerable = true
+	invulnerable_timer.start()
+
+func _on_invulnerable_timer_end():
+	invulnerable = false
+	sprite.material.set_shader_parameter("blinking", false)
 
 func _on_enemy_hit(enemy: Enemy) -> void:
 	enemy_hit.emit(enemy)
