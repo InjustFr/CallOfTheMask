@@ -201,3 +201,6 @@ one_shot = true
 [node name="InvulnerableTimer" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
+
+[node name="EoTTimer" type="Timer" parent="."]
+autostart = true
