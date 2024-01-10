@@ -44,6 +44,10 @@ func _ready():
 	invulnerable_timer.timeout.connect(_on_invulnerable_timer_end)
 	eot_timer.timeout.connect(_apply_effects_over_time)
 
+	var poison_pool_boon := PoisonPoolBoon.new()
+	poison_pool_boon.apply(self)
+	boons.push_back(poison_pool_boon)
+
 func _process(_delta):
 	health_bar.value = health
 	if health <= 0:
