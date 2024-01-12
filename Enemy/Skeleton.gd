@@ -3,6 +3,7 @@ extends Enemy
 class_name Skeleton
 
 @onready var projectile_scene = preload("res://Enemy/EnemyProjectile.tscn")
+@onready var slow_projectile_scene = preload("res://Enemy/SlowEnemyProjectile.tscn")
 @onready var animation_player : AnimationPlayer = $AnimationPlayer
 
 @export var cooldown := 1.0
@@ -27,10 +28,15 @@ func attack(target: Player):
 		player = target
 		can_attack = false
 
-func spawn_projectile():
+func spawn_projectile(slow: bool = false):
 	if !player:
 		return
-	var projectile : EnemyProjectile = projectile_scene.instantiate()
+
+	var projectile: EnemyProjectile;
+	if slow:
+		projectile = slow_projectile_scene.instantiate()
+	else:
+		projectile = projectile_scene.instantiate()
 	get_parent().get_parent().add_child(projectile)
 	projectile.damage = 2
 

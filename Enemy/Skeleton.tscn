@@ -112,7 +112,7 @@ tracks/0/keys = {
 "args": [],
 "method": &"spawn_projectile"
 }, {
-"args": [],
+"args": [true],
 "method": &"spawn_projectile"
 }]
 }

@@ -75,7 +75,11 @@ func _physics_process(_delta):
 		direction = Input.get_vector("left", "right", "up", "down")
 
 	if direction:
-		velocity = direction * (speed + speed_bonus)
+		var temp_speed := speed + speed_bonus
+		if temp_speed < 10:
+			temp_speed = 10
+
+		velocity = direction * (temp_speed)
 		if dashing:
 			velocity += direction * dash_speed
 	else:
@@ -107,10 +111,12 @@ func damage(amount: int):
 	sprite.material.set_shader_parameter("blinking", true)
 	health -= amount
 	invulnerable = true
+	collision_layer = 0
 	invulnerable_timer.start()
 
 func _on_invulnerable_timer_end():
 	invulnerable = false
+	collision_layer = 2
 	sprite.material.set_shader_parameter("blinking", false)
 
 func _on_enemy_hit(enemy: Enemy) -> void:
