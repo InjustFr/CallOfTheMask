@@ -172,7 +172,6 @@ animation = &"idle"
 position = Vector2(0, 3)
 
 [node name="ShortSword" parent="WeaponContainer" instance=ExtResource("3_2muh4")]
-position = Vector2(4, 0)
 
 [node name="HealthBar" type="TextureProgressBar" parent="."]
 anchors_preset = 8
@@ -204,3 +203,9 @@ one_shot = true
 
 [node name="EoTTimer" type="Timer" parent="."]
 autostart = true
+
+[node name="OrientationLine" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(0, 0, 24, 0)
+width = 1.0
+default_color = Color(1, 0, 0, 1)

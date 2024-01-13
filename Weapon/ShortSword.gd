@@ -2,46 +2,29 @@ extends Weapon
 
 class_name ShortSword
 
-var swing_speed = 720
-var attack := false
-var up := true
-var hit := false
+@onready var animation_player : AnimationPlayer = $AnimationPlayer
+@onready var wave_scene : PackedScene = preload("res://Projectile/SwordWave.tscn")
 
-func _ready():
+func _ready() -> void:
 	damage = 3
-	body_entered.connect(_entity_hit)
-	monitoring = false
 
-func use():
-	if !attack:
-		attack = true
-		up = false
-		monitoring = true
-		hit = false
+func use() -> void:
+	if not animation_player.is_playing():
+		animation_player.play('attack')
 
-func _physics_process(delta):
-	if !attack:
-		rotation = deg_to_rad(30)
-		return
 
-	var current_rotation : float = rad_to_deg(rotation)
-
-	if round(current_rotation) < 30:
-		monitoring = false
-		attack = false
-		return
-
-	if round(current_rotation) > 90:
-		up = true
-
-	if up:
-		rotation = deg_to_rad(current_rotation - swing_speed * delta)
-		return
-
-	rotation = deg_to_rad(current_rotation + swing_speed * delta)
-
-func _entity_hit(body: Node2D):
-	if body is Enemy and !hit:
-		hit = true
+func _entity_hit(body: Node2D) -> void:
+	if body is Enemy:
 		body.take_damage(damage)
 		enemy_hit.emit(body)
+
+func spawn_wave() -> void:
+	var wave : SwordWave = wave_scene.instantiate()
+	wave.body_entered.connect(_entity_hit)
+	var player : Player = get_tree().get_root().find_children('*', 'Player', true, false)[0]
+	player.get_parent().add_child(wave)
+
+	var angle = player.get_orientation()
+	wave.global_position = player.global_position + Vector2(24,0).rotated(angle)
+	wave.velocity = Vector2(96,0).rotated(angle)
+	wave.rotation = angle

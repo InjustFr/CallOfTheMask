@@ -10,6 +10,7 @@ class_name Player
 @onready var camera : Camera2D = $Camera
 @onready var invulnerable_timer : Timer = $InvulnerableTimer
 @onready var eot_timer : Timer = $EoTTimer
+@onready var orientation_line : Line2D = $OrientationLine
 
 @export var speed := 80
 @export var weapon : Weapon
@@ -82,6 +83,7 @@ func _physics_process(_delta):
 		velocity = direction * (temp_speed)
 		if dashing:
 			velocity += direction * dash_speed
+		orientation_line.rotation = direction.normalized().angle()
 	else:
 		velocity.x = move_toward(velocity.x, 0, (speed + speed_bonus))
 		velocity.y = move_toward(velocity.y, 0, (speed + speed_bonus))
@@ -153,3 +155,5 @@ func _apply_effects_over_time():
 
 		effect.current_time += eot_timer.wait_time
 
+func get_orientation() -> float:
+	return orientation_line.rotation
