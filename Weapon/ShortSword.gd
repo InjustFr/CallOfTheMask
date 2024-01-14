@@ -5,6 +5,9 @@ class_name ShortSword
 @onready var animation_player : AnimationPlayer = $AnimationPlayer
 @onready var wave_scene : PackedScene = preload("res://Projectile/SwordWave.tscn")
 
+func _init() -> void:
+	weapon_range = 64
+
 func _ready() -> void:
 	damage = 3
 

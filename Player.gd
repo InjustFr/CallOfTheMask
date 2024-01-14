@@ -49,6 +49,7 @@ func _ready():
 	var poison_pool_boon := PoisonPoolBoon.new()
 	poison_pool_boon.apply(self)
 	boons.push_back(poison_pool_boon)
+	auto_aim_ray_cast.scan_range = weapon.weapon_range
 
 func _process(_delta):
 	health_bar.value = health
