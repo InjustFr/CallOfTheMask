@@ -1,8 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://decpv8ue358hf"]
 
 [ext_resource type="Script" path="res://Projectile/SwordWave.gd" id="1_5geug"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_d8ysh"]
+[ext_resource type="Texture2D" uid="uid://d2mfdlo616lck" path="res://Assets/SwordWave.png" id="2_5msmx"]
 
 [node name="Wave" type="Area2D"]
 collision_layer = 0
@@ -10,10 +9,9 @@ collision_mask = 4
 monitorable = false
 script = ExtResource("1_5geug")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_5msmx")
+
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 scale = Vector2(0.96875, 1)
-polygon = PackedVector2Array(-8, -16, 2.08165e-12, -12, 8, 2.08165e-12, 2.08165e-12, 12, -8, 16, 2.08165e-12, 2.08165e-12)
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(12, 24)
-texture = SubResource("PlaceholderTexture2D_d8ysh")
+polygon = PackedVector2Array(-8, -16, -2.06452, -16, 2.06452, -14, 6.19355, -8, 8, 2.08165e-12, 6.19355, 8, 2.06452, 14, -2.06452, 16, -8, 16, -2.06452, 8, 2.08165e-12, 2.08165e-12, -2.06452, -8)
