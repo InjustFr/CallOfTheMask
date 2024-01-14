@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bmpgm3pr1dgr5"]
+[gd_scene load_steps=22 format=3 uid="uid://bmpgm3pr1dgr5"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_g1ji6"]
 [ext_resource type="Texture2D" uid="uid://dtj0msbib567x" path="res://Assets/0x72_DungeonTilesetII_v1.6.png" id="2_wnl6g"]
@@ -139,6 +139,41 @@ angular_velocity_min = 48.0
 angular_velocity_max = 48.0
 gravity = Vector3(0, 0, 0)
 
+[sub_resource type="GDScript" id="GDScript_asrvx"]
+script/source = "extends RayCast2D
+
+@export var angle : int = 90;
+@export var angle_step : int = 5;
+@export var scan_range : int = 64;
+
+func _ready():
+	pass # Replace with function body.
+
+func scan() -> Node2D:
+	@warning_ignore(\"integer_division\")
+	var steps : int = int(angle / angle_step)	 + 1
+
+	var detected_bodies : Array[Node2D] = [];
+	for i in steps:
+		var scan_angle = - angle / 2.0 + i * angle_step
+
+		target_position = Vector2(scan_range, 0).rotated(deg_to_rad(scan_angle))
+		force_raycast_update()
+		var collider = get_collider()
+		if collider and not detected_bodies.has(collider):
+			detected_bodies.push_back(collider)
+
+	var min_distance : float = scan_range
+	var body : Node2D = null
+	for db: Node2D in detected_bodies:
+		var distance : float = global_position.distance_to(db.global_position)
+		if distance < min_distance:
+			body = db;
+			min_distance = distance
+
+	return body
+"
+
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("weapon")]
 collision_layer = 2
 collision_mask = 5
@@ -209,3 +244,9 @@ visible = false
 points = PackedVector2Array(0, 0, 24, 0)
 width = 1.0
 default_color = Color(1, 0, 0, 1)
+
+[node name="AutoAimCast" type="RayCast2D" parent="."]
+collision_mask = 4
+script = SubResource("GDScript_asrvx")
+angle = 360
+angle_step = 10

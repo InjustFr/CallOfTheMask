@@ -11,6 +11,7 @@ class_name Player
 @onready var invulnerable_timer : Timer = $InvulnerableTimer
 @onready var eot_timer : Timer = $EoTTimer
 @onready var orientation_line : Line2D = $OrientationLine
+@onready var auto_aim_ray_cast : RayCast2D = $AutoAimCast
 
 @export var speed := 80
 @export var weapon : Weapon
@@ -83,10 +84,18 @@ func _physics_process(_delta):
 		velocity = direction * (temp_speed)
 		if dashing:
 			velocity += direction * dash_speed
-		orientation_line.rotation = direction.normalized().angle()
 	else:
 		velocity.x = move_toward(velocity.x, 0, (speed + speed_bonus))
 		velocity.y = move_toward(velocity.y, 0, (speed + speed_bonus))
+
+	auto_aim_ray_cast.rotation = orientation_line.rotation
+	var nearest : Node2D = auto_aim_ray_cast.scan();
+	if nearest is Enemy:
+		orientation_line.rotation = get_angle_to(nearest.global_position)
+	elif direction:
+		orientation_line.rotation = direction.normalized().angle()
+
+	weapon_container.rotation = orientation_line.rotation
 
 	if velocity:
 		sprite.play("walk")
@@ -95,7 +104,6 @@ func _physics_process(_delta):
 
 	if abs(direction.x) > 0.01:
 		sprite.flip_h = velocity.x < 0
-		weapon_container.scale.x = -1 if velocity.x < 0 else 1
 
 	move_and_slide()
 
