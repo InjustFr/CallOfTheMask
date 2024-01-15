@@ -23,11 +23,12 @@ func _entity_hit(body: Node2D) -> void:
 
 func spawn_arrow() -> void:
 	var arrow : Arrow = arrow_scene.instantiate()
+	arrow.max_range = 128
 	arrow.enemy_hit.connect(_entity_hit)
 	var player : Player = get_tree().get_root().find_children('*', 'Player', true, false)[0]
 	player.get_parent().add_child(arrow)
 
 	var angle = player.get_orientation()
 	arrow.global_position = player.global_position + Vector2(12,0).rotated(angle)
-	arrow.velocity = Vector2(256,0).rotated(angle)
+	arrow.velocity = Vector2(320,0).rotated(angle)
 	arrow.rotation = angle

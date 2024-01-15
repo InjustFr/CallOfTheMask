@@ -23,6 +23,7 @@ func _entity_hit(body: Node2D) -> void:
 
 func spawn_wave() -> void:
 	var wave : SwordWave = wave_scene.instantiate()
+	wave.max_range = weapon_range - 24
 	wave.body_entered.connect(_entity_hit)
 	var player : Player = get_tree().get_root().find_children('*', 'Player', true, false)[0]
 	player.get_parent().add_child(wave)
