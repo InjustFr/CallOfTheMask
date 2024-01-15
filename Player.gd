@@ -122,12 +122,10 @@ func damage(amount: int):
 	sprite.material.set_shader_parameter("blinking", true)
 	health -= amount
 	invulnerable = true
-	collision_layer = 0
 	invulnerable_timer.start()
 
 func _on_invulnerable_timer_end():
 	invulnerable = false
-	collision_layer = 2
 	sprite.material.set_shader_parameter("blinking", false)
 
 func _on_enemy_hit(enemy: Enemy) -> void:
