@@ -149,7 +149,6 @@ path_desired_distance = 4.0
 target_desired_distance = 4.0
 avoidance_enabled = true
 radius = 8.0
-debug_enabled = true
 
 [node name="HealthBar" type="TextureProgressBar" parent="."]
 anchors_preset = 8

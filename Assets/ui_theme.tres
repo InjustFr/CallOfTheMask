@@ -8,3 +8,7 @@ default_font_size = 12
 Button/font_sizes/font_size = 24
 Fonts/fonts/large = ExtResource("1_qnnu6")
 Fonts/fonts/normal = ExtResource("1_qnnu6")
+MarginContainer/constants/margin_bottom = 4
+MarginContainer/constants/margin_left = 4
+MarginContainer/constants/margin_right = 4
+MarginContainer/constants/margin_top = 4

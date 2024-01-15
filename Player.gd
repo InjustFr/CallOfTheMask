@@ -5,7 +5,6 @@ class_name Player
 @onready var sprite := $AnimatedSprite2D
 @onready var weapon_container := $WeaponContainer
 @onready var boon_collider := $BoonPickup
-@onready var health_bar : TextureProgressBar = $HealthBar
 @onready var dash_particles : GPUParticles2D = $DashParticles
 @onready var camera : Camera2D = $Camera
 @onready var invulnerable_timer : Timer = $InvulnerableTimer
@@ -41,7 +40,6 @@ signal dashed
 signal weapon_used
 
 func _ready():
-	health_bar.max_value = health
 	weapon.enemy_hit.connect(_on_enemy_hit)
 	invulnerable_timer.timeout.connect(_on_invulnerable_timer_end)
 	eot_timer.timeout.connect(_apply_effects_over_time)
@@ -52,7 +50,6 @@ func _ready():
 	auto_aim_ray_cast.scan_range = weapon.weapon_range
 
 func _process(_delta):
-	health_bar.value = health
 	if health <= 0:
 		died.emit()
 
