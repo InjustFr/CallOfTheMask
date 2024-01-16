@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://gph4ll3hdsgo"]
+[gd_scene load_steps=7 format=3 uid="uid://gph4ll3hdsgo"]
 
 [ext_resource type="Theme" uid="uid://da1qk48nqy3s2" path="res://Assets/ui_theme.tres" id="1_ymd8x"]
+[ext_resource type="Texture2D" uid="uid://dtj0msbib567x" path="res://Assets/0x72_DungeonTilesetII_v1.6.png" id="2_lnv8k"]
 
 [sub_resource type="GDScript" id="GDScript_ujfn2"]
 script/source = "extends HBoxContainer
@@ -23,6 +24,28 @@ func _process(_delta):
 			var half_heart = half_heart_scene.instantiate();
 			add_child(half_heart)
 "
+
+[sub_resource type="GDScript" id="GDScript_cc0i4"]
+script/source = "extends VBoxContainer
+
+@onready var coin_label : Label = $CoinLine/Label
+@onready var essence_label : Label = $EssenceLine/Label
+
+func _process(_delta):
+	if Global.player:
+		coin_label.text = \"Coins : \" + str(Global.player.resources.coins)
+		essence_label.text = \"Essence : \" + str(Global.player.resources.essence)
+
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vgdp"]
+atlas = ExtResource("2_lnv8k")
+region = Rect2(289, 385, 6, 7)
+margin = Rect2(1, 2.08165e-12, 2, 2.08165e-12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8toxb"]
+atlas = ExtResource("2_lnv8k")
+region = Rect2(292, 355, 8, 11)
 
 [node name="PlayerUi" type="Control"]
 layout_mode = 3
@@ -47,3 +70,35 @@ layout_mode = 2
 [node name="HeartContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 script = SubResource("GDScript_ujfn2")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="ResourceContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2"]
+layout_mode = 2
+script = SubResource("GDScript_cc0i4")
+
+[node name="CoinLine" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/ResourceContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer2/ResourceContainer/CoinLine"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_0vgdp")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer2/ResourceContainer/CoinLine"]
+layout_mode = 2
+theme = ExtResource("1_ymd8x")
+text = "Coins : 0"
+
+[node name="EssenceLine" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/ResourceContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer2/ResourceContainer/EssenceLine"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_8toxb")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer2/ResourceContainer/EssenceLine"]
+layout_mode = 2
+theme = ExtResource("1_ymd8x")
+text = "Essence : 0"

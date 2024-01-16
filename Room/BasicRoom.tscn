@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cneltgs6x0fxa"]
+[gd_scene load_steps=12 format=3 uid="uid://cneltgs6x0fxa"]
 
 [ext_resource type="TileSet" uid="uid://ccjfgso6jgv31" path="res://TileSet.tres" id="1_3khxt"]
 [ext_resource type="Script" path="res://Room/BasicRoom.gd" id="1_xxv86"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cmjagyra7e6vy" path="res://Room/LeftDoor.tscn" id="4_ykg4i"]
 [ext_resource type="PackedScene" uid="uid://g1ssunauwlh4" path="res://Room/RightDoor.tscn" id="5_irexm"]
 [ext_resource type="Script" path="res://Enemy/SkeletonSpawnInfo.gd" id="8_hm3wj"]
+[ext_resource type="PackedScene" uid="uid://rwm3r0o4lvii" path="res://Coin.tscn" id="10_5jb65"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_6rsdo"]
 vertices = PackedVector2Array(197, 144, 197, 64, 459, 48, 459, 240, 21, 48, 123, 64, 21, 240, 123, 144)
@@ -74,5 +75,14 @@ y_sort_enabled = true
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
+
+[node name="Coin" parent="." instance=ExtResource("10_5jb65")]
+position = Vector2(256, 144)
+
+[node name="Coin2" parent="." instance=ExtResource("10_5jb65")]
+position = Vector2(312, 152)
+
+[node name="Coin3" parent="." instance=ExtResource("10_5jb65")]
+position = Vector2(312, 88)
 
 [connection signal="timeout" from="Timer" to="EnemySpawner" method="spawn"]

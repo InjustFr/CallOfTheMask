@@ -21,6 +21,10 @@ class_name Player
 
 var boons := []
 var effects_over_time : Array[EffectOverTime] = []
+var resources : Dictionary = {
+	"coins": 0,
+	"essence": 0
+}
 
 var weapon_dmg := 0
 var spell_dmg := 0
@@ -161,3 +165,7 @@ func _apply_effects_over_time():
 
 func get_orientation() -> float:
 	return orientation_line.rotation
+
+func update_resource(type: String, value: int) -> void:
+	if resources.has(type):
+		resources[type] += value;
