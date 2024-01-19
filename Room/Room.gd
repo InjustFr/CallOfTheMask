@@ -22,6 +22,10 @@ func _ready():
 func get_size() -> Vector2:
 	return Vector2(0,0)
 
+func get_bounding_rect() -> Rect2:
+	var size = get_size()
+	return Rect2(global_position, size)
+
 func start_room():
 	room_entered.emit()
 

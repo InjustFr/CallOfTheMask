@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cmjagyra7e6vy" path="res://Room/LeftDoor.tscn" id="4_ykg4i"]
 [ext_resource type="PackedScene" uid="uid://g1ssunauwlh4" path="res://Room/RightDoor.tscn" id="5_irexm"]
 [ext_resource type="Script" path="res://Enemy/SkeletonSpawnInfo.gd" id="8_hm3wj"]
-[ext_resource type="PackedScene" uid="uid://rwm3r0o4lvii" path="res://Coin.tscn" id="10_5jb65"]
+[ext_resource type="Script" path="res://CoinSpawner.gd" id="10_77kmn"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_6rsdo"]
 vertices = PackedVector2Array(197, 144, 197, 64, 459, 48, 459, 240, 21, 48, 123, 64, 21, 240, 123, 144)
@@ -76,13 +76,11 @@ y_sort_enabled = true
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
-[node name="Coin" parent="." instance=ExtResource("10_5jb65")]
-position = Vector2(256, 144)
+[node name="CoinSpawner" type="Node" parent="." node_paths=PackedStringArray("room")]
+script = ExtResource("10_77kmn")
+room = NodePath("..")
+min = 2
+max = 5
 
-[node name="Coin2" parent="." instance=ExtResource("10_5jb65")]
-position = Vector2(312, 152)
-
-[node name="Coin3" parent="." instance=ExtResource("10_5jb65")]
-position = Vector2(312, 88)
-
+[connection signal="cleared" from="." to="CoinSpawner" method="spawn"]
 [connection signal="timeout" from="Timer" to="EnemySpawner" method="spawn"]
