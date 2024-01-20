@@ -7,7 +7,7 @@
 y_sort_enabled = true
 script = ExtResource("1_s0nwi")
 nb_rooms = 30
-rooms = Array[String](["BasicRoom"])
+rooms = Array[String](["EnemyRoom/EnemyRoom", "EnemyRoom/PillarEnemyRoom"])
 
 [node name="Map" type="Node2D" parent="."]
 y_sort_enabled = true

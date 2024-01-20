@@ -1,6 +1,6 @@
 extends Room
 
-class_name BasicRoom
+class_name EnemyRoom
 
 @onready var navigation_region : NavigationRegion2D = $NavigationRegion2D
 @onready var map : TileMap = $NavigationRegion2D/TileMap
