@@ -5,7 +5,7 @@ class_name BasicRoom
 @onready var navigation_region : NavigationRegion2D = $NavigationRegion2D
 @onready var map : TileMap = $NavigationRegion2D/TileMap
 @onready var enemy_container_node : Node2D = $Enemies
-@onready var timer : Timer = $Timer
+@onready var spawner_timer : Timer = $SpawnerTimer
 
 func _ready():
 	enemy_container_node.child_exiting_tree.connect(_on_enemy_death)
@@ -23,7 +23,7 @@ func _on_room_entered() -> void:
 	if was_cleared:
 		return
 	navigation_region.enabled = true
-	timer.start()
+	spawner_timer.start()
 
 func _on_room_left() -> void:
 	super()

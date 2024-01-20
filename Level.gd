@@ -2,11 +2,25 @@ extends Node2D
 
 class_name Level
 
+class RoomNode:
+	var pos: Vector2i
+	var children: Array[RoomNode]
+	var parent: RoomNode
+	var room: Room
+
+	func _init(p_pos, p_parent, p_room):
+		pos = p_pos
+		parent = p_parent
+		room = p_room
+
+
 @onready var map_node : Node2D = $Map
 @onready var player: Player = $Player
 
 @export var nb_rooms = 10;
 @export var rooms : Array[String] = []
+@export var max_size : Vector2i = Vector2i(8,8)
+@export var start_position : Vector2i = Vector2i(4,4)
 @export var mandatory_rooms : Array[String] = []
 
 var loaded_rooms : Array[PackedScene] = []
@@ -15,7 +29,8 @@ var loaded_mandatory_rooms : Array[PackedScene] = []
 var room_map : Dictionary = {}
 
 var total_rooms := 0
-var rooms_generated : Array[Vector2i] = []
+var rooms_generated : Array[RoomNode] = []
+var end_rooms : Array[Vector2i] = []
 
 var current_room_pos : Vector2i
 
@@ -27,60 +42,70 @@ func _ready():
 	for n in mandatory_rooms:
 		loaded_mandatory_rooms.push_back(load("res://Room/" + n + ".tscn"))
 
-	_generate_random_rooms()
+	_create_map()
 	_generate_mandatory_rooms()
 	_remove_unused_doors()
 	_setup_room()
 
+	player.global_position = rooms_generated[0].room.global_position + Vector2(50,50)
+
 	player.died.connect(_on_player_death)
 
 
-func _generate_random_rooms() -> void:
-	var starting_pos = Vector2i(0,0)
-	current_room_pos = starting_pos
-	rooms_generated.push_back(starting_pos)
-	_generate_room(starting_pos)
+func _create_map() -> void:
+	while rooms_generated.size() != nb_rooms:
+		_clear_map()
+		current_room_pos = start_position
+		var node = RoomNode.new(
+			start_position,
+			null,
+			_generate_room(start_position)
+		)
+		rooms_generated.push_back(node)
+		_create_rooms()
 
-	var j = 0;
-	while rooms_generated.size() < nb_rooms:
-		var room_pos = rooms_generated[j];
-		var nb_rooms_to_generate = randi_range(1, _get_nb_of_available_neighboor_cells(room_pos))
 
-		## if no cells available around this one,
-		## either backtrack if it's the last, or skip it
-		if !_get_nb_of_available_neighboor_cells(room_pos):
-			if j == rooms_generated.size() - 1:
-				j = 0
-				while !_get_nb_of_available_neighboor_cells(rooms_generated[j]):
-					j += 1
-				continue
+func _clear_map() -> void:
+	for node in rooms_generated:
+		node.room.queue_free()
 
-			rooms_generated.remove_at(j)
+	rooms_generated.clear()
+	end_rooms.clear()
+	room_map.clear()
+
+
+func _create_rooms() -> void:
+	for room_node in rooms_generated:
+		var nb_rooms_to_generate = randi_range(1, _get_nb_of_available_neighboor_cells(room_node.pos))
+
+		if (!_get_nb_of_available_neighboor_cells(room_node.pos)
+			||rooms_generated.size() >= nb_rooms):
+			end_rooms.push_back(room_node.pos)
 			continue
 
-
+		var children_positions = _get_available_neighboor_room_positions(room_node.pos)
+		children_positions.shuffle()
+		var nb_rooms_generated = 0
 		for i in nb_rooms_to_generate:
-			if rooms_generated.size() >= nb_rooms:
-				break
+			var child_pos = children_positions[i]
+			if _get_neighboor_room_positions(child_pos).size() >= 2:
+				continue
 
-			_generate_neighboor_room(room_pos)
-		j += 1
+			var child_node := RoomNode.new(
+				child_pos,
+				room_node,
+				_generate_room(child_pos)
+			)
+			rooms_generated.push_back(child_node)
+			room_node.children.push_back(child_node)
 
-func _get_offset_vector() -> Vector2i:
-	var offset_x = randi_range(-1, 1)
-	var offset_y = randi_range(-1, 1)
+			child_node.room.global_position = _get_next_room_position(room_node.room, child_node.room, child_node.pos - room_node.pos)
 
-	while offset_x == 0 and offset_y == 0:
-		offset_x = randi_range(-1, 1)
-		offset_y = randi_range(-1, 1)
+			nb_rooms_generated += 1
 
-	if offset_x != 0 and offset_y != 0:
-		var axis = randi_range(0, 1)
-		if axis:
-			offset_x = 0
-		else:
-			offset_y = 0
-	return Vector2i(offset_x, offset_y)
+		if !nb_rooms_generated:
+			end_rooms.push_back(room_node.pos)
+
 
 func _get_next_room_position(room: Room, next_room: Room, offset: Vector2i) -> Vector2:
 	if !room:
@@ -103,19 +128,24 @@ func _get_next_room_position(room: Room, next_room: Room, offset: Vector2i) -> V
 
 	return Vector2(0,0)
 
+
 func _get_nb_of_available_neighboor_cells(cell: Vector2i) -> int:
-	var nb := 0
+	return _get_available_neighboor_room_positions(cell).size()
 
-	if !_room_exists(cell + Vector2i(1, 0)):
-		nb += 1
-	if !_room_exists(cell + Vector2i(-1, 0)):
-		nb += 1
-	if !_room_exists(cell + Vector2i(0, 1)):
-		nb += 1
-	if !_room_exists(cell + Vector2i(0, -1)):
-		nb += 1
 
-	return nb
+func _get_available_neighboor_room_positions(cell: Vector2i) -> Array[Vector2i]:
+	var neighboor_rooms :Array[Vector2i] = []
+	if !_room_exists(cell + Vector2i(1, 0)) && cell.x + 1 <= max_size.x:
+		neighboor_rooms.push_back(cell + Vector2i(1, 0))
+	if !_room_exists(cell + Vector2i(-1, 0)) && cell.x - 1 > 0:
+		neighboor_rooms.push_back(cell + Vector2i(-1, 0))
+	if !_room_exists(cell + Vector2i(0, 1)) && cell.y + 1 <= max_size.y:
+		neighboor_rooms.push_back(cell + Vector2i(0, 1))
+	if !_room_exists(cell + Vector2i(0, -1)) && cell.y - 1 > 0:
+		neighboor_rooms.push_back(cell + Vector2i(0, -1))
+
+	return neighboor_rooms
+
 
 func _get_neighboor_room_positions(cell: Vector2i) -> Array[Vector2i]:
 	var neighboor_rooms :Array[Vector2i] = []
@@ -130,20 +160,10 @@ func _get_neighboor_room_positions(cell: Vector2i) -> Array[Vector2i]:
 
 	return neighboor_rooms
 
+
 func _room_exists(pos: Vector2i) -> bool:
 	return room_map.get(pos.y) != null and room_map[pos.y].get(pos.x) != null
 
-func _generate_neighboor_room(pos: Vector2i, type: PackedScene = null) -> Vector2i:
-	var offset = _get_offset_vector()
-	while (_room_exists(pos + offset)):
-		offset = _get_offset_vector()
-
-	var new_room_pos = pos + offset
-
-	var room = _generate_room(new_room_pos, type)
-	room.global_position = _get_next_room_position(room_map[pos.y][pos.x], room, offset)
-
-	return new_room_pos
 
 func _generate_room(pos: Vector2i, type: PackedScene = null) -> Room:
 	if !room_map.has(pos.y):
@@ -155,29 +175,32 @@ func _generate_room(pos: Vector2i, type: PackedScene = null) -> Room:
 	room_map[pos.y][pos.x] = room
 	room.door_passed.connect(_on_door_passed)
 
-	rooms_generated.push_back(pos)
-
 	return room
+
 
 func _generate_mandatory_rooms() -> void:
 	for room_scene in loaded_mandatory_rooms:
 		var i = 0
-		while !_get_nb_of_available_neighboor_cells(rooms_generated[i]) and i < rooms_generated.size():
+		while !_get_nb_of_available_neighboor_cells(rooms_generated[i].pos) and i < rooms_generated.size():
 			i += 1
 
-		_generate_neighboor_room(rooms_generated[i], room_scene)
+		#_generate_neighboor_room(rooms_generated[i].pos, room_scene)
+
 
 func _remove_unused_doors() -> void:
-	for pos in rooms_generated:
-		var room : Room = room_map[pos.y][pos.x]
-		room.disable_door(pos, rooms_generated)
+	for node in rooms_generated:
+		var room : Room = room_map[node.pos.y][node.pos.x]
+		room.disable_door(node.pos, _get_neighboor_room_positions(node.pos))
+
 
 func _on_player_death():
 	finished.emit(false)
 
+
 func _on_door_passed(room_offset: Vector2i) -> void:
 	current_room_pos += room_offset
 	_setup_room()
+
 
 func _setup_room() -> void:
 	var p : Player = find_children("*", "Player")[0]

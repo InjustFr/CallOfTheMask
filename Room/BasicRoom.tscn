@@ -73,7 +73,7 @@ weight = 0.5
 [node name="Enemies" type="Node2D" parent="."]
 y_sort_enabled = true
 
-[node name="Timer" type="Timer" parent="."]
+[node name="SpawnerTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="CoinSpawner" type="Node" parent="." node_paths=PackedStringArray("room")]
@@ -83,4 +83,4 @@ min = 2
 max = 5
 
 [connection signal="cleared" from="." to="CoinSpawner" method="spawn"]
-[connection signal="timeout" from="Timer" to="EnemySpawner" method="spawn"]
+[connection signal="timeout" from="SpawnerTimer" to="EnemySpawner" method="spawn"]
