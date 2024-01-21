@@ -15,7 +15,7 @@ class_name Player
 @export var speed := 80
 @export var weapon : Weapon
 @export var health := 10
-@export var dash_speed := 256
+@export var dash_speed := 380
 @export var dash_duration := 0.15
 @export var dash_cooldown := 0.5
 
@@ -43,7 +43,7 @@ signal enemy_hit
 signal dashed
 signal weapon_used
 
-func _ready():
+func _ready() -> void:
 	weapon.enemy_hit.connect(_on_enemy_hit)
 	invulnerable_timer.timeout.connect(_on_invulnerable_timer_end)
 	eot_timer.timeout.connect(_apply_effects_over_time)
@@ -53,7 +53,7 @@ func _ready():
 	boons.push_back(poison_pool_boon)
 	auto_aim_ray_cast.scan_range = weapon.weapon_range
 
-func _process(_delta):
+func _process(_delta) -> void:
 	if health <= 0:
 		died.emit()
 
@@ -64,32 +64,24 @@ func _process(_delta):
 		dash_end = Time.get_ticks_msec()
 		dashed.emit()
 
-func _physics_process(_delta):
-	if not dashing:
-		if Input.is_action_just_pressed("attack"):
-			weapon.use()
-			weapon_used.emit(self, weapon)
+func _handle_input() -> void :
+	if dashing:
+		return
 
-		if Input.is_action_just_pressed("use") and boon_collider.monitoring:
-			_pickup_boon()
+	if Input.is_action_just_pressed("attack"):
+		weapon.use()
+		weapon_used.emit(self, weapon)
 
-		if Input.is_action_just_pressed("dash"):
-			_dash()
+	if Input.is_action_just_pressed("use") and boon_collider.monitoring:
+		_pickup_boon()
 
-		direction = Input.get_vector("left", "right", "up", "down")
+	if Input.is_action_just_pressed("dash"):
+		_dash()
 
-	if direction:
-		var temp_speed := speed + speed_bonus
-		if temp_speed < 10:
-			temp_speed = 10
+	direction = Input.get_vector("left", "right", "up", "down")
 
-		velocity = direction * (temp_speed)
-		if dashing:
-			velocity += direction * dash_speed
-	else:
-		velocity.x = move_toward(velocity.x, 0, (speed + speed_bonus))
-		velocity.y = move_toward(velocity.y, 0, (speed + speed_bonus))
 
+func _handle_los() -> void:
 	auto_aim_ray_cast.rotation = orientation_line.rotation
 	var nearest : Node2D = auto_aim_ray_cast.scan();
 	if nearest is Enemy:
@@ -98,6 +90,28 @@ func _physics_process(_delta):
 		orientation_line.rotation = direction.normalized().angle()
 
 	weapon_container.rotation = orientation_line.rotation
+
+
+func _physics_process(_delta) -> void:
+	_handle_input()
+	_handle_los()
+
+	if direction:
+		var temp_speed := speed + speed_bonus
+		if temp_speed < 10:
+			temp_speed = 10
+
+		velocity = direction * temp_speed
+	else:
+		velocity.x = move_toward(velocity.x, 0, (speed + speed_bonus))
+		velocity.y = move_toward(velocity.y, 0, (speed + speed_bonus))
+
+	if dashing:
+		print(direction)
+		if direction:
+			velocity = direction.normalized() * dash_speed
+		else:
+			velocity = Vector2.RIGHT.rotated(orientation_line.rotation) * dash_speed
 
 	if velocity:
 		sprite.play("walk")
@@ -109,14 +123,14 @@ func _physics_process(_delta):
 
 	move_and_slide()
 
-func _pickup_boon():
+func _pickup_boon() -> void:
 	for body in boon_collider.get_overlapping_bodies():
 		if body is StaticBody2D and body.get_parent() is BoonSelector:
 			var boon = body.get_parent().selectBoon(body)
 			boon.apply(self)
 			boons.push_back(boon)
 
-func damage(amount: int):
+func damage(amount: int) -> void:
 	if invulnerable:
 		return
 	player_hit.emit(self)
@@ -148,11 +162,11 @@ func set_camera_bounds(top_left: Vector2i, bottom_right: Vector2i) -> void:
 	camera.limit_right = bottom_right.x
 	camera.limit_bottom = bottom_right.y
 
-func add_effect_over_time(effect: EffectOverTime):
+func add_effect_over_time(effect: EffectOverTime) -> void:
 	effects_over_time.push_back(effect)
 	effect.on_add(self)
 
-func _apply_effects_over_time():
+func _apply_effects_over_time() -> void:
 	for effect in effects_over_time:
 		effect.apply(self)
 		if effect.current_time >= effect.duration:

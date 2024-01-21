@@ -124,7 +124,7 @@ _data = {
 
 [node name="Skeleton" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 7
+collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_3ghqt")
 projectile_velocity = 48
