@@ -35,6 +35,8 @@ var end_rooms : Array[Vector2i] = []
 var current_room_pos : Vector2i
 
 signal finished
+signal level_generated
+signal room_changed
 
 func _ready():
 	for n in rooms:
@@ -45,6 +47,7 @@ func _ready():
 	_create_map()
 	_generate_mandatory_rooms()
 	_remove_unused_doors()
+	level_generated.emit()
 	_setup_room()
 
 	player.global_position = rooms_generated[0].room.global_position + Vector2(50,50)
@@ -216,5 +219,6 @@ func _setup_room() -> void:
 		player.global_position.y = room_pos.y + 16
 	if player.global_position.y >= room_pos.y + room_size.y:
 		player.global_position.y = room_pos.y + room_size.y - 16
+	room_changed.emit()
 	await get_tree().create_timer(0.5).timeout
 	room.start_room()

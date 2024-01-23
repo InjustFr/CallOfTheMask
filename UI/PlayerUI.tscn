@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://gph4ll3hdsgo"]
+[gd_scene load_steps=8 format=3 uid="uid://gph4ll3hdsgo"]
 
 [ext_resource type="Theme" uid="uid://da1qk48nqy3s2" path="res://Assets/ui_theme.tres" id="1_ymd8x"]
+[ext_resource type="PackedScene" uid="uid://bmtapdbpkgkpa" path="res://UI/MapView.tscn" id="2_imoyd"]
 [ext_resource type="Texture2D" uid="uid://dtj0msbib567x" path="res://Assets/0x72_DungeonTilesetII_v1.6.png" id="2_lnv8k"]
 
 [sub_resource type="GDScript" id="GDScript_ujfn2"]
@@ -67,9 +68,24 @@ theme = ExtResource("1_ymd8x")
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="HeartContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="Control" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="HeartContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 1
+size_flags_vertical = 0
 script = SubResource("GDScript_ujfn2")
+
+[node name="MapView" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_imoyd")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -96.0
+offset_right = 0.0
+offset_bottom = 54.0
+grow_horizontal = 0
+size_flags_horizontal = 2
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2

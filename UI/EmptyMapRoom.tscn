@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7uw4vvrara6m"]
+
+[ext_resource type="Theme" uid="uid://da1qk48nqy3s2" path="res://Assets/ui_theme.tres" id="1_7iac2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vkrnp"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="MapRoom" type="PanelContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(32, 18)
+theme = ExtResource("1_7iac2")
+theme_override_styles/panel = SubResource("StyleBoxFlat_vkrnp")
