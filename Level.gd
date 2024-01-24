@@ -30,7 +30,7 @@ var room_map : Dictionary = {}
 
 var total_rooms := 0
 var rooms_generated : Array[RoomNode] = []
-var end_rooms : Array[Vector2i] = []
+var end_rooms : Array[RoomNode] = []
 
 var current_room_pos : Vector2i
 
@@ -83,7 +83,7 @@ func _create_rooms() -> void:
 
 		if (!_get_nb_of_available_neighboor_cells(room_node.pos)
 			||rooms_generated.size() >= nb_rooms):
-			end_rooms.push_back(room_node.pos)
+			end_rooms.push_back(room_node)
 			continue
 
 		var children_positions = _get_available_neighboor_room_positions(room_node.pos)
@@ -107,7 +107,7 @@ func _create_rooms() -> void:
 			nb_rooms_generated += 1
 
 		if !nb_rooms_generated:
-			end_rooms.push_back(room_node.pos)
+			end_rooms.push_back(room_node)
 
 
 func _get_next_room_position(room: Room, next_room: Room, offset: Vector2i) -> Vector2:
@@ -182,12 +182,14 @@ func _generate_room(pos: Vector2i, type: PackedScene = null) -> Room:
 
 
 func _generate_mandatory_rooms() -> void:
-	for room_scene in loaded_mandatory_rooms:
-		var i = 0
-		while !_get_nb_of_available_neighboor_cells(rooms_generated[i].pos) and i < rooms_generated.size():
-			i += 1
+	end_rooms.reverse()
+	for i in loaded_mandatory_rooms.size():
+		var room_node = end_rooms[i]
+		var new_room = _generate_room(room_node.pos, loaded_mandatory_rooms[i])
+		room_node.room.queue_free()
 
-		#_generate_neighboor_room(rooms_generated[i].pos, room_scene)
+		room_node.room = new_room
+		new_room.global_position = _get_next_room_position(room_node.parent.room, new_room, room_node.pos - room_node.parent.pos)
 
 
 func _remove_unused_doors() -> void:
