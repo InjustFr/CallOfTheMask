@@ -6,7 +6,6 @@
 [node name="Level 1" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_s0nwi")
-nb_rooms = 3
 rooms = Array[String](["EnemyRoom/EnemyRoom", "EnemyRoom/PillarEnemyRoom"])
 mandatory_rooms = Array[String](["EnemyRoom/BossRoom"])
 

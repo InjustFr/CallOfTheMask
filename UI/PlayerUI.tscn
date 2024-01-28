@@ -15,13 +15,14 @@ func _process(_delta):
 		n.queue_free()
 
 	if Global.player:
+		var health = Global.player.find_child('HealthComponent').get_current_health()
 		@warning_ignore(\"integer_division\")
-		var nb_full_hearts = Global.player.health / 2
+		var nb_full_hearts = health / 2
 		for i in nb_full_hearts:
 			var full_heart = full_heart_scene.instantiate();
 			add_child(full_heart)
 
-		if Global.player.health % 2 == 1:
+		if health % 2 == 1:
 			var half_heart = half_heart_scene.instantiate();
 			add_child(half_heart)
 "

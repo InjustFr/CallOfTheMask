@@ -11,10 +11,10 @@ class_name Player
 @onready var eot_timer : Timer = $EoTTimer
 @onready var orientation_line : Line2D = $OrientationLine
 @onready var auto_aim_ray_cast : RayCast2D = $AutoAimCast
+@onready var health_component : HealthComponent = $HealthComponent
+@onready var velocity_component : VelocityComponent = $VelocityComponent
 
-@export var speed := 80
 @export var weapon : Weapon
-@export var health := 10
 @export var dash_speed := 380
 @export var dash_duration := 0.15
 @export var dash_cooldown := 0.5
@@ -48,15 +48,14 @@ func _ready() -> void:
 	invulnerable_timer.timeout.connect(_on_invulnerable_timer_end)
 	eot_timer.timeout.connect(_apply_effects_over_time)
 
-	var poison_pool_boon := PoisonPoolBoon.new()
-	poison_pool_boon.apply(self)
-	boons.push_back(poison_pool_boon)
 	auto_aim_ray_cast.scan_range = weapon.weapon_range
+	health_component.entity_died.connect(_player_died)
+	health_component.entity_damaged.connect(_on_damaged)
+
+func _player_died() -> void:
+	died.emit()
 
 func _process(_delta) -> void:
-	if health <= 0:
-		died.emit()
-
 	if dashing and dash_duration * 1000 < Time.get_ticks_msec() - dash_start:
 		dashing = false
 		collision_layer = 2
@@ -78,8 +77,6 @@ func _handle_input() -> void :
 	if Input.is_action_just_pressed("dash"):
 		_dash()
 
-	direction = Input.get_vector("left", "right", "up", "down")
-
 
 func _handle_los() -> void:
 	auto_aim_ray_cast.rotation = orientation_line.rotation
@@ -96,18 +93,13 @@ func _physics_process(_delta) -> void:
 	_handle_input()
 	_handle_los()
 
-	if direction:
-		var temp_speed := speed + speed_bonus
-		if temp_speed < 10:
-			temp_speed = 10
-
-		velocity = direction * temp_speed
+	if velocity_component.get_velocity():
+		velocity = velocity_component.get_velocity()
 	else:
-		velocity.x = move_toward(velocity.x, 0, (speed + speed_bonus))
-		velocity.y = move_toward(velocity.y, 0, (speed + speed_bonus))
+		velocity.x = move_toward(velocity.x, 0, 80)
+		velocity.y = move_toward(velocity.y, 0, 80)
 
 	if dashing:
-		print(direction)
 		if direction:
 			velocity = direction.normalized() * dash_speed
 		else:
@@ -130,17 +122,14 @@ func _pickup_boon() -> void:
 			boon.apply(self)
 			boons.push_back(boon)
 
-func damage(amount: int) -> void:
-	if invulnerable:
-		return
+func _on_damaged() -> void:
 	player_hit.emit(self)
 	sprite.material.set_shader_parameter("blinking", true)
-	health -= amount
-	invulnerable = true
+	health_component.set_invulnerable(true)
 	invulnerable_timer.start()
 
 func _on_invulnerable_timer_end():
-	invulnerable = false
+	health_component.set_invulnerable(false)
 	sprite.material.set_shader_parameter("blinking", false)
 
 func _on_enemy_hit(enemy: Enemy) -> void:

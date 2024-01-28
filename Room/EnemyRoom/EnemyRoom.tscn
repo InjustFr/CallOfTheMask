@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://Enemy/ImpSpawnInfo.gd" id="4_4ui4d"]
 [ext_resource type="PackedScene" uid="uid://cmjagyra7e6vy" path="res://Room/LeftDoor.tscn" id="4_ykg4i"]
 [ext_resource type="PackedScene" uid="uid://g1ssunauwlh4" path="res://Room/RightDoor.tscn" id="5_irexm"]
-[ext_resource type="Script" path="res://Enemy/SkeletonSpawnInfo.gd" id="8_hm3wj"]
+[ext_resource type="Script" path="res://Enemy/SkeletonSpawnInfo.gd" id="8_5h38n"]
 [ext_resource type="Script" path="res://CoinSpawner.gd" id="10_77kmn"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_6rsdo"]
@@ -62,12 +62,12 @@ spawn_region = NodePath("../NavigationRegion2D")
 room = NodePath("..")
 enemies_spawning_node = NodePath("../Enemies")
 
-[node name="SkeletonSpawnInfo" type="Node" parent="EnemySpawner"]
-script = ExtResource("8_hm3wj")
-weight = 0.5
-
 [node name="ImpSpawnInfo" type="Node" parent="EnemySpawner"]
 script = ExtResource("4_4ui4d")
+weight = 0.5
+
+[node name="SkeletonSpawnInfo" type="Node" parent="EnemySpawner"]
+script = ExtResource("8_5h38n")
 weight = 0.5
 
 [node name="Enemies" type="Node2D" parent="."]

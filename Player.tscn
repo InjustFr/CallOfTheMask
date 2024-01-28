@@ -1,14 +1,18 @@
-[gd_scene load_steps=19 format=3 uid="uid://bmpgm3pr1dgr5"]
+[gd_scene load_steps=24 format=3 uid="uid://bmpgm3pr1dgr5"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_g1ji6"]
+[ext_resource type="Script" path="res://Component/HitBoxComponent.gd" id="2_sfuls"]
 [ext_resource type="Texture2D" uid="uid://dtj0msbib567x" path="res://Assets/0x72_DungeonTilesetII_v1.6.png" id="2_wnl6g"]
+[ext_resource type="Script" path="res://Component/HealthComponent.gd" id="3_cgakf"]
 [ext_resource type="PackedScene" uid="uid://blcymssdtdd67" path="res://Weapon/ShortSword.tscn" id="3_tb71b"]
+[ext_resource type="Script" path="res://Component/VelocityComponent.gd" id="4_f34fs"]
+[ext_resource type="Script" path="res://Component/PlayerMovementComponent.gd" id="5_v50pf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jki2m"]
 size = Vector2(14, 16)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_c0kcl"]
-radius = 24.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_1s7p7"]
+radius = 12.0
 
 [sub_resource type="Shader" id="Shader_r45lw"]
 code = "shader_type canvas_item;
@@ -118,6 +122,9 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_c0kcl"]
+radius = 24.0
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kua6f"]
 particle_flag_disable_z = true
 emission_shape = 3
@@ -178,12 +185,26 @@ weapon = NodePath("WeaponContainer/ShortSword")
 position = Vector2(1, 0)
 shape = SubResource("RectangleShape2D_jki2m")
 
-[node name="BoonPickup" type="Area2D" parent="."]
+[node name="HitBoxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
 collision_layer = 0
-collision_mask = 4
+collision_mask = 20
+monitorable = false
+script = ExtResource("2_sfuls")
+health_component = NodePath("../HealthComponent")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BoonPickup"]
-shape = SubResource("CircleShape2D_c0kcl")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
+shape = SubResource("CircleShape2D_1s7p7")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_cgakf")
+
+[node name="VelocityComponent" type="Node" parent="."]
+script = ExtResource("4_f34fs")
+
+[node name="PlayerMovementComponent" type="Node" parent="." node_paths=PackedStringArray("velocity_component")]
+script = ExtResource("5_v50pf")
+velocity_component = NodePath("../VelocityComponent")
+move_speed = 80
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
@@ -193,6 +214,13 @@ sprite_frames = SubResource("SpriteFrames_y40kd")
 animation = &"idle"
 
 [node name="Camera" type="Camera2D" parent="."]
+
+[node name="BoonPickup" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BoonPickup"]
+shape = SubResource("CircleShape2D_c0kcl")
 
 [node name="WeaponContainer" type="Marker2D" parent="."]
 position = Vector2(0, 3)

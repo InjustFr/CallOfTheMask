@@ -15,7 +15,6 @@ var projectile_spawn_radius := 16
 var projectile_velocity := 32
 
 func _process(delta):
-	super(delta)
 	current_time += delta
 	if current_time >= cooldown:
 		can_attack = true

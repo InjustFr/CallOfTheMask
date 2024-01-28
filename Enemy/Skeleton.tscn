@@ -1,21 +1,26 @@
-[gd_scene load_steps=24 format=3 uid="uid://cqycyxq1nv4pa"]
+[gd_scene load_steps=27 format=3 uid="uid://cqycyxq1nv4pa"]
 
 [ext_resource type="Script" path="res://Enemy/Skeleton.gd" id="1_3ghqt"]
 [ext_resource type="Texture2D" uid="uid://dtj0msbib567x" path="res://Assets/0x72_DungeonTilesetII_v1.6.png" id="2_6xdao"]
-[ext_resource type="Script" path="res://State/StateMachine.gd" id="3_7lfjr"]
-[ext_resource type="Script" path="res://State/Enemy/IdleEnemyState.gd" id="4_jfrwl"]
-[ext_resource type="Script" path="res://State/Enemy/FollowEnemyState.gd" id="5_0yirk"]
-[ext_resource type="Script" path="res://State/Enemy/AttackEnemyState.gd" id="6_j4h2f"]
+[ext_resource type="Script" path="res://Component/HealthComponent.gd" id="2_r5w5v"]
+[ext_resource type="Script" path="res://Component/HitBoxComponent.gd" id="3_6e51r"]
+[ext_resource type="Script" path="res://Component/VelocityComponent.gd" id="4_frnk7"]
+[ext_resource type="Script" path="res://Component/PathfindingComponent.gd" id="5_46p8g"]
+[ext_resource type="Script" path="res://Component/DamageComponent.gd" id="6_1srtw"]
 [ext_resource type="Texture2D" uid="uid://b2xxl5rs2ijik" path="res://Assets/progress_outline.png" id="7_2dtvq"]
+[ext_resource type="Script" path="res://Component/HealthBarComponent.gd" id="9_5vf7k"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_3kp21"]
-radius = 368.348
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7xj0l"]
+size = Vector2(12, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pkm6j"]
+size = Vector2(12, 14)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wipou"]
 radius = 128.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7xj0l"]
-size = Vector2(12, 14)
+[sub_resource type="CircleShape2D" id="CircleShape2D_3kp21"]
+radius = 368.348
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hvfcx"]
 atlas = ExtResource("2_6xdao")
@@ -96,6 +101,7 @@ height = 2
 
 [sub_resource type="Animation" id="Animation_km7lc"]
 resource_name = "attack"
+length = 3.0
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -127,16 +133,36 @@ collision_layer = 4
 motion_mode = 1
 script = ExtResource("1_3ghqt")
 projectile_velocity = 48
-health = 5
-speed = 24
 
-[node name="AggroRange" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 2
-monitorable = false
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_7xj0l")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AggroRange"]
-shape = SubResource("CircleShape2D_3kp21")
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_r5w5v")
+
+[node name="HitBoxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+script = ExtResource("3_6e51r")
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_pkm6j")
+
+[node name="VelocityComponent" type="Node" parent="."]
+script = ExtResource("4_frnk7")
+
+[node name="PathfindingComponent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("velocity_component")]
+path_desired_distance = 4.0
+target_desired_distance = 4.0
+avoidance_enabled = true
+radius = 8.0
+script = ExtResource("5_46p8g")
+velocity_component = NodePath("../VelocityComponent")
+
+[node name="DamageComponent" type="Node" parent="."]
+script = ExtResource("6_1srtw")
+damage = 2
 
 [node name="AttackRange" type="Area2D" parent="."]
 collision_layer = 0
@@ -146,40 +172,19 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
 shape = SubResource("CircleShape2D_wipou")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -1)
-shape = SubResource("RectangleShape2D_7xj0l")
+[node name="AggroRange" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AggroRange"]
+shape = SubResource("CircleShape2D_3kp21")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_d8fny")
 animation = &"idle"
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
-script = ExtResource("3_7lfjr")
-initial_state = NodePath("Idle")
-
-[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("aggro_collider", "enemy")]
-script = ExtResource("4_jfrwl")
-aggro_collider = NodePath("../../AggroRange")
-enemy = NodePath("../..")
-
-[node name="Follow" type="Node" parent="StateMachine" node_paths=PackedStringArray("aggro_collider", "navigation", "enemy")]
-script = ExtResource("5_0yirk")
-aggro_collider = NodePath("../../AggroRange")
-navigation = NodePath("../../NavigationAgent2D")
-enemy = NodePath("../..")
-
-[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy")]
-script = ExtResource("6_j4h2f")
-enemy = NodePath("../..")
-
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 4.0
-target_desired_distance = 4.0
-avoidance_enabled = true
-radius = 8.0
-
-[node name="HealthBar" type="TextureProgressBar" parent="."]
+[node name="HealthBarComponent" type="TextureProgressBar" parent="." node_paths=PackedStringArray("health_component")]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -195,6 +200,8 @@ value = 50.0
 texture_under = ExtResource("7_2dtvq")
 texture_progress = SubResource("GradientTexture2D_oo7tf")
 texture_progress_offset = Vector2(1, 1)
+script = ExtResource("9_5vf7k")
+health_component = NodePath("../HealthComponent")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

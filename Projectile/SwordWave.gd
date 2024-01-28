@@ -1,4 +1,4 @@
-extends Area2D
+extends RigidBody2D
 
 class_name SwordWave
 
@@ -8,8 +8,9 @@ var distance_traveled : float = 0.0
 
 
 func _physics_process(delta):
-	position += delta * velocity
 	distance_traveled += (velocity * delta).length()
+
+	move_and_collide(velocity * delta)
 
 	if distance_traveled >= max_range:
 		queue_free()
