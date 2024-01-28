@@ -12,8 +12,7 @@ class_name Skeleton
 @onready var pathfinding_component : PathfindingComponent = $PathfindingComponent
 @onready var velocity_component : VelocityComponent = $VelocityComponent
 @onready var health_component : HealthComponent = $HealthComponent
-
-@export var projectile_velocity := 32
+@onready var projectile_spawner_component = $ProjectileSpawnerComponent
 
 var player : Player = null
 var state_machine : StateMachine = StateMachine.new()
@@ -93,19 +92,9 @@ func attack_enter():
 	velocity = Vector2(0,0)
 
 
-func spawn_projectile(slow: bool = false) -> void:
+func spawn_projectile() -> void:
 	if !player:
 		return
 
-	var projectile: EnemyProjectile;
-	if slow:
-		projectile = slow_projectile_scene.instantiate()
-	else:
-		projectile = projectile_scene.instantiate()
-	add_child(projectile)
-
-	var dir = (player.global_position - global_position).normalized()
-
-	projectile.global_position = global_position
-	projectile.velocity = projectile_velocity * dir
+	projectile_spawner_component.spawn_towards_target(player.global_position)
 
