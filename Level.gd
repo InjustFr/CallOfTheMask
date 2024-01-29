@@ -195,7 +195,13 @@ func _generate_mandatory_rooms() -> void:
 func _remove_unused_doors() -> void:
 	for node in rooms_generated:
 		var room : Room = room_map[node.pos.y][node.pos.x]
-		room.disable_door(node.pos, _get_neighboor_room_positions(node.pos))
+		var positions : Array[Vector2i] = []
+		if node.parent:
+			positions.push_back(node.parent.pos)
+		for child_node in node.children:
+			positions.push_back(child_node.pos)
+
+		room.disable_door(node.pos, positions)
 
 
 func _on_player_death():
@@ -213,14 +219,14 @@ func _setup_room() -> void:
 	var room_pos : Vector2i = room.global_position
 	var room_size : Vector2i = get_viewport().get_visible_rect().size
 	p.set_camera_bounds(room_pos, room_pos + room_size)
-	if player.global_position.x < room_pos.x:
-		player.global_position.x = room_pos.x + 16
-	if player.global_position.x >= room_pos.x + room_size.x:
-		player.global_position.x = room_pos.x + room_size.x - 16
-	if player.global_position.y < room_pos.y:
-		player.global_position.y = room_pos.y + 16
-	if player.global_position.y >= room_pos.y + room_size.y:
-		player.global_position.y = room_pos.y + room_size.y - 16
+	if p.global_position.x < room_pos.x:
+		p.global_position.x = room_pos.x + 16
+	if p.global_position.x >= room_pos.x + room_size.x:
+		p.global_position.x = room_pos.x + room_size.x - 16
+	if p.global_position.y < room_pos.y:
+		p.global_position.y = room_pos.y + 16
+	if p.global_position.y >= room_pos.y + room_size.y:
+		p.global_position.y = room_pos.y + room_size.y - 16
 	room_changed.emit()
 	await get_tree().create_timer(0.5).timeout
 	room.start_room()
