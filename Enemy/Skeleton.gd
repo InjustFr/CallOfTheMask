@@ -96,5 +96,7 @@ func spawn_projectile() -> void:
 	if !player:
 		return
 
-	projectile_spawner_component.spawn_towards_target(player.global_position)
+	var dir := (player.global_position - global_position).normalized()
+
+	projectile_spawner_component.spawn_towards_target(dir)
 
