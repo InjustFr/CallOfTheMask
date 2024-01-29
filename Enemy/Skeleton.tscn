@@ -140,8 +140,11 @@ shape = SubResource("RectangleShape2D_7xj0l")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("2_r5w5v")
+max_health = 4
 
 [node name="HitBoxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+collision_layer = 0
+collision_mask = 32
 script = ExtResource("3_6e51r")
 health_component = NodePath("../HealthComponent")
 

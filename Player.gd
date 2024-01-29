@@ -44,6 +44,8 @@ signal dashed
 signal weapon_used
 
 func _ready() -> void:
+	Global.player = self
+
 	weapon.enemy_hit.connect(_on_enemy_hit)
 	invulnerable_timer.timeout.connect(_on_invulnerable_timer_end)
 	eot_timer.timeout.connect(_apply_effects_over_time)
@@ -110,7 +112,7 @@ func _physics_process(_delta) -> void:
 	else:
 		sprite.play("idle")
 
-	if abs(direction.x) > 0.01:
+	if abs(velocity.x) > 0.01:
 		sprite.flip_h = velocity.x < 0
 
 	move_and_slide()

@@ -36,7 +36,6 @@ func _launch_game() -> void:
 
 	add_child(levelNode)
 
-	Global.player = find_children("*", "Player", true, false)[0]
 	Global.set_level(levelNode)
 
 func _restart_game() -> void:

@@ -14,14 +14,12 @@ class RoomNode:
 		room = p_room
 
 
-@onready var map_node : Node2D = $Map
-@onready var player: Player = $Player
-
 @export var nb_rooms = 10;
 @export var rooms : Array[String] = []
 @export var max_size : Vector2i = Vector2i(8,8)
 @export var start_position : Vector2i = Vector2i(4,4)
 @export var mandatory_rooms : Array[String] = []
+@onready var start_room_scene : PackedScene = preload("res://Room/StartRoom.tscn")
 
 var loaded_rooms : Array[PackedScene] = []
 var loaded_mandatory_rooms : Array[PackedScene] = []
@@ -48,11 +46,6 @@ func _ready():
 	_generate_mandatory_rooms()
 	_remove_unused_doors()
 	level_generated.emit()
-	_setup_room()
-
-	player.global_position = rooms_generated[0].room.global_position + Vector2(50,50)
-
-	player.died.connect(_on_player_death)
 
 
 func _create_map() -> void:
@@ -62,7 +55,7 @@ func _create_map() -> void:
 		var node = RoomNode.new(
 			start_position,
 			null,
-			_generate_room(start_position)
+			_generate_room(start_position, start_room_scene)
 		)
 		rooms_generated.push_back(node)
 		_create_rooms()
@@ -173,7 +166,7 @@ func _generate_room(pos: Vector2i, type: PackedScene = null) -> Room:
 		room_map[pos.y] = {}
 
 	var room : Room = type.instantiate() if type else loaded_rooms[randi() % loaded_rooms.size()].instantiate()
-	map_node.add_child(room)
+	add_child(room)
 
 	room_map[pos.y][pos.x] = room
 	room.door_passed.connect(_on_door_passed)
@@ -204,17 +197,13 @@ func _remove_unused_doors() -> void:
 		room.disable_door(node.pos, positions)
 
 
-func _on_player_death():
-	finished.emit(false)
-
-
 func _on_door_passed(room_offset: Vector2i) -> void:
 	current_room_pos += room_offset
 	_setup_room()
 
 
 func _setup_room() -> void:
-	var p : Player = find_children("*", "Player")[0]
+	var p : Player = Global.player
 	var room : Room = room_map[current_room_pos.y][current_room_pos.x]
 	var room_pos : Vector2i = room.global_position
 	var room_size : Vector2i = get_viewport().get_visible_rect().size

@@ -1,17 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://buyolbdhukp14"]
+[gd_scene load_steps=2 format=3 uid="uid://buyolbdhukp14"]
 
 [ext_resource type="Script" path="res://Level.gd" id="1_s0nwi"]
-[ext_resource type="PackedScene" uid="uid://bmpgm3pr1dgr5" path="res://Player.tscn" id="2_l05yr"]
 
 [node name="Level 1" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_s0nwi")
 rooms = Array[String](["EnemyRoom/EnemyRoom", "EnemyRoom/PillarEnemyRoom"])
 mandatory_rooms = Array[String](["EnemyRoom/BossRoom"])
-
-[node name="Map" type="Node2D" parent="."]
-y_sort_enabled = true
-
-[node name="Player" parent="." instance=ExtResource("2_l05yr")]
-position = Vector2(72, 56)
-wall_min_slide_angle = 0.0
