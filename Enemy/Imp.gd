@@ -50,7 +50,8 @@ func _on_player_exited_aggro_range(body : Node2D):
 
 
 func idle():
-	pass
+	if player and global_position.distance_to(player.global_position) > 16:
+		state_machine.change_state("follow")
 
 
 func idle_enter():
@@ -60,6 +61,8 @@ func idle_enter():
 
 func follow():
 	if player:
+		if global_position.distance_to(player.global_position) <= 16:
+			state_machine.change_state("idle")
 		pathfinding_component.target = player.global_position
 
 	velocity = velocity_component.get_velocity()
