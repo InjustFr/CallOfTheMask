@@ -29,9 +29,14 @@ shape = SubResource("CircleShape2D_35vb7")
 [node name="VelocityComponent" type="Node" parent="."]
 script = ExtResource("2_b20ci")
 
-[node name="DamageComponent" type="Node" parent="."]
+[node name="DamageComponent" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
 script = ExtResource("2_truq0")
 damage = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageComponent"]
+shape = SubResource("CircleShape2D_35vb7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.15625, 0.15625)

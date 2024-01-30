@@ -11,9 +11,15 @@ mass = 0.01
 gravity_scale = 1.66533e-16
 script = ExtResource("1_5geug")
 
-[node name="DamageComponent" type="Node" parent="."]
+[node name="DamageComponent" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 0
 script = ExtResource("2_yf8r4")
 damage = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DamageComponent"]
+scale = Vector2(0.96875, 1)
+polygon = PackedVector2Array(-8, -16, -2.06452, -16, 2.06452, -14, 6.19355, -8, 8, 2.08165e-12, 6.19355, 8, 2.06452, 14, -2.06452, 16, -8, 16, -2.06452, 8, 2.08165e-12, 2.08165e-12, -2.06452, -8)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_5msmx")

@@ -163,9 +163,15 @@ radius = 8.0
 script = ExtResource("5_46p8g")
 velocity_component = NodePath("../VelocityComponent")
 
-[node name="DamageComponent" type="Node" parent="."]
+[node name="DamageComponent" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
 script = ExtResource("6_1srtw")
 damage = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageComponent"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_7xj0l")
 
 [node name="ProjectileSpawnerComponent" type="Node" parent="."]
 script = ExtResource("7_i3m8e")

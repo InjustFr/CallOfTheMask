@@ -18,11 +18,13 @@ func _input(event: InputEvent):
 func _process(_delta):
 	controller_label.text = "Controller: " + ("1" if is_using_controller else "0")
 
-func _on_level_finished(succeeded: bool) -> void:
-	if !succeeded:
-		get_tree().paused = true
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		death_menu_node.show()
+func _on_level_finished() -> void:
+	pass
+
+func _on_player_died() -> void:
+	get_tree().paused = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	death_menu_node.show()
 
 func _launch_game() -> void:
 	get_tree().paused = false
@@ -37,6 +39,7 @@ func _launch_game() -> void:
 	add_child(levelNode)
 
 	Global.set_level(levelNode)
+	Global.player.died.connect(_on_player_died)
 
 func _restart_game() -> void:
 	for child in get_children():

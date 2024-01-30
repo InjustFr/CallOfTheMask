@@ -7,12 +7,10 @@ class_name HitBoxComponent
 signal entity_hit
 
 func _ready():
-	body_entered.connect(_on_body_entered)
+	area_entered.connect(_on_area_entered)
 
 
-func _on_body_entered(body: Node2D) -> void:
-	var damage_component : DamageComponent = body.find_child('DamageComponent')
-
-	if damage_component:
-		health_component.take_damage(damage_component.get_damage())
-		entity_hit.emit(body)
+func _on_area_entered(area: Area2D) -> void:
+	if area is DamageComponent:
+		health_component.take_damage(area.get_damage())
+		entity_hit.emit()

@@ -36,7 +36,7 @@ func add_state(state_name: String, state: Callable, enter_state: Callable, leave
 func set_state(state_flow: StateFlow):
 	if current_state:
 		var old_state_flow : StateFlow = states.get(current_state_name)
-		if old_state_flow and old_state_flow.leave_state:
+		if old_state_flow and old_state_flow.leave_state and old_state_flow.leave_state.get_object():
 			old_state_flow.leave_state.call()
 
 	current_state = state_flow.state
