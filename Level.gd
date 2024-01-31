@@ -13,16 +13,9 @@ class RoomNode:
 		parent = p_parent
 		room = p_room
 
+@export var level_info : LevelResource
 
-@export var nb_rooms = 10;
-@export var rooms : Array[String] = []
-@export var max_size : Vector2i = Vector2i(8,8)
-@export var start_position : Vector2i = Vector2i(4,4)
-@export var mandatory_rooms : Array[String] = []
-@onready var start_room_scene : PackedScene = preload("res://Room/StartRoom.tscn")
-
-var loaded_rooms : Array[PackedScene] = []
-var loaded_mandatory_rooms : Array[PackedScene] = []
+var start_position : Vector2i = Vector2i(4,4)
 
 var room_map : Dictionary = {}
 
@@ -37,11 +30,6 @@ signal level_generated
 signal room_changed
 
 func _ready():
-	for n in rooms:
-		loaded_rooms.push_back(load("res://Room/" + n + ".tscn"))
-	for n in mandatory_rooms:
-		loaded_mandatory_rooms.push_back(load("res://Room/" + n + ".tscn"))
-
 	_create_map()
 	_generate_mandatory_rooms()
 	_remove_unused_doors()
@@ -49,13 +37,13 @@ func _ready():
 
 
 func _create_map() -> void:
-	while rooms_generated.size() != nb_rooms:
+	while rooms_generated.size() != level_info.nb_rooms:
 		_clear_map()
 		current_room_pos = start_position
 		var node = RoomNode.new(
 			start_position,
 			null,
-			_generate_room(start_position, start_room_scene)
+			_generate_room(start_position, level_info.start_room)
 		)
 		rooms_generated.push_back(node)
 		_create_rooms()
@@ -75,7 +63,7 @@ func _create_rooms() -> void:
 		var nb_rooms_to_generate = randi_range(1, _get_nb_of_available_neighboor_cells(room_node.pos))
 
 		if (!_get_nb_of_available_neighboor_cells(room_node.pos)
-			||rooms_generated.size() >= nb_rooms):
+			||rooms_generated.size() >= level_info.nb_rooms):
 			end_rooms.push_back(room_node)
 			continue
 
@@ -131,11 +119,11 @@ func _get_nb_of_available_neighboor_cells(cell: Vector2i) -> int:
 
 func _get_available_neighboor_room_positions(cell: Vector2i) -> Array[Vector2i]:
 	var neighboor_rooms :Array[Vector2i] = []
-	if !_room_exists(cell + Vector2i(1, 0)) && cell.x + 1 <= max_size.x:
+	if !_room_exists(cell + Vector2i(1, 0)) && cell.x + 1 <= level_info.map_size.x:
 		neighboor_rooms.push_back(cell + Vector2i(1, 0))
 	if !_room_exists(cell + Vector2i(-1, 0)) && cell.x - 1 > 0:
 		neighboor_rooms.push_back(cell + Vector2i(-1, 0))
-	if !_room_exists(cell + Vector2i(0, 1)) && cell.y + 1 <= max_size.y:
+	if !_room_exists(cell + Vector2i(0, 1)) && cell.y + 1 <= level_info.map_size.y:
 		neighboor_rooms.push_back(cell + Vector2i(0, 1))
 	if !_room_exists(cell + Vector2i(0, -1)) && cell.y - 1 > 0:
 		neighboor_rooms.push_back(cell + Vector2i(0, -1))
@@ -165,7 +153,7 @@ func _generate_room(pos: Vector2i, type: PackedScene = null) -> Room:
 	if !room_map.has(pos.y):
 		room_map[pos.y] = {}
 
-	var room : Room = type.instantiate() if type else loaded_rooms[randi() % loaded_rooms.size()].instantiate()
+	var room : Room = type.instantiate() if type else level_info.rooms[randi() % level_info.rooms.size()].instantiate()
 	add_child(room)
 
 	room_map[pos.y][pos.x] = room
@@ -176,9 +164,9 @@ func _generate_room(pos: Vector2i, type: PackedScene = null) -> Room:
 
 func _generate_mandatory_rooms() -> void:
 	end_rooms.reverse()
-	for i in loaded_mandatory_rooms.size():
+	for i in level_info.special_rooms.size():
 		var room_node = end_rooms[i]
-		var new_room = _generate_room(room_node.pos, loaded_mandatory_rooms[i])
+		var new_room = _generate_room(room_node.pos, level_info.special_rooms[i])
 		room_node.room.queue_free()
 
 		room_node.room = new_room

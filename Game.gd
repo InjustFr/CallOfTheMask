@@ -30,13 +30,10 @@ func _launch_game() -> void:
 	get_tree().paused = false
 	death_menu_node.hide()
 	level = 1
-	var level_scene := load("res://Level" + str(level) + ".tscn")
-	var levelNode : Level = level_scene.instantiate()
+	var levelNode : Level = find_child("Level")
 
 	current_scene = levelNode
 	levelNode.finished.connect(_on_level_finished)
-
-	add_child(levelNode)
 
 	Global.set_level(levelNode)
 	Global.player.died.connect(_on_player_died)

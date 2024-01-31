@@ -21,7 +21,7 @@ func _process(_delta):
 
 func _generate_map() -> void:
 	var map = Global.level.room_map
-	var map_size = Global.level.max_size
+	var map_size = Global.level.level_info.map_size
 	Global.level.room_changed.connect(_room_changed)
 	grid.columns = map_size.x
 
