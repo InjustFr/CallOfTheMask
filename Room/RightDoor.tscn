@@ -1,21 +1,21 @@
 [gd_scene load_steps=4 format=3 uid="uid://g1ssunauwlh4"]
 
 [ext_resource type="Script" path="res://Room/RightDoor.gd" id="1_tumft"]
-[ext_resource type="TileSet" uid="uid://ccjfgso6jgv31" path="res://TileSet.tres" id="2_purnn"]
+[ext_resource type="TileSet" uid="uid://cnsvmirxe4l8x" path="res://Assets/new_tile_set.tres" id="2_ln8nf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oyrgu"]
-size = Vector2(8, 32)
+size = Vector2(28, 24)
 
 [node name="RightDoor" type="Node2D"]
 script = ExtResource("1_tumft")
 
 [node name="TileMap" type="TileMap" parent="."]
 y_sort_enabled = true
-tile_set = ExtResource("2_purnn")
+tile_set = ExtResource("2_ln8nf")
 format = 2
 layer_0/name = "Walls"
 layer_0/y_sort_enabled = true
-layer_0/tile_data = PackedInt32Array(-65537, 0, 10, 65535, 0, 8)
+layer_0/tile_data = PackedInt32Array(-65536, 262144, 9)
 layer_1/name = "Floor"
 layer_1/y_sort_enabled = true
 layer_1/z_index = -1
@@ -28,5 +28,5 @@ monitoring = false
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PassingDoorArea"]
-position = Vector2(-4, 0)
+position = Vector2(-2, 0)
 shape = SubResource("RectangleShape2D_oyrgu")

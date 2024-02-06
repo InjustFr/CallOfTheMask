@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://ct0cltcyadrej"]
 
-[ext_resource type="TileSet" uid="uid://ccjfgso6jgv31" path="res://TileSet.tres" id="1_67hgt"]
 [ext_resource type="Script" path="res://Room/BottomDoor.gd" id="1_beh7y"]
+[ext_resource type="TileSet" uid="uid://cnsvmirxe4l8x" path="res://Assets/new_tile_set.tres" id="2_ys0ax"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_44e31"]
 particle_flag_disable_z = true
@@ -16,18 +16,18 @@ angular_velocity_max = 48.0
 gravity = Vector3(0, 0, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vfb83"]
-size = Vector2(26, 8)
+size = Vector2(24, 28)
 
 [node name="BottomDoor" type="Node2D"]
 script = ExtResource("1_beh7y")
 
 [node name="TileMap" type="TileMap" parent="."]
 y_sort_enabled = true
-tile_set = ExtResource("1_67hgt")
+tile_set = ExtResource("2_ys0ax")
 format = 2
 layer_0/name = "Walls"
 layer_0/y_sort_enabled = true
-layer_0/tile_data = PackedInt32Array(-65538, 65536, 15, -2, 65536, 16, -131073, 131072, 14, -65537, 327680, 15, -1, 327680, 16, -196608, 196608, 14, -131072, 393216, 15, -65536, 393216, 16, -131071, 262144, 15, -65535, 262144, 16)
+layer_0/tile_data = PackedInt32Array(0, 131072, 7)
 layer_1/name = "Floor"
 layer_1/y_sort_enabled = true
 layer_1/z_index = -1
@@ -49,5 +49,5 @@ monitoring = false
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PassingDoorArea"]
-position = Vector2(0, -4)
+position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_vfb83")

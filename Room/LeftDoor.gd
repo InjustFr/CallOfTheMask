@@ -10,22 +10,20 @@ func open() -> void:
 	if disabled:
 		return
 	door_area.monitoring = true
-	map.set_cell(0, Vector2i(0, -2), 0, Vector2i(1, 10), 0)
-	map.set_cell(0, Vector2i(0, -1), 0, Vector2i(-1, -1), 0)
-	map.set_cell(0, Vector2i(0, 0), 0, Vector2i(1, 8), 0)
+	map.set_cell(0, Vector2i(-1, 0), 0, Vector2i(6, 7), 0)
 
 func close() -> void:
 	if disabled:
 		return
 
 	door_area.monitoring = false
-	map.set_cell(0, Vector2i(0, -2), 0, Vector2i(2, 9), 0)
-	map.set_cell(0, Vector2i(0, -1), 0, Vector2i(2, 9), 0)
-	map.set_cell(0, Vector2i(0, 0), 0, Vector2i(2, 9), 0)
+	map.set_cell(0, Vector2i(-1, 0), 0, Vector2i(4, 7), 0)
 
 func disable() -> void:
 	close()
 	disabled = true
+	map.set_cell(0, Vector2i(-1, -1), 0, Vector2i(0, 3), 0)
+	map.set_cell(0, Vector2i(-1, 0), 0, Vector2i(0, 4), 0)
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is Player:
