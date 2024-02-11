@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://dp22g51t15xkx"]
+
+[ext_resource type="Script" path="res://src/projectile/enemy/enemy_projectile.gd" id="1_dv2m4"]
+[ext_resource type="Script" path="res://src/component/velocity_component.gd" id="2_b20ci"]
+[ext_resource type="Script" path="res://src/component/damage_component.gd" id="2_truq0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_35vb7"]
+radius = 4.0
+
+[sub_resource type="Gradient" id="Gradient_auyr2"]
+colors = PackedColorArray(1, 0.00392157, 0, 1, 1, 0.00392157, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_krc28"]
+gradient = SubResource("Gradient_auyr2")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.882479, 0.111111)
+
+[node name="EnemyProjectile" type="RigidBody2D"]
+top_level = true
+collision_layer = 16
+mass = 0.01
+gravity_scale = 1.66533e-16
+script = ExtResource("1_dv2m4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_35vb7")
+
+[node name="VelocityComponent" type="Node" parent="."]
+script = ExtResource("2_b20ci")
+
+[node name="DamageComponent" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("2_truq0")
+damage = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageComponent"]
+shape = SubResource("CircleShape2D_35vb7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.15625, 0.15625)
+texture = SubResource("GradientTexture2D_krc28")

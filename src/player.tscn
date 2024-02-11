@@ -1,0 +1,259 @@
+[gd_scene load_steps=24 format=3 uid="uid://bmpgm3pr1dgr5"]
+
+[ext_resource type="Script" path="res://src/player.gd" id="1_g1ji6"]
+[ext_resource type="Script" path="res://src/component/hitbox_component.gd" id="2_sfuls"]
+[ext_resource type="Texture2D" uid="uid://dtj0msbib567x" path="res://assets/0x72_DungeonTilesetII_v1.6.png" id="2_wnl6g"]
+[ext_resource type="Script" path="res://src/component/health_component.gd" id="3_cgakf"]
+[ext_resource type="PackedScene" uid="uid://blcymssdtdd67" path="res://src/weapon/short_sword.tscn" id="3_tb71b"]
+[ext_resource type="Script" path="res://src/component/velocity_component.gd" id="4_f34fs"]
+[ext_resource type="Script" path="res://src/component/player_movement_component.gd" id="5_v50pf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jki2m"]
+size = Vector2(14, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1s7p7"]
+radius = 12.0
+
+[sub_resource type="Shader" id="Shader_r45lw"]
+code = "shader_type canvas_item;
+
+uniform float speed = 1.;
+
+uniform vec4 tint = vec4(1., 1., 0., 1.);
+
+uniform float span : hint_range(0.1, 1.) = .3;
+
+uniform bool blinking = false;
+
+float saw(float x) {
+	return 2. / PI * asin(sin(x));
+}
+
+float luminance(vec4 colour) {
+	return 1.0 - sqrt(0.299*colour.r*colour.r + 0.587*colour.g*colour.g + 0.114*colour.b*colour.b);
+}
+
+void fragment() {
+	vec4 colour = texture(TEXTURE, UV);
+	float target = abs(saw(TIME * PI * speed) * (1. + span));
+	if(colour.a > 0. && blinking) {
+		float lum = luminance(colour);
+		float diff = abs(lum - target);
+		float mx = clamp(1. - diff / span, 0., 1.);
+		colour = mix(colour, tint, mx);
+	}
+
+	COLOR = colour;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pyp4m"]
+shader = SubResource("Shader_r45lw")
+shader_parameter/speed = 1.2
+shader_parameter/tint = Vector4(0.8, 0.8, 0.8, 1)
+shader_parameter/span = 1.0
+shader_parameter/blinking = false
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ihgw"]
+atlas = ExtResource("2_wnl6g")
+region = Rect2(128, 68, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c6byy"]
+atlas = ExtResource("2_wnl6g")
+region = Rect2(144, 68, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yrwjq"]
+atlas = ExtResource("2_wnl6g")
+region = Rect2(160, 68, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m87be"]
+atlas = ExtResource("2_wnl6g")
+region = Rect2(176, 68, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n02su"]
+atlas = ExtResource("2_wnl6g")
+region = Rect2(192, 68, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5tbd8"]
+atlas = ExtResource("2_wnl6g")
+region = Rect2(208, 68, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k1l0v"]
+atlas = ExtResource("2_wnl6g")
+region = Rect2(224, 68, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jdbaa"]
+atlas = ExtResource("2_wnl6g")
+region = Rect2(240, 68, 16, 28)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y40kd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ihgw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c6byy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yrwjq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m87be")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 7.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n02su")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5tbd8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k1l0v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jdbaa")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c0kcl"]
+radius = 24.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kua6f"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 3, 1)
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 128.0
+initial_velocity_max = 128.0
+angular_velocity_min = 48.0
+angular_velocity_max = 48.0
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="GDScript" id="GDScript_asrvx"]
+script/source = "extends RayCast2D
+
+@export var angle : int = 90;
+@export var angle_step : int = 5;
+@export var scan_range : int = 64;
+
+func _ready():
+	pass # Replace with function body.
+
+func scan() -> Node2D:
+	@warning_ignore(\"integer_division\")
+	var steps : int = int(angle / angle_step)	 + 1
+
+	var detected_bodies : Array[Node2D] = [];
+	for i in steps:
+		var scan_angle = - angle / 2.0 + i * angle_step
+
+		target_position = Vector2(scan_range, 0).rotated(deg_to_rad(scan_angle))
+		force_raycast_update()
+		var collider = get_collider()
+		if collider and not detected_bodies.has(collider):
+			detected_bodies.push_back(collider)
+
+	var min_distance : float = scan_range
+	var body : Node2D = null
+	for db: Node2D in detected_bodies:
+		var distance : float = global_position.distance_to(db.global_position)
+		if distance < min_distance:
+			body = db;
+			min_distance = distance
+
+	return body
+"
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("weapon")]
+collision_layer = 2
+collision_mask = 5
+motion_mode = 1
+slide_on_ceiling = false
+platform_on_leave = 2
+script = ExtResource("1_g1ji6")
+weapon = NodePath("WeaponContainer/ShortSword")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_jki2m")
+
+[node name="HitboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+collision_layer = 0
+collision_mask = 20
+monitorable = false
+script = ExtResource("2_sfuls")
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("CircleShape2D_1s7p7")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_cgakf")
+
+[node name="VelocityComponent" type="Node" parent="."]
+script = ExtResource("4_f34fs")
+
+[node name="PlayerMovementComponent" type="Node" parent="." node_paths=PackedStringArray("velocity_component")]
+script = ExtResource("5_v50pf")
+velocity_component = NodePath("../VelocityComponent")
+move_speed = 80
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_pyp4m")
+position = Vector2(0, -6)
+sprite_frames = SubResource("SpriteFrames_y40kd")
+animation = &"idle"
+
+[node name="Camera" type="Camera2D" parent="."]
+limit_left = 0
+limit_top = 0
+limit_right = 480
+limit_bottom = 270
+position_smoothing_enabled = true
+
+[node name="BoonPickup" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BoonPickup"]
+shape = SubResource("CircleShape2D_c0kcl")
+
+[node name="WeaponContainer" type="Marker2D" parent="."]
+position = Vector2(0, 3)
+
+[node name="ShortSword" parent="WeaponContainer" instance=ExtResource("3_tb71b")]
+
+[node name="DashParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 256
+process_material = SubResource("ParticleProcessMaterial_kua6f")
+lifetime = 0.2
+one_shot = true
+
+[node name="InvulnerableTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="EoTTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="OrientationLine" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(0, 0, 24, 0)
+width = 1.0
+default_color = Color(1, 0, 0, 1)
+
+[node name="AutoAimCast" type="RayCast2D" parent="."]
+collision_mask = 4
+script = SubResource("GDScript_asrvx")
+angle = 360
+angle_step = 10

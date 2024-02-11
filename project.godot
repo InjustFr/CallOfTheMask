@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="Call of the Mask"
-run/main_scene="res://UI/MainMenu.tscn"
+run/main_scene="res://src/ui/main_menu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://src/icon.svg"
 
 [autoload]
 
-Global="*res://global.gd"
+Global="*res://src/global.gd"
 
 [display]
 

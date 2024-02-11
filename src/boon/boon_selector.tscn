@@ -1,0 +1,181 @@
+[gd_scene load_steps=8 format=3 uid="uid://cfuid5sws2t83"]
+
+[ext_resource type="Texture2D" uid="uid://dtj0msbib567x" path="res://assets/0x72_DungeonTilesetII_v1.6.png" id="1_vhea7"]
+[ext_resource type="Script" path="res://src/boon/boon_selector.gd" id="1_ym1ka"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3g2pi"]
+atlas = ExtResource("1_vhea7")
+region = Rect2(80, 80, 16, 48)
+
+[sub_resource type="LabelSettings" id="LabelSettings_n26yp"]
+font_size = 8
+font_color = Color(1, 0.72549, 0, 1)
+shadow_size = 0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k7g5k"]
+radius = 8.0
+height = 16.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mvgju"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 180.0
+initial_velocity_min = 96.0
+initial_velocity_max = 96.0
+gravity = Vector3(0, 98, 0)
+scale_min = 2.0
+scale_max = 2.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_i5jry"]
+lifetime_randomness = 0.4
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(64, 1, 1)
+direction = Vector3(0, -1, 0)
+spread = 180.0
+initial_velocity_min = 128.0
+initial_velocity_max = 128.0
+gravity = Vector3(0, 0, 0)
+scale_min = 2.0
+scale_max = 2.0
+
+[node name="BoonSelector" type="Node2D"]
+script = ExtResource("1_ym1ka")
+boons = Array[String](["Health", "Speed", "WeaponDamage"])
+
+[node name="Pillar1" type="StaticBody2D" parent="."]
+position = Vector2(-64, 0)
+collision_layer = 5
+
+[node name="Sprite2D" type="Sprite2D" parent="Pillar1"]
+y_sort_enabled = true
+position = Vector2(0, -16)
+texture = SubResource("AtlasTexture_3g2pi")
+
+[node name="Label" type="Label" parent="Pillar1"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.5
+offset_top = -24.0
+offset_right = 26.5
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Pillar 1"
+label_settings = SubResource("LabelSettings_n26yp")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pillar1"]
+position = Vector2(0, -8)
+shape = SubResource("CapsuleShape2D_k7g5k")
+
+[node name="IconPosition" type="Marker2D" parent="Pillar1"]
+position = Vector2(0, -48)
+
+[node name="PickParticles" type="GPUParticles2D" parent="Pillar1"]
+position = Vector2(0, -16)
+emitting = false
+amount = 80
+process_material = SubResource("ParticleProcessMaterial_mvgju")
+lifetime = 0.25
+one_shot = true
+explosiveness = 0.9
+
+[node name="Pillar2" type="StaticBody2D" parent="."]
+collision_layer = 5
+
+[node name="Sprite2D" type="Sprite2D" parent="Pillar2"]
+position = Vector2(0, -16)
+texture = SubResource("AtlasTexture_3g2pi")
+
+[node name="Label" type="Label" parent="Pillar2"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.5
+offset_top = -24.0
+offset_right = 26.5
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Pillar 2"
+label_settings = SubResource("LabelSettings_n26yp")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pillar2"]
+position = Vector2(0, -8)
+shape = SubResource("CapsuleShape2D_k7g5k")
+
+[node name="IconPosition" type="Marker2D" parent="Pillar2"]
+position = Vector2(0, -48)
+
+[node name="PickParticles" type="GPUParticles2D" parent="Pillar2"]
+position = Vector2(0, -16)
+emitting = false
+amount = 80
+process_material = SubResource("ParticleProcessMaterial_mvgju")
+lifetime = 0.25
+one_shot = true
+explosiveness = 0.9
+
+[node name="Pillar3" type="StaticBody2D" parent="."]
+position = Vector2(64, 0)
+collision_layer = 5
+
+[node name="Sprite2D" type="Sprite2D" parent="Pillar3"]
+position = Vector2(0, -16)
+texture = SubResource("AtlasTexture_3g2pi")
+
+[node name="Label" type="Label" parent="Pillar3"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.5
+offset_top = -24.0
+offset_right = 26.5
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Pillar 3"
+label_settings = SubResource("LabelSettings_n26yp")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pillar3"]
+position = Vector2(0, -8)
+shape = SubResource("CapsuleShape2D_k7g5k")
+
+[node name="IconPosition" type="Marker2D" parent="Pillar3"]
+position = Vector2(0, -48)
+
+[node name="SpawnParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, -16)
+emitting = false
+amount = 192
+process_material = SubResource("ParticleProcessMaterial_i5jry")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+
+[node name="PickParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, -16)
+emitting = false
+amount = 80
+process_material = SubResource("ParticleProcessMaterial_mvgju")
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.9

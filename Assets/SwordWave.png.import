@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d2mfdlo616lck"
-path="res://.godot/imported/SwordWave.png-baf17878ccd3c28e4eb169af101abb65.ctex"
+path="res://.godot/imported/SwordWave.png-fa36d1e381c68b26af4adea262e52d92.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/SwordWave.png"
-dest_files=["res://.godot/imported/SwordWave.png-baf17878ccd3c28e4eb169af101abb65.ctex"]
+source_file="res://assets/SwordWave.png"
+dest_files=["res://.godot/imported/SwordWave.png-fa36d1e381c68b26af4adea262e52d92.ctex"]
 
 [params]
 

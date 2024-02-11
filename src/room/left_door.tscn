@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmjagyra7e6vy"]
+
+[ext_resource type="Script" path="res://src/room/left_door.gd" id="1_7tv34"]
+[ext_resource type="TileSet" uid="uid://cnsvmirxe4l8x" path="res://assets/new_tile_set.tres" id="2_s0b2k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qhgq2"]
+size = Vector2(28, 24)
+
+[node name="LeftDoor" type="Node2D"]
+script = ExtResource("1_7tv34")
+
+[node name="TileMap" type="TileMap" parent="."]
+y_sort_enabled = true
+tile_set = ExtResource("2_s0b2k")
+format = 2
+layer_0/name = "Walls"
+layer_0/y_sort_enabled = true
+layer_0/tile_data = PackedInt32Array(65535, 393216, 7)
+layer_1/name = "Floor"
+layer_1/y_sort_enabled = true
+layer_1/z_index = -1
+layer_1/tile_data = PackedInt32Array()
+
+[node name="PassingDoorArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PassingDoorArea"]
+position = Vector2(2, 0)
+shape = SubResource("RectangleShape2D_qhgq2")

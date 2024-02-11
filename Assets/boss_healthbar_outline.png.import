@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b6y6xnt8mlmcy"
-path="res://.godot/imported/boss_healthbar_outline.png-a6bf6243e4f7e5d354975b7a4b8ee273.ctex"
+path="res://.godot/imported/boss_healthbar_outline.png-2ac29b21fc281878125311675856d4e1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/boss_healthbar_outline.png"
-dest_files=["res://.godot/imported/boss_healthbar_outline.png-a6bf6243e4f7e5d354975b7a4b8ee273.ctex"]
+source_file="res://assets/boss_healthbar_outline.png"
+dest_files=["res://.godot/imported/boss_healthbar_outline.png-2ac29b21fc281878125311675856d4e1.ctex"]
 
 [params]
 
