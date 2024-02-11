@@ -1,7 +1,7 @@
 extends Control
 
-@onready var room_scene = preload("res://UI/MapRoom.tscn")
-@onready var empty_room_scene = preload("res://UI/EmptyMapRoom.tscn")
+@onready var room_scene = preload("res://UI/Components/MapRoom.tscn")
+@onready var empty_room_scene = preload("res://UI/Components/EmptyMapRoom.tscn")
 @onready var grid : GridContainer = $Grid
 
 func _ready():

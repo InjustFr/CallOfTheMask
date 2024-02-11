@@ -2,7 +2,7 @@ extends Node
 
 class_name CoinSpawner
 
-@onready var coin_scene = preload("res://Coin.tscn")
+@export var collectable_scene : PackedScene
 
 @export var room: Room;
 @export var min: int;
@@ -20,7 +20,7 @@ func spawn():
 			randi_range(center.y - center_distance, center.y + center_distance)
 		)
 
-		var coin := coin_scene.instantiate()
-		room.add_child(coin);
-		coin.global_position = spawn_point
+		var collectable := collectable_scene.instantiate()
+		room.add_child(collectable);
+		collectable.global_position = spawn_point
 

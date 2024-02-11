@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://g1ssunauwlh4" path="res://Room/RightDoor.tscn" id="5_irexm"]
 [ext_resource type="TileSet" uid="uid://cnsvmirxe4l8x" path="res://Assets/new_tile_set.tres" id="5_s7tmf"]
 [ext_resource type="Script" path="res://Enemy/SkeletonSpawnInfo.gd" id="8_5h38n"]
-[ext_resource type="Script" path="res://CoinSpawner.gd" id="10_77kmn"]
+[ext_resource type="Script" path="res://Collectable/CoinSpawner.gd" id="10_77kmn"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_8au2x"]
 vertices = PackedVector2Array(432, 224, 48, 224, 48, 48, 432, 48)

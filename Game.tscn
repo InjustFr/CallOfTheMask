@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Game.gd" id="1_d6l61"]
 [ext_resource type="PackedScene" uid="uid://gph4ll3hdsgo" path="res://UI/PlayerUI.tscn" id="2_1hiie"]
 [ext_resource type="Theme" uid="uid://da1qk48nqy3s2" path="res://Assets/ui_theme.tres" id="2_t22gp"]
-[ext_resource type="Script" path="res://Level.gd" id="4_u2li5"]
+[ext_resource type="Script" path="res://Level/Level.gd" id="4_u2li5"]
 [ext_resource type="Resource" uid="uid://c1ejt2h0sn256" path="res://TestLevel.tres" id="5_81j2s"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nljc7"]

@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://dbwcakcp5kc3l"]
-
-[ext_resource type="Script" path="res://Level.gd" id="1_s0nwi"]
-[ext_resource type="Resource" uid="uid://c1ejt2h0sn256" path="res://TestLevel.tres" id="2_wep25"]
-
-[node name="Level 1" type="Node2D"]
-y_sort_enabled = true
-script = ExtResource("1_s0nwi")
-level_info = ExtResource("2_wep25")
