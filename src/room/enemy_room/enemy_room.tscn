@@ -9,8 +9,8 @@
 [ext_resource type="Script" path="res://src/enemy/enemy_spawner.gd" id="7_yn46j"]
 [ext_resource type="Script" path="res://src/enemy/imp_spawn_info.gd" id="8_46ouq"]
 [ext_resource type="Script" path="res://src/enemy/skeleton_spawn_info.gd" id="9_ker4r"]
-[ext_resource type="Script" path="res://src/Collectable/collectable_spawner.gd" id="10_f4x5o"]
-[ext_resource type="PackedScene" path="res://src/collectable/coin.tscn" id="11_mwp1h"]
+[ext_resource type="Script" path="res://src/collectable/collectable_spawner.gd" id="10_f4x5o"]
+[ext_resource type="PackedScene" uid="uid://rwm3r0o4lvii" path="res://src/collectable/coin.tscn" id="11_mwp1h"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_8au2x"]
 vertices = PackedVector2Array(432, 224, 48, 224, 48, 48, 432, 48)

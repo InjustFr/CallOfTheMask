@@ -8,8 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://g1ssunauwlh4" path="res://src/room/right_door.tscn" id="6_xktdx"]
 [ext_resource type="Script" path="res://src/enemy/enemy_spawner.gd" id="7_b38x4"]
 [ext_resource type="Script" path="res://src/enemy/imp_boss_spawn_info.gd" id="8_e3j80"]
-[ext_resource type="Script" path="res://src/Collectable/collectable_spawner.gd" id="9_hcab5"]
-[ext_resource type="PackedScene" path="res://src/collectable/coin.tscn" id="10_5s1u3"]
+[ext_resource type="Script" path="res://src/collectable/collectable_spawner.gd" id="9_hcab5"]
+[ext_resource type="PackedScene" uid="uid://rwm3r0o4lvii" path="res://src/collectable/coin.tscn" id="10_5s1u3"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_wu6t0"]
 vertices = PackedVector2Array(432, 224, 48, 224, 48, 48, 432, 48)
