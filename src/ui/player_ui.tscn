@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://gph4ll3hdsgo"]
+[gd_scene load_steps=9 format=3 uid="uid://gph4ll3hdsgo"]
 
 [ext_resource type="Theme" uid="uid://da1qk48nqy3s2" path="res://assets/ui_theme.tres" id="1_ymd8x"]
 [ext_resource type="PackedScene" uid="uid://bmtapdbpkgkpa" path="res://src/ui/components/map_view.tscn" id="2_imoyd"]
@@ -33,10 +33,19 @@ script/source = "extends VBoxContainer
 @onready var coin_label : Label = $CoinLine/Label
 @onready var essence_label : Label = $EssenceLine/Label
 
-func _process(_delta):
-	if Global.player:
-		coin_label.text = \"Coins : \" + str(Global.player.resources.coins)
-		essence_label.text = \"Essence : \" + str(Global.player.resources.essence)
+func _init() -> void:
+	Global.player_changed.connect(_on_player_changed)
+
+
+func _on_player_changed() -> void:
+	var coin_resource : ResourceComponent = Global.player.find_child('CoinResourceComponent')
+	coin_resource.resource_changed.connect(_on_coins_changed)
+	coin_label.text = \"Coins : \" + str(coin_resource.value)
+
+
+func _on_coins_changed(value: int) -> void:
+	coin_label.text = \"Coins : \" + str(value)
+
 
 "
 
@@ -44,6 +53,9 @@ func _process(_delta):
 atlas = ExtResource("2_lnv8k")
 region = Rect2(289, 385, 6, 7)
 margin = Rect2(1, 2.08165e-12, 2, 2.08165e-12)
+
+[sub_resource type="LabelSettings" id="LabelSettings_mssdt"]
+font_color = Color(1, 0, 0, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8toxb"]
 atlas = ExtResource("2_lnv8k")
@@ -107,6 +119,7 @@ texture = SubResource("AtlasTexture_0vgdp")
 layout_mode = 2
 theme = ExtResource("1_ymd8x")
 text = "Coins : 0"
+label_settings = SubResource("LabelSettings_mssdt")
 
 [node name="EssenceLine" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/ResourceContainer"]
 layout_mode = 2

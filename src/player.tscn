@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bmpgm3pr1dgr5"]
+[gd_scene load_steps=27 format=3 uid="uid://bmpgm3pr1dgr5"]
 
 [ext_resource type="Script" path="res://src/player.gd" id="1_g1ji6"]
 [ext_resource type="Script" path="res://src/component/hitbox_component.gd" id="2_sfuls"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://blcymssdtdd67" path="res://src/weapon/short_sword.tscn" id="3_tb71b"]
 [ext_resource type="Script" path="res://src/component/velocity_component.gd" id="4_f34fs"]
 [ext_resource type="Script" path="res://src/component/player_movement_component.gd" id="5_v50pf"]
+[ext_resource type="Script" path="res://src/component/resource_component.gd" id="8_ke23y"]
+[ext_resource type="Script" path="res://src/component/resource_collector_component.gd" id="9_6kamf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jki2m"]
 size = Vector2(14, 16)
@@ -122,6 +124,9 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_jnry3"]
+radius = 14.1421
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_c0kcl"]
 radius = 24.0
 
@@ -219,6 +224,22 @@ limit_top = 0
 limit_right = 480
 limit_bottom = 270
 position_smoothing_enabled = true
+
+[node name="Resources" type="Node2D" parent="."]
+
+[node name="CoinResourceComponent" type="Node" parent="Resources"]
+script = ExtResource("8_ke23y")
+
+[node name="CoinResourceCollectorComponent" type="Area2D" parent="Resources" node_paths=PackedStringArray("resource_component")]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("9_6kamf")
+resource_component = NodePath("../CoinResourceComponent")
+label = "coin"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Resources/CoinResourceCollectorComponent"]
+shape = SubResource("CircleShape2D_jnry3")
 
 [node name="BoonPickup" type="Area2D" parent="."]
 collision_layer = 0

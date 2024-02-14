@@ -34,7 +34,7 @@ func _launch_game() -> void:
 	current_scene = levelNode
 	levelNode.finished.connect(_on_level_finished)
 
-	Global.set_level(levelNode)
+	Global.level = levelNode
 	Global.player.died.connect(_on_player_died)
 
 func _restart_game() -> void:
