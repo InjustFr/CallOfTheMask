@@ -9,10 +9,10 @@ class_name Player
 @onready var camera : Camera2D = $Camera
 @onready var invulnerable_timer : Timer = $InvulnerableTimer
 @onready var eot_timer : Timer = $EoTTimer
-@onready var orientation_line : Line2D = $OrientationLine
-@onready var auto_aim_ray_cast : RayCast2D = $AutoAimCast
 @onready var health_component : HealthComponent = $HealthComponent
 @onready var velocity_component : VelocityComponent = $VelocityComponent
+@onready var orientation_component : OrientationComponent = $OrientationComponent
+@onready var target_scanner_component : TargetScannerComponent = $TargetScannerComponent
 
 @export var weapon : Weapon
 @export var dash_speed := 380
@@ -50,7 +50,7 @@ func _ready() -> void:
 	invulnerable_timer.timeout.connect(_on_invulnerable_timer_end)
 	eot_timer.timeout.connect(_apply_effects_over_time)
 
-	auto_aim_ray_cast.scan_range = weapon.weapon_range
+	target_scanner_component.scan_range = weapon.weapon_range
 	health_component.entity_died.connect(_player_died)
 	health_component.entity_damaged.connect(_on_damaged)
 
@@ -81,14 +81,7 @@ func _handle_input() -> void :
 
 
 func _handle_los() -> void:
-	auto_aim_ray_cast.rotation = orientation_line.rotation
-	var nearest : Node2D = auto_aim_ray_cast.scan();
-	if nearest is Enemy:
-		orientation_line.rotation = get_angle_to(nearest.global_position)
-	elif direction:
-		orientation_line.rotation = direction.normalized().angle()
-
-	weapon_container.rotation = orientation_line.rotation
+	weapon_container.rotation = orientation_component.orientation.angle()
 
 
 func _physics_process(_delta) -> void:
@@ -105,7 +98,7 @@ func _physics_process(_delta) -> void:
 		if direction:
 			velocity = direction.normalized() * dash_speed
 		else:
-			velocity = Vector2.RIGHT.rotated(orientation_line.rotation) * dash_speed
+			velocity = Vector2.RIGHT.rotated(get_orientation()) * dash_speed
 
 	if velocity:
 		sprite.play("walk")
@@ -169,7 +162,7 @@ func _apply_effects_over_time() -> void:
 		effect.current_time += eot_timer.wait_time
 
 func get_orientation() -> float:
-	return orientation_line.rotation
+	return orientation_component.orientation.angle()
 
 func update_resource(type: String, value: int) -> void:
 	if resources.has(type):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bmpgm3pr1dgr5"]
+[gd_scene load_steps=29 format=3 uid="uid://bmpgm3pr1dgr5"]
 
 [ext_resource type="Script" path="res://src/player.gd" id="1_g1ji6"]
 [ext_resource type="Script" path="res://src/component/hitbox_component.gd" id="2_sfuls"]
@@ -9,6 +9,9 @@
 [ext_resource type="Script" path="res://src/component/player_movement_component.gd" id="5_v50pf"]
 [ext_resource type="Script" path="res://src/component/resource_component.gd" id="8_ke23y"]
 [ext_resource type="Script" path="res://src/component/resource_collector_component.gd" id="9_6kamf"]
+[ext_resource type="Script" path="res://src/component/auto_aim_component.gd" id="10_2oulo"]
+[ext_resource type="Script" path="res://src/component/orientation_component.gd" id="11_nfanp"]
+[ext_resource type="Script" path="res://src/component/target_scanner_component.gd" id="12_jbumv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jki2m"]
 size = Vector2(14, 16)
@@ -142,41 +145,6 @@ angular_velocity_min = 48.0
 angular_velocity_max = 48.0
 gravity = Vector3(0, 0, 0)
 
-[sub_resource type="GDScript" id="GDScript_asrvx"]
-script/source = "extends RayCast2D
-
-@export var angle : int = 90;
-@export var angle_step : int = 5;
-@export var scan_range : int = 64;
-
-func _ready():
-	pass # Replace with function body.
-
-func scan() -> Node2D:
-	@warning_ignore(\"integer_division\")
-	var steps : int = int(angle / angle_step)	 + 1
-
-	var detected_bodies : Array[Node2D] = [];
-	for i in steps:
-		var scan_angle = - angle / 2.0 + i * angle_step
-
-		target_position = Vector2(scan_range, 0).rotated(deg_to_rad(scan_angle))
-		force_raycast_update()
-		var collider = get_collider()
-		if collider and not detected_bodies.has(collider):
-			detected_bodies.push_back(collider)
-
-	var min_distance : float = scan_range
-	var body : Node2D = null
-	for db: Node2D in detected_bodies:
-		var distance : float = global_position.distance_to(db.global_position)
-		if distance < min_distance:
-			body = db;
-			min_distance = distance
-
-	return body
-"
-
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("weapon")]
 collision_layer = 2
 collision_mask = 5
@@ -241,6 +209,22 @@ label = "coin"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Resources/CoinResourceCollectorComponent"]
 shape = SubResource("CircleShape2D_jnry3")
 
+[node name="AutoAimComponent" type="Node" parent="." node_paths=PackedStringArray("orientation_component", "velocity_component", "target_scanner_component")]
+script = ExtResource("10_2oulo")
+orientation_component = NodePath("../OrientationComponent")
+velocity_component = NodePath("../VelocityComponent")
+target_scanner_component = NodePath("../TargetScannerComponent")
+
+[node name="OrientationComponent" type="Node" parent="."]
+script = ExtResource("11_nfanp")
+
+[node name="TargetScannerComponent" type="RayCast2D" parent="." node_paths=PackedStringArray("orientation_component")]
+collision_mask = 5
+script = ExtResource("12_jbumv")
+orientation_component = NodePath("../OrientationComponent")
+angle = 360
+angle_step = 10
+
 [node name="BoonPickup" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 4
@@ -266,15 +250,3 @@ one_shot = true
 
 [node name="EoTTimer" type="Timer" parent="."]
 autostart = true
-
-[node name="OrientationLine" type="Line2D" parent="."]
-visible = false
-points = PackedVector2Array(0, 0, 24, 0)
-width = 1.0
-default_color = Color(1, 0, 0, 1)
-
-[node name="AutoAimCast" type="RayCast2D" parent="."]
-collision_mask = 4
-script = SubResource("GDScript_asrvx")
-angle = 360
-angle_step = 10
