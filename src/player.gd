@@ -12,7 +12,7 @@ class_name Player
 @onready var health_component : HealthComponent = $HealthComponent
 @onready var velocity_component : VelocityComponent = $VelocityComponent
 @onready var orientation_component : OrientationComponent = $OrientationComponent
-@onready var target_scanner_component : TargetScannerComponent = $TargetScannerComponent
+@onready var target_scanner_component : FOVComponent = $FOVComponent
 
 @export var weapon : Weapon
 @export var dash_speed := 380
@@ -88,8 +88,8 @@ func _physics_process(_delta) -> void:
 	_handle_input()
 	_handle_los()
 
-	if velocity_component.get_velocity():
-		velocity = velocity_component.get_velocity()
+	if velocity_component.velocity:
+		velocity = velocity_component.velocity
 	else:
 		velocity.x = move_toward(velocity.x, 0, 80)
 		velocity.y = move_toward(velocity.y, 0, 80)

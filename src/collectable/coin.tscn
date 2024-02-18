@@ -1,8 +1,20 @@
-[gd_scene load_steps=10 format=3 uid="uid://rwm3r0o4lvii"]
+[gd_scene load_steps=11 format=3 uid="uid://rwm3r0o4lvii"]
 
 [ext_resource type="Texture2D" uid="uid://dtj0msbib567x" path="res://assets/0x72_DungeonTilesetII_v1.6.png" id="1_ja10v"]
 [ext_resource type="Script" path="res://src/component/resource_collectable_component.gd" id="2_xh6j7"]
 [ext_resource type="Script" path="res://src/component/death_component.gd" id="3_httpa"]
+
+[sub_resource type="GDScript" id="GDScript_c0ctu"]
+script/source = "extends Node2D
+
+
+@onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
+
+
+func _ready():
+	sprite.play(\"default\")
+
+"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ueaio"]
 atlas = ExtResource("1_ja10v")
@@ -44,6 +56,7 @@ animations = [{
 size = Vector2(8, 8)
 
 [node name="Coin" type="Node2D"]
+script = SubResource("GDScript_c0ctu")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_03mhh")

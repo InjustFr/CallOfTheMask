@@ -1,8 +1,7 @@
 extends Node
 
 
-class_name AutoAimComponent
-
+class_name PlayerTrackingComponent
 
 @export var orientation_component : OrientationComponent
 @export var velocity_component : VelocityComponent
@@ -10,7 +9,7 @@ class_name AutoAimComponent
 
 
 func _process(_delta):
-	if is_instance_valid(fov_component.target) and fov_component.target is Enemy:
+	if is_instance_valid(fov_component.target) and fov_component.target is Player:
 		orientation_component.orientation = (
 			fov_component.target.global_position
 			- get_parent().global_position

@@ -1,7 +1,7 @@
 extends RayCast2D
 
 
-class_name TargetScannerComponent
+class_name FOVComponent
 
 
 @export var orientation_component : OrientationComponent

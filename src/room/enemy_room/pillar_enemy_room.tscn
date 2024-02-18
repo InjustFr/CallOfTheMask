@@ -7,11 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://cmjagyra7e6vy" path="res://src/room/left_door.tscn" id="5_33saw"]
 [ext_resource type="PackedScene" uid="uid://g1ssunauwlh4" path="res://src/room/right_door.tscn" id="6_3bjta"]
 [ext_resource type="Script" path="res://src/enemy/enemy_spawner.gd" id="7_h7oo0"]
-[ext_resource type="Script" path="res://src/enemy/imp_spawn_info.gd" id="8_rxvnn"]
+[ext_resource type="Script" path="res://src/enemy/skeleton_spawn_info.gd" id="8_61drh"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_r7qd2"]
-vertices = PackedVector2Array(432, 224, 48, 224, 48, 48, 432, 48)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+vertices = PackedVector2Array(138, 138, 134, 138, 134, 118, 138, 118, 346, 138, 342, 138, 342, 118, 346, 118, 432, 48, 432, 224, 384, 176, 384, 80, 48, 48, 304, 80, 48, 224, 304, 176, 176, 176, 96, 176, 96, 80, 176, 80)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(8, 9, 10, 11), PackedInt32Array(12, 8, 11, 13), PackedInt32Array(10, 9, 14, 15), PackedInt32Array(16, 15, 14), PackedInt32Array(17, 16, 14), PackedInt32Array(17, 14, 12, 18), PackedInt32Array(13, 15, 16, 19), PackedInt32Array(12, 13, 19), PackedInt32Array(12, 19, 18)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 480, 0, 480, 272, 0, 272)])
 parsed_collision_mask = 1
 source_geometry_group_name = &"navigation_polygon_source_group"
@@ -57,8 +57,8 @@ spawn_region = NodePath("../NavigationRegion2D")
 room = NodePath("..")
 enemies_spawning_node = NodePath("../Enemies")
 
-[node name="ImpSpawnInfo" type="Node" parent="EnemySpawner"]
-script = ExtResource("8_rxvnn")
+[node name="SkeletonSpawnInfo" type="Node" parent="EnemySpawner"]
+script = ExtResource("8_61drh")
 weight = 1.0
 
 [node name="Enemies" type="Node2D" parent="."]

@@ -8,7 +8,7 @@ class_name EnemyProjectile
 
 func _physics_process(delta):
 	var collision : KinematicCollision2D = move_and_collide(
-		velocity_component.get_velocity() * delta
+		velocity_component.velocity * delta
 	)
 
 	if collision:

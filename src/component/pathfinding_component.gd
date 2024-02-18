@@ -26,4 +26,4 @@ func _physics_process(_delta) -> void:
 
 
 func _safe_velocity_calculated(safe_velocity: Vector2) -> void:
-	velocity_component.set_velocity(safe_velocity)
+	velocity_component.velocity = safe_velocity

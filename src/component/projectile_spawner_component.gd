@@ -17,4 +17,4 @@ func spawn_towards_target(dir: Vector2):
 		get_parent().add_child(projectile)
 
 		projectile.global_position = get_parent().global_position
-		velocity_component.set_velocity(projectile_speed * dir.normalized())
+		velocity_component.velocity = projectile_speed * dir.normalized()

@@ -11,7 +11,7 @@
 [ext_resource type="Script" path="res://src/component/resource_collector_component.gd" id="9_6kamf"]
 [ext_resource type="Script" path="res://src/component/auto_aim_component.gd" id="10_2oulo"]
 [ext_resource type="Script" path="res://src/component/orientation_component.gd" id="11_nfanp"]
-[ext_resource type="Script" path="res://src/component/target_scanner_component.gd" id="12_jbumv"]
+[ext_resource type="Script" path="res://src/component/fov_component.gd" id="12_jbumv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jki2m"]
 size = Vector2(14, 16)
@@ -209,16 +209,16 @@ label = "coin"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Resources/CoinResourceCollectorComponent"]
 shape = SubResource("CircleShape2D_jnry3")
 
-[node name="AutoAimComponent" type="Node" parent="." node_paths=PackedStringArray("orientation_component", "velocity_component", "target_scanner_component")]
+[node name="AutoAimComponent" type="Node" parent="." node_paths=PackedStringArray("orientation_component", "velocity_component", "fov_component")]
 script = ExtResource("10_2oulo")
 orientation_component = NodePath("../OrientationComponent")
 velocity_component = NodePath("../VelocityComponent")
-target_scanner_component = NodePath("../TargetScannerComponent")
+fov_component = NodePath("../FOVComponent")
 
-[node name="OrientationComponent" type="Node" parent="."]
+[node name="OrientationComponent" type="Node2D" parent="."]
 script = ExtResource("11_nfanp")
 
-[node name="TargetScannerComponent" type="RayCast2D" parent="." node_paths=PackedStringArray("orientation_component")]
+[node name="FOVComponent" type="RayCast2D" parent="." node_paths=PackedStringArray("orientation_component")]
 collision_mask = 5
 script = ExtResource("12_jbumv")
 orientation_component = NodePath("../OrientationComponent")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://clqxa3jandqww"]
+[gd_scene load_steps=31 format=3 uid="uid://clqxa3jandqww"]
 
 [ext_resource type="Script" path="res://src/enemy/imp.gd" id="1_gjxdk"]
 [ext_resource type="Script" path="res://src/component/hitbox_component.gd" id="2_7sv87"]
@@ -9,6 +9,9 @@
 [ext_resource type="Script" path="res://src/component/velocity_component.gd" id="5_lwvjn"]
 [ext_resource type="Script" path="res://src/component/damage_component.gd" id="8_0mdne"]
 [ext_resource type="Script" path="res://src/component/health_bar_component.gd" id="9_01l7b"]
+[ext_resource type="Script" path="res://src/component/orientation_component.gd" id="10_d7sql"]
+[ext_resource type="Script" path="res://src/component/fov_component.gd" id="11_aqqfn"]
+[ext_resource type="Script" path="res://src/component/player_tracking_component.gd" id="12_ilkfe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7xj0l"]
 size = Vector2(12, 12)
@@ -20,9 +23,6 @@ size = Vector2(12, 12)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3kp21"]
 radius = 128.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_knxyo"]
-radius = 32.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e4km6"]
 atlas = ExtResource("2_67uxi")
@@ -176,14 +176,6 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AggroRange"]
 shape = SubResource("CircleShape2D_3kp21")
 
-[node name="AttackRange" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 2
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
-shape = SubResource("CircleShape2D_knxyo")
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-1, -2)
 sprite_frames = SubResource("SpriteFrames_d8fny")
@@ -212,3 +204,20 @@ health_component = NodePath("../HealthComponent")
 libraries = {
 "": SubResource("AnimationLibrary_g80g2")
 }
+
+[node name="OrientationComponent" type="Node2D" parent="."]
+script = ExtResource("10_d7sql")
+
+[node name="FOVComponent" type="RayCast2D" parent="." node_paths=PackedStringArray("orientation_component")]
+collision_mask = 3
+script = ExtResource("11_aqqfn")
+orientation_component = NodePath("../OrientationComponent")
+angle = 360
+angle_step = 10
+scan_range = 36
+
+[node name="PlayerTrackingComponent" type="Node" parent="." node_paths=PackedStringArray("orientation_component", "velocity_component", "fov_component")]
+script = ExtResource("12_ilkfe")
+orientation_component = NodePath("../OrientationComponent")
+velocity_component = NodePath("../VelocityComponent")
+fov_component = NodePath("../FOVComponent")

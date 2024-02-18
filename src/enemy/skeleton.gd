@@ -7,12 +7,13 @@ class_name Skeleton
 
 @onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
 @onready var aggro_collider: Area2D = $AggroRange
-@onready var attack_collider: Area2D = $AttackRange
 @onready var animation_player : AnimationPlayer = $AnimationPlayer
 @onready var pathfinding_component : PathfindingComponent = $PathfindingComponent
 @onready var velocity_component : VelocityComponent = $VelocityComponent
 @onready var health_component : HealthComponent = $HealthComponent
 @onready var projectile_spawner_component = $ProjectileSpawnerComponent
+@onready var orientation_component = $OrientationComponent
+@onready var fov_component: FOVComponent = $FOVComponent
 
 var player : Player = null
 var state_machine : StateMachine = StateMachine.new()
@@ -21,14 +22,12 @@ var state_machine : StateMachine = StateMachine.new()
 func _ready():
 	aggro_collider.body_entered.connect(_on_player_entered_aggro_range)
 	aggro_collider.body_exited.connect(_on_player_exited_aggro_range)
-	attack_collider.body_entered.connect(_on_player_entered_attack_range)
-	attack_collider.body_exited.connect(_on_player_exited_attack_range)
 
 	health_component.entity_died.connect(queue_free)
 
 	state_machine.add_state("idle", idle, idle_enter, Callable())
 	state_machine.add_state("follow", follow, Callable(), Callable())
-	state_machine.add_state("attack", attack, attack_enter, Callable())
+	state_machine.add_state("attack", attack, attack_enter, attack_leave)
 	state_machine.set_initial_state("idle")
 
 
@@ -40,7 +39,7 @@ func _physics_process(_delta):
 		sprite.play("idle")
 
 	if abs(velocity.x) > 0.01:
-		sprite.flip_h = velocity.x < 0
+		sprite.flip_h = orientation_component.orientation.x < 0
 
 	move_and_slide()
 
@@ -57,21 +56,12 @@ func _on_player_exited_aggro_range(body : Node2D):
 		state_machine.change_state("idle")
 
 
-func _on_player_entered_attack_range(body : Node2D):
-	if body is Player:
-		state_machine.change_state("attack")
-
-
-func _on_player_exited_attack_range(body : Node2D):
-	if body is Player:
-		state_machine.change_state("follow")
-
-
 func idle():
 	pass
 
 
 func idle_enter():
+	velocity_component.velocity = Vector2(0,0)
 	velocity = Vector2(0,0)
 	pathfinding_component.target = Vector2.INF
 
@@ -80,23 +70,36 @@ func follow():
 	if player:
 		pathfinding_component.target = player.global_position
 
-	velocity = velocity_component.get_velocity()
+	velocity = velocity_component.velocity
+
+	if is_instance_valid(fov_component.target) and fov_component.target is Player:
+		state_machine.change_state("attack")
 
 
 func attack() -> void:
-	if not animation_player.is_playing():
-		animation_player.play("attack")
+	if animation_player.is_playing():
+		return
+
+	if not fov_component.target is Player:
+		state_machine.change_state("follow")
+
+	animation_player.play("attack")
 
 
 func attack_enter():
 	velocity = Vector2(0,0)
+	velocity_component.velocity = Vector2(0,0)
+
+
+func attack_leave():
+	animation_player.stop()
 
 
 func spawn_projectile() -> void:
 	if !player:
 		return
 
-	var dir := (player.global_position - global_position).normalized()
+	var dir : Vector2 = orientation_component.orientation.normalized()
 
 	projectile_spawner_component.spawn_towards_target(dir)
 
