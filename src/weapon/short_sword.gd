@@ -2,11 +2,14 @@ extends Weapon
 
 class_name ShortSword
 
+
 @onready var animation_player : AnimationPlayer = $AnimationPlayer
 @onready var wave_scene : PackedScene = preload("res://src/projectile/sword_wave.tscn")
 
+
 func _init() -> void:
 	weapon_range = 64
+
 
 func use() -> void:
 	if not animation_player.is_playing():

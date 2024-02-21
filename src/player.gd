@@ -8,7 +8,6 @@ class_name Player
 @onready var dash_particles : GPUParticles2D = $DashParticles
 @onready var camera : Camera2D = $Camera
 @onready var invulnerable_timer : Timer = $InvulnerableTimer
-@onready var eot_timer : Timer = $EoTTimer
 @onready var health_component : HealthComponent = $HealthComponent
 @onready var velocity_component : VelocityComponent = $VelocityComponent
 @onready var orientation_component : OrientationComponent = $OrientationComponent
@@ -20,7 +19,6 @@ class_name Player
 @export var dash_cooldown := 0.5
 
 var boons := []
-var effects_over_time : Array[EffectOverTime] = []
 var resources : Dictionary = {
 	"coins": 0,
 	"essence": 0
@@ -48,7 +46,6 @@ func _ready() -> void:
 
 	weapon.enemy_hit.connect(_on_enemy_hit)
 	invulnerable_timer.timeout.connect(_on_invulnerable_timer_end)
-	eot_timer.timeout.connect(_apply_effects_over_time)
 
 	target_scanner_component.scan_range = weapon.weapon_range
 	health_component.entity_died.connect(_player_died)
@@ -146,20 +143,6 @@ func set_camera_bounds(top_left: Vector2i, bottom_right: Vector2i) -> void:
 	camera.limit_right = bottom_right.x
 	camera.limit_bottom = bottom_right.y
 
-func add_effect_over_time(effect: EffectOverTime) -> void:
-	effects_over_time.push_back(effect)
-	effect.on_add(self)
-
-func _apply_effects_over_time() -> void:
-	for effect in effects_over_time:
-		effect.apply(self)
-		if effect.current_time >= effect.duration:
-			effects_over_time.remove_at(effects_over_time.find(effect))
-			effect.on_remove(self)
-			effect.queue_free()
-			continue
-
-		effect.current_time += eot_timer.wait_time
 
 func get_orientation() -> float:
 	return orientation_component.orientation.angle()

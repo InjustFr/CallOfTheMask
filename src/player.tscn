@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://bmpgm3pr1dgr5"]
+[gd_scene load_steps=30 format=3 uid="uid://bmpgm3pr1dgr5"]
 
 [ext_resource type="Script" path="res://src/player.gd" id="1_g1ji6"]
 [ext_resource type="Script" path="res://src/component/hitbox_component.gd" id="2_sfuls"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://src/component/auto_aim_component.gd" id="10_2oulo"]
 [ext_resource type="Script" path="res://src/component/orientation_component.gd" id="11_nfanp"]
 [ext_resource type="Script" path="res://src/component/fov_component.gd" id="12_jbumv"]
+[ext_resource type="Script" path="res://src/component/effect_holder_component.gd" id="13_pcjb6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jki2m"]
 size = Vector2(14, 16)
@@ -248,5 +249,6 @@ one_shot = true
 wait_time = 3.0
 one_shot = true
 
-[node name="EoTTimer" type="Timer" parent="."]
+[node name="EffectHolderComponent" type="Timer" parent="."]
 autostart = true
+script = ExtResource("13_pcjb6")
