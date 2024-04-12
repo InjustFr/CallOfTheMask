@@ -54,7 +54,7 @@ func _ready() -> void:
 func _player_died() -> void:
 	died.emit()
 
-func _process(_delta) -> void:
+func _process(_delta: float) -> void:
 	if dashing and dash_duration * 1000 < Time.get_ticks_msec() - dash_start:
 		dashing = false
 		collision_layer = 2
@@ -81,7 +81,7 @@ func _handle_los() -> void:
 	weapon_container.rotation = orientation_component.orientation.angle()
 
 
-func _physics_process(_delta) -> void:
+func _physics_process(_delta: float) -> void:
 	_handle_input()
 	_handle_los()
 
@@ -108,9 +108,9 @@ func _physics_process(_delta) -> void:
 	move_and_slide()
 
 func _pickup_boon() -> void:
-	for body in boon_collider.get_overlapping_bodies():
+	for body: Node2D in boon_collider.get_overlapping_bodies():
 		if body is StaticBody2D and body.get_parent() is BoonSelector:
-			var boon = body.get_parent().selectBoon(body)
+			var boon : Boon = body.get_parent().selectBoon(body)
 			boon.apply(self)
 			boons.push_back(boon)
 
@@ -120,7 +120,7 @@ func _on_damaged() -> void:
 	health_component.set_invulnerable(true)
 	invulnerable_timer.start()
 
-func _on_invulnerable_timer_end():
+func _on_invulnerable_timer_end() -> void:
 	health_component.set_invulnerable(false)
 	sprite.material.set_shader_parameter("blinking", false)
 
@@ -128,7 +128,7 @@ func _on_enemy_hit(enemy: Enemy) -> void:
 	enemy_hit.emit(enemy)
 
 func _dash() -> void:
-	var time_elasped = Time.get_ticks_msec() - dash_end
+	var time_elasped := Time.get_ticks_msec() - dash_end
 	if dash_cooldown * 1000 < time_elasped:
 		collision_layer = 0
 		collision_mask = 1

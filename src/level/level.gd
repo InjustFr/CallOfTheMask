@@ -8,7 +8,7 @@ class RoomNode:
 	var parent: RoomNode
 	var room: Room
 
-	func _init(p_pos, p_parent, p_room):
+	func _init(p_pos: Vector2i, p_parent: RoomNode, p_room: Room) -> void:
 		pos = p_pos
 		parent = p_parent
 		room = p_room
@@ -29,7 +29,7 @@ signal finished
 signal level_generated
 signal room_changed
 
-func _ready():
+func _ready() -> void:
 	_create_map()
 	_generate_mandatory_rooms()
 	_remove_unused_doors()
@@ -40,7 +40,7 @@ func _create_map() -> void:
 	while rooms_generated.size() != level_info.nb_rooms:
 		_clear_map()
 		current_room_pos = start_position
-		var node = RoomNode.new(
+		var node := RoomNode.new(
 			start_position,
 			null,
 			_generate_room(start_position, level_info.start_room)
@@ -60,18 +60,18 @@ func _clear_map() -> void:
 
 func _create_rooms() -> void:
 	for room_node in rooms_generated:
-		var nb_rooms_to_generate = randi_range(1, _get_nb_of_available_neighboor_cells(room_node.pos))
+		var nb_rooms_to_generate := randi_range(1, _get_nb_of_available_neighboor_cells(room_node.pos))
 
 		if (!_get_nb_of_available_neighboor_cells(room_node.pos)
 			||rooms_generated.size() >= level_info.nb_rooms):
 			end_rooms.push_back(room_node)
 			continue
 
-		var children_positions = _get_available_neighboor_room_positions(room_node.pos)
+		var children_positions := _get_available_neighboor_room_positions(room_node.pos)
 		children_positions.shuffle()
-		var nb_rooms_generated = 0
-		for i in nb_rooms_to_generate:
-			var child_pos = children_positions[i]
+		var nb_rooms_generated : int = 0
+		for i : int in nb_rooms_to_generate:
+			var child_pos := children_positions[i]
 			if _get_neighboor_room_positions(child_pos).size() >= 2:
 				continue
 
@@ -95,13 +95,12 @@ func _get_next_room_position(room: Room, next_room: Room, offset: Vector2i) -> V
 	if !room:
 		return Vector2(0,0)
 
-	var room_pos = room.global_position
-	var next_roomSize = next_room.get_size()
-	var current_roomSize = room.get_size()
+	var room_pos := room.global_position
+	var next_roomSize := next_room.get_size()
+	var current_roomSize := room.get_size()
 
 	match offset:
 		Vector2i(-1, 0):
-			var x = room.global_position.x - next_roomSize.x
 			return Vector2(room_pos.x - next_roomSize.x, room_pos.y)
 		Vector2i(1, 0):
 			return Vector2(room_pos.x + current_roomSize.x, room_pos.y)
@@ -165,8 +164,8 @@ func _generate_room(pos: Vector2i, type: PackedScene = null) -> Room:
 func _generate_mandatory_rooms() -> void:
 	end_rooms.reverse()
 	for i in level_info.special_rooms.size():
-		var room_node = end_rooms[i]
-		var new_room = _generate_room(room_node.pos, level_info.special_rooms[i])
+		var room_node := end_rooms[i]
+		var new_room := _generate_room(room_node.pos, level_info.special_rooms[i])
 		room_node.room.queue_free()
 
 		room_node.room = new_room

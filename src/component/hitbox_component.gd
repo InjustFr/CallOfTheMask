@@ -6,7 +6,7 @@ class_name HitBoxComponent
 
 signal entity_hit
 
-func _ready():
+func _ready() -> void:
 	area_entered.connect(_on_area_entered)
 
 

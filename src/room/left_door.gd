@@ -3,7 +3,7 @@ extends Door
 @onready var map: TileMap = $TileMap
 @onready var door_area : Area2D = $PassingDoorArea
 
-func _ready():
+func _ready() -> void:
 	door_area.body_entered.connect(_on_body_entered)
 
 func open() -> void:

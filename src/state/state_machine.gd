@@ -16,7 +16,7 @@ class StateFlow:
 		get:
 			return leave_state
 
-	func _init(p_state_name: String, p_state: Callable, p_enter_state: Callable, p_leave_state: Callable):
+	func _init(p_state_name: String, p_state: Callable, p_enter_state: Callable, p_leave_state: Callable) -> void:
 		state_name = p_state_name
 		state = p_state
 		enter_state = p_enter_state
@@ -28,12 +28,12 @@ var current_state: Callable = Callable()
 var states : Dictionary = {}
 
 
-func add_state(state_name: String, state: Callable, enter_state: Callable, leave_state: Callable):
-	var state_flow = StateFlow.new(state_name, state, enter_state, leave_state)
+func add_state(state_name: String, state: Callable, enter_state: Callable, leave_state: Callable) -> void:
+	var state_flow := StateFlow.new(state_name, state, enter_state, leave_state)
 	states[state_name] = state_flow
 
 
-func set_state(state_flow: StateFlow):
+func set_state(state_flow: StateFlow) -> void:
 	if current_state:
 		var old_state_flow : StateFlow = states.get(current_state_name)
 		if old_state_flow and old_state_flow.leave_state and old_state_flow.leave_state.get_object():
@@ -46,21 +46,21 @@ func set_state(state_flow: StateFlow):
 		state_flow.enter_state.call()
 
 
-func change_state(state: String):
+func change_state(state: String) -> void:
 	var state_flow : StateFlow = states.get(state)
 	if state_flow:
-		Callable(func(): set_state(state_flow)).call_deferred()
+		Callable(func() -> void: set_state(state_flow)).call_deferred()
 
 
-func set_initial_state(state: String):
+func set_initial_state(state: String) -> void:
 	var state_flow : StateFlow = states.get(state)
 	if state_flow:
 		set_state(state_flow)
 
 
-func get_current_state():
+func get_current_state() -> Callable:
 	return current_state
 
 
-func update():
+func update() -> void:
 	current_state.call()

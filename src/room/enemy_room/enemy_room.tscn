@@ -78,8 +78,8 @@ one_shot = true
 script = ExtResource("10_f4x5o")
 collectable_scene = ExtResource("11_mwp1h")
 room = NodePath("..")
-min = 2
-max = 5
+spawn_min = 2
+spawn_max = 5
 
 [connection signal="cleared" from="." to="CoinSpawner" method="spawn"]
 [connection signal="timeout" from="SpawnerTimer" to="EnemySpawner" method="spawn"]

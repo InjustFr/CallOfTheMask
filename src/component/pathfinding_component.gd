@@ -8,12 +8,12 @@ class_name PathfindingComponent
 var target : Vector2 = Vector2.INF
 
 
-func _ready():
+func _ready() -> void:
 	velocity_computed.connect(_safe_velocity_calculated)
 	max_speed = velocity_component.speed
 
 
-func _physics_process(_delta) -> void:
+func _physics_process(_delta: float) -> void:
 	if target == Vector2.INF:
 		return
 

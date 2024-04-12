@@ -14,7 +14,7 @@ var target : Node2D = null:
 		return target
 
 
-func _process(_delta):
+func _process(_delta: float) -> void:
 	rotation = orientation_component.orientation.angle()
 	target = scan();
 
@@ -24,11 +24,11 @@ func scan() -> Node2D:
 
 	var detected_bodies : Array[Node2D] = [];
 	for i in steps:
-		var scan_angle = - angle / 2.0 + i * angle_step
+		var scan_angle := - angle / 2.0 + i * angle_step
 
 		target_position = Vector2(scan_range, 0).rotated(deg_to_rad(scan_angle))
 		force_raycast_update()
-		var collider = get_collider()
+		var collider := get_collider()
 		if collider and not detected_bodies.has(collider):
 			detected_bodies.push_back(collider)
 

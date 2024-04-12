@@ -4,7 +4,7 @@ extends Door
 @onready var particles : GPUParticles2D = $GPUParticles2D
 @onready var door_area : Area2D = $PassingDoorArea
 
-func _ready():
+func _ready() -> void:
 	door_area.body_entered.connect(_on_body_entered)
 
 func open() -> void:

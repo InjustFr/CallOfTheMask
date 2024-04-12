@@ -3,7 +3,7 @@ extends Node2D
 class_name Door
 
 @export var next_room_offset: Vector2i
-var disabled = false
+var disabled := false
 
 signal door_passed
 

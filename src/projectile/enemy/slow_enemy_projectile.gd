@@ -2,7 +2,7 @@ extends EnemyProjectile
 
 class_name SlowEnemyProjectile
 
-func _on_player_hit(player: Player):
+func _on_player_hit(player: Player) -> void:
 	var component : EffectHolderComponent = player.find_children(
 		'*',
 		'EffectHolderComponent',

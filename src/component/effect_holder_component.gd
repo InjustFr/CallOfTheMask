@@ -9,19 +9,19 @@ var effects : Array[Effect] = []:
 		return effects
 
 
-func add_effect(effect: Effect)-> void:
+func add_effect(effect: Effect) -> void:
 	effect.on_add(get_parent())
 	effect.start_time = Time.get_ticks_msec()
 	effects.append(effect)
 
 
-func _ready():
+func _ready() -> void:
 	timeout.connect(_process_effects)
 	add_effect(SlowEffectOverTime.new())
 
 
-func _process_effects():
-	var currentTime = Time.get_ticks_msec()
+func _process_effects() -> void:
+	var currentTime := Time.get_ticks_msec()
 	for e in effects:
 		if e.start_time + e.duration <= currentTime:
 			e.on_remove(get_parent())

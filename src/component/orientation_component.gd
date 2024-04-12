@@ -13,11 +13,11 @@ class_name  OrientationComponent
 @export var debug: bool = false
 
 
-func _draw():
+func _draw() -> void:
 	if debug:
 		draw_line(Vector2(0,0), orientation * 16, Color.RED, 1.0)
 
 
-func _process(_delta):
+func _process(_delta: float) -> void:
 	if debug:
 		queue_redraw()

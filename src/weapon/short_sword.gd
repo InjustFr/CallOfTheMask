@@ -22,7 +22,7 @@ func spawn_wave() -> void:
 	var player : Player = get_tree().get_root().find_children('*', 'Player', true, false)[0]
 	player.get_parent().add_child(wave)
 
-	var angle = player.get_orientation()
+	var angle := player.get_orientation()
 	wave.global_position = player.global_position + Vector2(24,0).rotated(angle)
 	wave.velocity = Vector2(96,0).rotated(angle)
 	wave.rotation = angle

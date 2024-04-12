@@ -11,11 +11,11 @@ var _health : int
 var _invulnerable := false
 
 
-func _ready():
+func _ready() -> void:
 	_health = max_health
 
 
-func take_damage(damage) -> void:
+func take_damage(damage: int) -> void:
 	if _invulnerable:
 		return
 

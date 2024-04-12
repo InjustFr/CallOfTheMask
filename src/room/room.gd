@@ -9,9 +9,9 @@ signal room_left
 
 @export var doors : Array[Door]
 
-var was_cleared = false
+var was_cleared := false
 
-func _ready():
+func _ready() -> void:
 	cleared.connect(_on_cleared)
 	room_entered.connect(_on_room_entered)
 	room_left.connect(_on_room_left)
@@ -23,21 +23,21 @@ func get_size() -> Vector2:
 	return Vector2(0,0)
 
 func get_bounding_rect() -> Rect2:
-	var size = get_size()
+	var size := get_size()
 	return Rect2(global_position, size)
 
-func start_room():
+func start_room() -> void:
 	room_entered.emit()
 
-func _on_cleared():
+func _on_cleared() -> void:
 	was_cleared = true
 	_open_doors()
 
-func _open_doors():
+func _open_doors() -> void:
 	for door in doors:
 		door.open()
 
-func _close_doors():
+func _close_doors() -> void:
 	for door in doors:
 		door.close()
 
@@ -55,7 +55,7 @@ func _on_room_left() -> void:
 
 func disable_door(pos: Vector2i, rooms: Array[Vector2i]) -> void:
 	for door in doors:
-		var next_pos =  pos + door.next_room_offset
+		var next_pos :=  pos + door.next_room_offset
 		if !rooms.has(next_pos):
 			door.disable()
 

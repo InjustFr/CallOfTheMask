@@ -2,8 +2,8 @@ extends Enemy
 
 class_name Skeleton
 
-@onready var projectile_scene = preload("res://src/projectile/enemy/enemy_projectile.tscn")
-@onready var slow_projectile_scene = preload("res://src/projectile/enemy/slow_enemy_projectile.tscn")
+@onready var projectile_scene := preload("res://src/projectile/enemy/enemy_projectile.tscn")
+@onready var slow_projectile_scene := preload("res://src/projectile/enemy/slow_enemy_projectile.tscn")
 
 @onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
 @onready var aggro_collider: Area2D = $AggroRange
@@ -11,15 +11,15 @@ class_name Skeleton
 @onready var pathfinding_component : PathfindingComponent = $PathfindingComponent
 @onready var velocity_component : VelocityComponent = $VelocityComponent
 @onready var health_component : HealthComponent = $HealthComponent
-@onready var projectile_spawner_component = $ProjectileSpawnerComponent
-@onready var orientation_component = $OrientationComponent
-@onready var fov_component: FOVComponent = $FOVComponent
+@onready var projectile_spawner_component : ProjectileSpawnerComponent = $ProjectileSpawnerComponent
+@onready var orientation_component : OrientationComponent = $OrientationComponent
+@onready var fov_component : FOVComponent = $FOVComponent
 
 var player : Player = null
 var state_machine : StateMachine = StateMachine.new()
 
 
-func _ready():
+func _ready() -> void:
 	aggro_collider.body_entered.connect(_on_player_entered_aggro_range)
 	aggro_collider.body_exited.connect(_on_player_exited_aggro_range)
 
@@ -31,7 +31,7 @@ func _ready():
 	state_machine.set_initial_state("idle")
 
 
-func _physics_process(_delta):
+func _physics_process(_delta: float) -> void:
 	state_machine.update()
 	if velocity:
 		sprite.play("walk")
@@ -44,29 +44,29 @@ func _physics_process(_delta):
 	move_and_slide()
 
 
-func _on_player_entered_aggro_range(body : Node2D):
+func _on_player_entered_aggro_range(body : Node2D) -> void:
 	if body is Player:
 		player = body
 		state_machine.change_state("follow")
 
 
-func _on_player_exited_aggro_range(body : Node2D):
+func _on_player_exited_aggro_range(body : Node2D) -> void:
 	if body is Player:
 		player = null
 		state_machine.change_state("idle")
 
 
-func idle():
+func idle() -> void:
 	pass
 
 
-func idle_enter():
+func idle_enter() -> void:
 	velocity_component.velocity = Vector2(0,0)
 	velocity = Vector2(0,0)
 	pathfinding_component.target = Vector2.INF
 
 
-func follow():
+func follow() -> void:
 	if player:
 		pathfinding_component.target = player.global_position
 
@@ -86,12 +86,12 @@ func attack() -> void:
 	animation_player.play("attack")
 
 
-func attack_enter():
+func attack_enter() -> void:
 	velocity = Vector2(0,0)
 	velocity_component.velocity = Vector2(0,0)
 
 
-func attack_leave():
+func attack_leave() -> void:
 	animation_player.stop()
 
 
@@ -99,7 +99,7 @@ func spawn_projectile() -> void:
 	if !player:
 		return
 
-	var dir : Vector2 = orientation_component.orientation.normalized()
+	var dir := orientation_component.orientation.normalized()
 
 	projectile_spawner_component.spawn_towards_target(dir)
 

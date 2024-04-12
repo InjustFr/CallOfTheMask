@@ -7,5 +7,5 @@ var weapon_range := 0
 
 signal enemy_hit
 
-func use():
+func use() -> void:
 	pass
