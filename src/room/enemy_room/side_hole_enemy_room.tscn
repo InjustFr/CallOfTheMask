@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bwnwlspg10ltd"]
+[gd_scene load_steps=13 format=3 uid="uid://bwnwlspg10ltd"]
 
 [ext_resource type="Script" path="res://src/room/enemy_room/enemy_room.gd" id="1_8ddl8"]
 [ext_resource type="TileSet" uid="uid://cnsvmirxe4l8x" path="res://assets/new_tile_set.tres" id="2_ly7ua"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://g1ssunauwlh4" path="res://src/room/right_door.tscn" id="6_skdlv"]
 [ext_resource type="Script" path="res://src/enemy/enemy_spawner.gd" id="7_iql8c"]
 [ext_resource type="Script" path="res://src/enemy/skeleton_spawn_info.gd" id="8_1yhet"]
+[ext_resource type="Script" path="res://src/enemy/imp_spawn_info.gd" id="9_2dgp6"]
 [ext_resource type="Script" path="res://src/collectable/collectable_spawner.gd" id="9_vvhm6"]
 [ext_resource type="PackedScene" uid="uid://rwm3r0o4lvii" path="res://src/collectable/coin.tscn" id="10_cf6g6"]
 
@@ -19,7 +20,7 @@ parsed_collision_mask = 1
 source_geometry_group_name = &"navigation_polygon_source_group"
 agent_radius = 16.0
 
-[node name="PillarEnemyRoom" type="Node2D" node_paths=PackedStringArray("doors")]
+[node name="SideHoleEnemyRoom" type="Node2D" node_paths=PackedStringArray("doors")]
 y_sort_enabled = true
 script = ExtResource("1_8ddl8")
 doors = [NodePath("NavigationRegion2D/TopDoor"), NodePath("NavigationRegion2D/BottomDoor"), NodePath("NavigationRegion2D/LeftDoor"), NodePath("NavigationRegion2D/RightDoor")]
@@ -61,7 +62,11 @@ enemies_spawning_node = NodePath("../Enemies")
 
 [node name="SkeletonSpawnInfo" type="Node" parent="EnemySpawner"]
 script = ExtResource("8_1yhet")
-weight = 1.0
+weight = 0.5
+
+[node name="ImpSpawnInfo" type="Node" parent="EnemySpawner"]
+script = ExtResource("9_2dgp6")
+weight = 0.5
 
 [node name="Enemies" type="Node2D" parent="."]
 y_sort_enabled = true
