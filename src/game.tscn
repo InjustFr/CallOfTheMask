@@ -12,7 +12,13 @@ font_color = Color(1, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_2m5h8"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_d6l61")
 
 [node name="UI" type="CanvasLayer" parent="."]
@@ -85,7 +91,24 @@ theme = ExtResource("2_t22gp")
 text = "Controller:"
 label_settings = SubResource("LabelSettings_2m5h8")
 
-[node name="Level" type="Node2D" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(1920, 1080)
+size_2d_override = Vector2i(512, 288)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="Level" type="Node2D" parent="SubViewportContainer/SubViewport"]
 script = ExtResource("4_u2li5")
 level_info = ExtResource("5_81j2s")
 

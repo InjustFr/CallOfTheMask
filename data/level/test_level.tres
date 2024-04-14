@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cneltgs6x0fxa" path="res://src/room/enemy_room/enemy_room.tscn" id="1_4o6dq"]
 [ext_resource type="PackedScene" uid="uid://b8xy42ki0y33x" path="res://src/room/enemy_room/pillar_enemy_room.tscn" id="2_3vuud"]
 [ext_resource type="Script" path="res://src/level/level_resource.gd" id="3_ck2hm"]
-[ext_resource type="PackedScene" uid="uid://bwnwlspg10ltd" path="res://src/room/enemy_room/holed_enemy_room.tscn" id="3_m4046"]
+[ext_resource type="PackedScene" uid="uid://bwnwlspg10ltd" path="res://src/room/enemy_room/side_hole_enemy_room.tscn" id="3_m4046"]
 [ext_resource type="PackedScene" uid="uid://qjus7rg6g1r7" path="res://src/room/enemy_room/boss_room.tscn" id="4_vfllc"]
 [ext_resource type="PackedScene" uid="uid://b1rt15ofi140k" path="res://src/room/start_room.tscn" id="5_gkrk1"]
 

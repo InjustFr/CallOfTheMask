@@ -34,6 +34,7 @@ func _ready() -> void:
 	_generate_mandatory_rooms()
 	_remove_unused_doors()
 	level_generated.emit()
+	print("triggered")
 
 
 func _create_map() -> void:

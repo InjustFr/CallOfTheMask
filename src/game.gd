@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 @onready var death_menu_node : CanvasLayer = $DeathMenu
 @onready var controller_label : Label = $Debug/VBoxContainer/ControllerLabel

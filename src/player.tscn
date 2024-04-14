@@ -190,8 +190,8 @@ animation = &"idle"
 [node name="Camera" type="Camera2D" parent="."]
 limit_left = 0
 limit_top = 0
-limit_right = 480
-limit_bottom = 270
+limit_right = 512
+limit_bottom = 288
 position_smoothing_enabled = true
 
 [node name="Resources" type="Node2D" parent="."]
