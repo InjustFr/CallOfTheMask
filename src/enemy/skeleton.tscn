@@ -92,11 +92,11 @@ animations = [{
 "speed": 7.5
 }]
 
-[sub_resource type="Gradient" id="Gradient_ciavx"]
+[sub_resource type="Gradient" id="Gradient_h3kyv"]
 colors = PackedColorArray(0.870588, 0, 0, 1, 0.870588, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_oo7tf"]
-gradient = SubResource("Gradient_ciavx")
+gradient = SubResource("Gradient_h3kyv")
 width = 14
 height = 2
 

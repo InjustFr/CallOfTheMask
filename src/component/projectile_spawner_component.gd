@@ -8,7 +8,7 @@ class_name ProjectileSpawnerComponent
 @export var projectile_speed : int
 
 
-func spawn_towards_target(dir: Vector2) -> void:
+func spawn_towards_target(dir: Vector2, offset: int = 0) -> void:
 	var projectile_scene := load(projectile_scene_path);
 	var projectile : Node2D = projectile_scene.instantiate()
 
@@ -16,5 +16,5 @@ func spawn_towards_target(dir: Vector2) -> void:
 	if velocity_component and dir != Vector2.ZERO:
 		get_parent().add_child(projectile)
 
-		projectile.global_position = get_parent().global_position
+		projectile.global_position = get_parent().global_position + dir.normalized() * offset
 		velocity_component.velocity = projectile_speed * dir.normalized()
