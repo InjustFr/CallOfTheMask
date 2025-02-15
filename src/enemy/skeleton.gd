@@ -102,4 +102,3 @@ func spawn_projectile() -> void:
 	var dir := orientation_component.orientation.normalized()
 
 	projectile_spawner_component.spawn_towards_target(dir)
-
