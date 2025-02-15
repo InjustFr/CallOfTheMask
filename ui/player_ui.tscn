@@ -1,0 +1,134 @@
+[gd_scene load_steps=9 format=3 uid="uid://gph4ll3hdsgo"]
+
+[ext_resource type="Theme" uid="uid://da1qk48nqy3s2" path="res://assets/ui_theme.tres" id="1_ymd8x"]
+[ext_resource type="PackedScene" uid="uid://bmtapdbpkgkpa" path="res://ui/components/map_view.tscn" id="2_imoyd"]
+[ext_resource type="Texture2D" uid="uid://dtj0msbib567x" path="res://assets/0x72_DungeonTilesetII_v1.6.png" id="2_lnv8k"]
+
+[sub_resource type="GDScript" id="GDScript_ujfn2"]
+script/source = "extends HBoxContainer
+
+var half_heart_scene : PackedScene = preload(\"res://ui/components/half_heart.tscn\")
+var full_heart_scene : PackedScene = preload(\"res://ui/components/full_heart.tscn\")
+
+func _process(_delta: float) -> void:
+	for n in get_children():
+		n.queue_free()
+
+	if Global.player:
+		var health : int = Global.player.find_child('HealthComponent').get_current_health()
+		@warning_ignore(\"integer_division\")
+		var nb_full_hearts := health / 2
+		for i in nb_full_hearts:
+			var full_heart := full_heart_scene.instantiate();
+			add_child(full_heart)
+
+		if health % 2 == 1:
+			var half_heart := half_heart_scene.instantiate();
+			add_child(half_heart)
+"
+
+[sub_resource type="GDScript" id="GDScript_cc0i4"]
+script/source = "extends VBoxContainer
+
+@onready var coin_label : Label = $CoinLine/Label
+@onready var essence_label : Label = $EssenceLine/Label
+
+func _init() -> void:
+	Global.player_changed.connect(_on_player_changed)
+
+
+func _on_player_changed() -> void:
+	var coin_resource : ResourceComponent = Global.player.find_child('CoinResourceComponent')
+	coin_resource.resource_changed.connect(_on_coins_changed)
+	coin_label.text = \"Coins : \" + str(coin_resource.value)
+
+
+func _on_coins_changed(value: int) -> void:
+	coin_label.text = \"Coins : \" + str(value)
+
+
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vgdp"]
+atlas = ExtResource("2_lnv8k")
+region = Rect2(289, 385, 6, 7)
+margin = Rect2(1, 2.08165e-12, 2, 2.08165e-12)
+
+[sub_resource type="LabelSettings" id="LabelSettings_mssdt"]
+font_color = Color(1, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8toxb"]
+atlas = ExtResource("2_lnv8k")
+region = Rect2(292, 355, 8, 11)
+
+[node name="PlayerUi" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ymd8x")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HeartContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 1
+size_flags_vertical = 0
+script = SubResource("GDScript_ujfn2")
+
+[node name="MapView" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_imoyd")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -96.0
+offset_right = 0.0
+offset_bottom = 54.0
+grow_horizontal = 0
+size_flags_horizontal = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="ResourceContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2"]
+layout_mode = 2
+script = SubResource("GDScript_cc0i4")
+
+[node name="CoinLine" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/ResourceContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer2/ResourceContainer/CoinLine"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_0vgdp")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer2/ResourceContainer/CoinLine"]
+layout_mode = 2
+theme = ExtResource("1_ymd8x")
+text = "Coins : 0"
+label_settings = SubResource("LabelSettings_mssdt")
+
+[node name="EssenceLine" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/ResourceContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer2/ResourceContainer/EssenceLine"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_8toxb")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer2/ResourceContainer/EssenceLine"]
+layout_mode = 2
+theme = ExtResource("1_ymd8x")
+text = "Essence : 0"

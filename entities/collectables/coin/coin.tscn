@@ -1,0 +1,77 @@
+[gd_scene load_steps=11 format=3 uid="uid://rwm3r0o4lvii"]
+
+[ext_resource type="Texture2D" uid="uid://dtj0msbib567x" path="res://assets/0x72_DungeonTilesetII_v1.6.png" id="1_uonma"]
+[ext_resource type="Script" path="res://entities/collectables/components/resource_collectable_component.gd" id="2_cg0xe"]
+[ext_resource type="Script" path="res://entities/components/death_component.gd" id="3_cid46"]
+
+[sub_resource type="GDScript" id="GDScript_c0ctu"]
+script/source = "extends Node2D
+
+
+@onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
+
+
+func _ready() -> void:
+	sprite.play(\"default\")
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ueaio"]
+atlas = ExtResource("1_uonma")
+region = Rect2(288, 385, 8, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ndhy"]
+atlas = ExtResource("1_uonma")
+region = Rect2(296, 385, 8, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wvugi"]
+atlas = ExtResource("1_uonma")
+region = Rect2(304, 385, 8, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xov73"]
+atlas = ExtResource("1_uonma")
+region = Rect2(312, 385, 8, 7)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_03mhh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ueaio")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ndhy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wvugi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xov73")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u62bp"]
+size = Vector2(8, 8)
+
+[node name="Coin" type="Node2D"]
+script = SubResource("GDScript_c0ctu")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_03mhh")
+frame_progress = 0.655868
+
+[node name="ResourceCollectableComponent" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+script = ExtResource("2_cg0xe")
+label = "coin"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ResourceCollectableComponent"]
+shape = SubResource("RectangleShape2D_u62bp")
+
+[node name="DeathComponent" type="Node" parent="."]
+script = ExtResource("3_cid46")
+
+[connection signal="resource_collected" from="ResourceCollectableComponent" to="DeathComponent" method="die"]

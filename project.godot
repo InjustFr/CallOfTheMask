@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="Call of the Mask"
-run/main_scene="res://src/ui/main_menu.tscn"
+run/main_scene="res://ui/main_menu.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
-config/icon="res://src/icon.svg"
+config/icon="res://icon.svg"
 
 [autoload]
 
-Global="*res://src/global.gd"
+Global="*res://utils/global.gd"
 
 [debug]
 
@@ -36,6 +36,24 @@ window/stretch/scale_mode="integer"
 
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
+
+[file_customization]
+
+folder_colors={
+"res://assets/": "yellow",
+"res://data/": "orange",
+"res://effects/": "purple",
+"res://entities/": "red",
+"res://entities/collectables/": "blue",
+"res://entities/components/": "yellow",
+"res://entities/enemies/": "red",
+"res://entities/player/": "purple",
+"res://entities/projectiles/": "green",
+"res://entities/weapons/": "orange",
+"res://level/": "blue",
+"res://ui/": "green",
+"res://utils/": "gray"
+}
 
 [gui]
 
