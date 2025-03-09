@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b1rt15ofi140k"]
+[gd_scene load_steps=10 format=3 uid="uid://b1rt15ofi140k"]
 
 [ext_resource type="Script" path="res://level/room/start_room.gd" id="1_ytycv"]
 [ext_resource type="TileSet" uid="uid://cnsvmirxe4l8x" path="res://assets/new_tile_set.tres" id="2_8xbo1"]
@@ -7,8 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://cmjagyra7e6vy" path="res://level/room/left_door.tscn" id="5_p65ye"]
 [ext_resource type="PackedScene" uid="uid://g1ssunauwlh4" path="res://level/room/right_door.tscn" id="6_n4hcf"]
 [ext_resource type="PackedScene" uid="uid://bmpgm3pr1dgr5" path="res://entities/player/player.tscn" id="7_rxqsc"]
+[ext_resource type="PackedScene" uid="uid://d4dr7cigdptuw" path="res://entities/enemies/fire_spiter/fire_spiter.tscn" id="8_aiiyg"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_6rsdo"]
+vertices = PackedVector2Array(464, 240, 48, 240, 48, 48, 464, 48)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 512, 0, 512, 288, 0, 288)])
 parsed_collision_mask = 1
 source_geometry_group_name = &"navigation_polygon_source_group"
@@ -22,7 +25,6 @@ doors = [NodePath("NavigationRegion2D/TopDoor"), NodePath("NavigationRegion2D/Bo
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_6rsdo")
-enabled = false
 
 [node name="TileMap" type="TileMap" parent="NavigationRegion2D"]
 y_sort_enabled = true
@@ -50,3 +52,12 @@ next_room_offset = Vector2i(1, 0)
 
 [node name="Player" parent="." instance=ExtResource("7_rxqsc")]
 position = Vector2(256, 144)
+
+[node name="FireSpiter" parent="." instance=ExtResource("8_aiiyg")]
+position = Vector2(460, 228)
+
+[node name="FireSpiter2" parent="." instance=ExtResource("8_aiiyg")]
+position = Vector2(356, 84)
+
+[node name="FireSpiter3" parent="." instance=ExtResource("8_aiiyg")]
+position = Vector2(118, 178)

@@ -4,8 +4,8 @@ extends Node
 class_name PlayerTrackingComponent
 
 @export var orientation_component : OrientationComponent
-@export var velocity_component : VelocityComponent
 @export var fov_component : FOVComponent
+@export var velocity_component : VelocityComponent = null
 
 
 func _process(_delta: float) -> void:
@@ -15,4 +15,4 @@ func _process(_delta: float) -> void:
 			- get_parent().global_position
 		)
 	else:
-		orientation_component.orientation = velocity_component.velocity
+		orientation_component.orientation = velocity_component.velocity if velocity_component else orientation_component.orientation

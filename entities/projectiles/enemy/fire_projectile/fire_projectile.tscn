@@ -1,0 +1,74 @@
+[gd_scene load_steps=11 format=3 uid="uid://bpx8savg6hr1g"]
+
+[ext_resource type="Script" path="res://entities/projectiles/enemy/enemy_projectile.gd" id="1_qhakf"]
+[ext_resource type="Script" path="res://entities/components/velocity_component.gd" id="2_c154x"]
+[ext_resource type="Script" path="res://entities/components/damage_component.gd" id="3_iawbk"]
+[ext_resource type="Texture2D" uid="uid://ba66nk38lou1a" path="res://entities/projectiles/enemy/fire_projectile/assets/fire_projectile.png" id="4_juimq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_35vb7"]
+radius = 4.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ojtav"]
+atlas = ExtResource("4_juimq")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ktlcx"]
+atlas = ExtResource("4_juimq")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjlva"]
+atlas = ExtResource("4_juimq")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0clra"]
+atlas = ExtResource("4_juimq")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v1he2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ojtav")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ktlcx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fjlva")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0clra")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.0
+}]
+
+[node name="FireProjectile" type="RigidBody2D"]
+top_level = true
+collision_layer = 16
+collision_mask = 0
+mass = 0.01
+gravity_scale = 1.66533e-16
+script = ExtResource("1_qhakf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_35vb7")
+
+[node name="VelocityComponent" type="Node" parent="."]
+script = ExtResource("2_c154x")
+
+[node name="DamageComponent" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("3_iawbk")
+damage = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageComponent"]
+shape = SubResource("CircleShape2D_35vb7")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_v1he2")
+frame = 2
+frame_progress = 0.160843
+flip_h = true

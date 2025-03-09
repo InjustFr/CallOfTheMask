@@ -19,6 +19,7 @@ fill_to = Vector2(0.882479, 0.111111)
 [node name="EnemyProjectile" type="RigidBody2D"]
 top_level = true
 collision_layer = 16
+collision_mask = 0
 mass = 0.01
 gravity_scale = 1.66533e-16
 script = ExtResource("1_dv2m4")

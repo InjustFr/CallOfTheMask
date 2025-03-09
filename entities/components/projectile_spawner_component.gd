@@ -14,7 +14,7 @@ func spawn_towards_target(dir: Vector2, offset: int = 0) -> void:
 
 	var velocity_component : VelocityComponent = projectile.find_child('VelocityComponent')
 	if velocity_component and dir != Vector2.ZERO:
-		get_parent().add_child(projectile)
+		get_parent().get_parent().add_child(projectile)
 
 		projectile.global_position = get_parent().global_position + dir.normalized() * offset
 		velocity_component.velocity = projectile_speed * dir.normalized()
