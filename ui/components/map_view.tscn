@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bmtapdbpkgkpa"]
 
-[ext_resource type="Script" path="res://ui/components/map_view.gd" id="2_h50tk"]
+[ext_resource type="Script" uid="uid://bqm4ilw6v8ia5" path="res://ui/components/map_view.gd" id="2_h50tk"]
 
 [node name="MapView" type="Control"]
 modulate = Color(1, 1, 1, 0.231373)

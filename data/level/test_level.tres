@@ -1,14 +1,15 @@
-[gd_resource type="Resource" script_class="LevelResource" load_steps=10 format=3 uid="uid://c1ejt2h0sn256"]
+[gd_resource type="Resource" script_class="LevelResource" load_steps=11 format=3 uid="uid://c1ejt2h0sn256"]
 
 [ext_resource type="PackedScene" uid="uid://cneltgs6x0fxa" path="res://level/room/enemy_room/enemy_room.tscn" id="1_4o6dq"]
 [ext_resource type="PackedScene" uid="uid://b8xy42ki0y33x" path="res://level/room/enemy_room/pillar_enemy_room.tscn" id="2_3vuud"]
-[ext_resource type="Script" path="res://level/level_resource.gd" id="3_ck2hm"]
+[ext_resource type="Script" uid="uid://co1ffpew1ktst" path="res://level/level_resource.gd" id="3_ck2hm"]
 [ext_resource type="PackedScene" uid="uid://bwnwlspg10ltd" path="res://level/room/enemy_room/side_hole_enemy_room.tscn" id="3_m4046"]
 [ext_resource type="PackedScene" uid="uid://chpnt7u48rbou" path="res://level/room/enemy_room/center_hole_enemy_room.tscn" id="4_fqte2"]
 [ext_resource type="PackedScene" uid="uid://qjus7rg6g1r7" path="res://level/room/enemy_room/boss_room.tscn" id="4_vfllc"]
 [ext_resource type="PackedScene" uid="uid://bg6b5xcsjjhjc" path="res://level/room/enemy_room/center_platform_enemy_room.tscn" id="5_cnda2"]
 [ext_resource type="PackedScene" uid="uid://b1rt15ofi140k" path="res://level/room/start_room.tscn" id="5_gkrk1"]
 [ext_resource type="PackedScene" uid="uid://d37opus6x1ckq" path="res://level/room/enemy_room/side_platform_enemy_room.tscn" id="6_qvskh"]
+[ext_resource type="TileSet" uid="uid://cnsvmirxe4l8x" path="res://assets/new_tile_set.tres" id="10_c33wh"]
 
 [resource]
 script = ExtResource("3_ck2hm")
@@ -17,3 +18,4 @@ special_rooms = Array[PackedScene]([ExtResource("4_vfllc")])
 start_room = ExtResource("5_gkrk1")
 nb_rooms = 10
 map_size = Vector2i(8, 8)
+tile_set = ExtResource("10_c33wh")

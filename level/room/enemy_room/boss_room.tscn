@@ -1,14 +1,14 @@
 [gd_scene load_steps=12 format=3 uid="uid://qjus7rg6g1r7"]
 
-[ext_resource type="Script" path="res://level/room/enemy_room/enemy_room.gd" id="1_ko3k1"]
+[ext_resource type="Script" uid="uid://b0xdujpdo1h01" path="res://level/room/enemy_room/enemy_room.gd" id="1_ko3k1"]
 [ext_resource type="TileSet" uid="uid://cnsvmirxe4l8x" path="res://assets/new_tile_set.tres" id="2_ertmy"]
 [ext_resource type="PackedScene" uid="uid://dq2cwscalb3k0" path="res://level/room/top_door.tscn" id="3_bioou"]
 [ext_resource type="PackedScene" uid="uid://ct0cltcyadrej" path="res://level/room/bottom_door.tscn" id="4_juhm0"]
 [ext_resource type="PackedScene" uid="uid://cmjagyra7e6vy" path="res://level/room/left_door.tscn" id="5_gdupj"]
 [ext_resource type="PackedScene" uid="uid://g1ssunauwlh4" path="res://level/room/right_door.tscn" id="6_xktdx"]
-[ext_resource type="Script" path="res://level/spawner/enemy_spawner.gd" id="7_b38x4"]
-[ext_resource type="Script" path="res://level/spawner/imp_boss_spawn_info.gd" id="8_e3j80"]
-[ext_resource type="Script" path="res://level/collectable_spawner.gd" id="9_hcab5"]
+[ext_resource type="Script" uid="uid://8r2g0q81fgyy" path="res://level/spawner/enemy_spawner.gd" id="7_b38x4"]
+[ext_resource type="Script" uid="uid://dg7fv1w78o38c" path="res://level/spawner/imp_boss_spawn_info.gd" id="8_e3j80"]
+[ext_resource type="Script" uid="uid://cmpah40h6aigg" path="res://level/collectable_spawner.gd" id="9_hcab5"]
 [ext_resource type="PackedScene" uid="uid://rwm3r0o4lvii" path="res://entities/collectables/coin/coin.tscn" id="10_5s1u3"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_6cqpo"]

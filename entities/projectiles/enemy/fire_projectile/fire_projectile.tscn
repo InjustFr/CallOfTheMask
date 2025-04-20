@@ -1,12 +1,9 @@
 [gd_scene load_steps=11 format=3 uid="uid://bpx8savg6hr1g"]
 
-[ext_resource type="Script" path="res://entities/projectiles/enemy/enemy_projectile.gd" id="1_qhakf"]
-[ext_resource type="Script" path="res://entities/components/velocity_component.gd" id="2_c154x"]
-[ext_resource type="Script" path="res://entities/components/damage_component.gd" id="3_iawbk"]
+[ext_resource type="Script" uid="uid://bawk1urornpxr" path="res://entities/projectiles/enemy/enemy_projectile.gd" id="1_qhakf"]
+[ext_resource type="Script" uid="uid://b2egrmqvxr0xj" path="res://entities/components/velocity_component.gd" id="2_c154x"]
+[ext_resource type="Script" uid="uid://de543k5gbwr5b" path="res://entities/components/damage_component.gd" id="3_iawbk"]
 [ext_resource type="Texture2D" uid="uid://ba66nk38lou1a" path="res://entities/projectiles/enemy/fire_projectile/assets/fire_projectile.png" id="4_juimq"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_35vb7"]
-radius = 4.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ojtav"]
 atlas = ExtResource("4_juimq")
@@ -44,6 +41,10 @@ animations = [{
 "speed": 7.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5wwu5"]
+radius = 4.0
+height = 12.0
+
 [node name="FireProjectile" type="RigidBody2D"]
 top_level = true
 collision_layer = 16
@@ -52,8 +53,15 @@ mass = 0.01
 gravity_scale = 1.66533e-16
 script = ExtResource("1_qhakf")
 
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_v1he2")
+frame = 2
+frame_progress = 0.160843
+flip_h = true
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_35vb7")
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_5wwu5")
 
 [node name="VelocityComponent" type="Node" parent="."]
 script = ExtResource("2_c154x")
@@ -65,10 +73,5 @@ script = ExtResource("3_iawbk")
 damage = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageComponent"]
-shape = SubResource("CircleShape2D_35vb7")
-
-[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_v1he2")
-frame = 2
-frame_progress = 0.160843
-flip_h = true
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_5wwu5")

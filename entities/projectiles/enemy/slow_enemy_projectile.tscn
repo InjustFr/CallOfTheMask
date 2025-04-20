@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cvsjod7vnne28"]
 
-[ext_resource type="Script" path="res://entities/projectiles/enemy/slow_enemy_projectile.gd" id="1_pevtg"]
+[ext_resource type="Script" uid="uid://cer5tws7xfjnp" path="res://entities/projectiles/enemy/slow_enemy_projectile.gd" id="1_pevtg"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_35vb7"]
 radius = 4.0

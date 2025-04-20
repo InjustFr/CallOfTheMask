@@ -30,6 +30,11 @@ signal finished
 signal level_generated
 signal room_changed
 
+
+func _init() -> void:
+	Global.level = self
+
+
 func _ready() -> void:
 	_create_map()
 	_generate_mandatory_rooms()

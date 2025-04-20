@@ -3,7 +3,7 @@ extends Room
 class_name StartRoom
 
 @onready var navigation_region : NavigationRegion2D = $NavigationRegion2D
-@onready var map : TileMap = $NavigationRegion2D/TileMap
+@onready var map : TileMapLayer = $NavigationRegion2D/Walls
 
 func _ready() -> void:
 	super()

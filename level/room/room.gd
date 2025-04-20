@@ -8,8 +8,10 @@ signal room_entered
 signal room_left
 
 @export var doors : Array[Door]
+@export var tile_layers : Array[TileMapLayer]
 
 var was_cleared := false
+
 
 func _ready() -> void:
 	cleared.connect(_on_cleared)
@@ -18,6 +20,11 @@ func _ready() -> void:
 
 	for door in doors:
 		door.door_passed.connect(_on_door_passed)
+
+	var tile_layers: Array[Node] = find_children("*", "TileMapLayer", true, false)
+	for tile_layer: Node in tile_layers:
+		if tile_layer is TileMapLayer:
+			tile_layer.tile_set = Global.level.level_info.tile_set
 
 func get_size() -> Vector2:
 	return Vector2(0,0)

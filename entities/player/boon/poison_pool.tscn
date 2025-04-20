@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dropwfppxsu3f"]
 
-[ext_resource type="Script" path="res://entities/player/boon/poison_pool.gd" id="1_w1w6i"]
+[ext_resource type="Script" uid="uid://dwm4xbtg161fs" path="res://entities/player/boon/poison_pool.gd" id="1_w1w6i"]
 
 [sub_resource type="Gradient" id="Gradient_kpdvn"]
 offsets = PackedFloat32Array(0, 0.503916, 0.780679)

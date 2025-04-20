@@ -1,16 +1,16 @@
 [gd_scene load_steps=39 format=3 uid="uid://d4dr7cigdptuw"]
 
-[ext_resource type="Script" path="res://entities/components/health_component.gd" id="1_hytk1"]
-[ext_resource type="Script" path="res://entities/enemies/fire_spiter/fire_spiter.gd" id="1_jwvy8"]
-[ext_resource type="Script" path="res://entities/components/hitbox_component.gd" id="2_4vi4v"]
-[ext_resource type="Script" path="res://entities/components/damage_component.gd" id="4_0wssh"]
-[ext_resource type="Script" path="res://entities/components/projectile_spawner_component.gd" id="5_blgr4"]
-[ext_resource type="Script" path="res://entities/components/orientation_component.gd" id="6_erk2o"]
-[ext_resource type="Script" path="res://entities/components/fov_component.gd" id="7_gyr8y"]
-[ext_resource type="Script" path="res://entities/enemies/components/player_tracking_component.gd" id="8_cxpwe"]
+[ext_resource type="Script" uid="uid://pn8dke6g2b6b" path="res://entities/components/health_component.gd" id="1_hytk1"]
+[ext_resource type="Script" uid="uid://c6v5glxbohwtn" path="res://entities/enemies/fire_spiter/fire_spiter.gd" id="1_jwvy8"]
+[ext_resource type="Script" uid="uid://q8hcxid6pdlo" path="res://entities/components/hitbox_component.gd" id="2_4vi4v"]
+[ext_resource type="Script" uid="uid://de543k5gbwr5b" path="res://entities/components/damage_component.gd" id="4_0wssh"]
+[ext_resource type="Script" uid="uid://3ogw5kcrnr0k" path="res://entities/components/projectile_spawner_component.gd" id="5_blgr4"]
+[ext_resource type="Script" uid="uid://c1dec3hnix6q1" path="res://entities/components/orientation_component.gd" id="6_erk2o"]
+[ext_resource type="Script" uid="uid://4p0tbv3mot6r" path="res://entities/components/fov_component.gd" id="7_gyr8y"]
+[ext_resource type="Script" uid="uid://ltuwdw82gobd" path="res://entities/enemies/components/player_tracking_component.gd" id="8_cxpwe"]
 [ext_resource type="Texture2D" uid="uid://bob67mkevuuhh" path="res://entities/enemies/fire_spiter/assets/fire_spiter.png" id="9_nchao"]
 [ext_resource type="Texture2D" uid="uid://b2xxl5rs2ijik" path="res://assets/progress_outline.png" id="10_x44r6"]
-[ext_resource type="Script" path="res://entities/enemies/components/health_bar_component.gd" id="11_rcd8o"]
+[ext_resource type="Script" uid="uid://c7xpamyhdiymg" path="res://entities/enemies/components/health_bar_component.gd" id="11_rcd8o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4j6wm"]
 size = Vector2(16, 26)
@@ -283,9 +283,9 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ns16c"]
 _data = {
-"RESET": SubResource("Animation_me8ow"),
-"attack": SubResource("Animation_km7lc"),
-"move_disappear": SubResource("Animation_g17b7")
+&"RESET": SubResource("Animation_me8ow"),
+&"attack": SubResource("Animation_km7lc"),
+&"move_disappear": SubResource("Animation_g17b7")
 }
 
 [node name="FireSpiter" type="CharacterBody2D"]
@@ -370,5 +370,5 @@ health_component = NodePath("../HealthComponent")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_ns16c")
+&"": SubResource("AnimationLibrary_ns16c")
 }

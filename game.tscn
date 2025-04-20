@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=3 uid="uid://kpxb3bc4txks"]
 
-[ext_resource type="Script" path="res://game.gd" id="1_d6l61"]
+[ext_resource type="Script" uid="uid://bwthogutpntcl" path="res://game.gd" id="1_d6l61"]
 [ext_resource type="PackedScene" uid="uid://gph4ll3hdsgo" path="res://ui/player_ui.tscn" id="2_1hiie"]
 [ext_resource type="Theme" uid="uid://da1qk48nqy3s2" path="res://assets/ui_theme.tres" id="2_t22gp"]
-[ext_resource type="Script" path="res://level/level.gd" id="4_u2li5"]
-[ext_resource type="Resource" uid="uid://c1ejt2h0sn256" path="res://data/level/test_level.tres" id="5_81j2s"]
+[ext_resource type="Script" uid="uid://d321y54b3fndl" path="res://level/level.gd" id="4_u2li5"]
+[ext_resource type="Resource" uid="uid://dheeua60fgd3l" path="res://data/level/fire_level.tres" id="5_7jktm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nljc7"]
 font_size = 64
@@ -111,6 +111,6 @@ render_target_update_mode = 4
 
 [node name="Level" type="Node2D" parent="SubViewportContainer/SubViewport"]
 script = ExtResource("4_u2li5")
-level_info = ExtResource("5_81j2s")
+level_info = ExtResource("5_7jktm")
 
 [connection signal="pressed" from="DeathMenu/Container/VBoxContainer/CenterContainer/Button" to="." method="_restart_game"]

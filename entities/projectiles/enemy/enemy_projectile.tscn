@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://dp22g51t15xkx"]
 
-[ext_resource type="Script" path="res://entities/projectiles/enemy/enemy_projectile.gd" id="1_dv2m4"]
-[ext_resource type="Script" path="res://entities/components/velocity_component.gd" id="2_b20ci"]
-[ext_resource type="Script" path="res://entities/components/damage_component.gd" id="2_truq0"]
+[ext_resource type="Script" uid="uid://bawk1urornpxr" path="res://entities/projectiles/enemy/enemy_projectile.gd" id="1_dv2m4"]
+[ext_resource type="Script" uid="uid://b2egrmqvxr0xj" path="res://entities/components/velocity_component.gd" id="2_b20ci"]
+[ext_resource type="Script" uid="uid://de543k5gbwr5b" path="res://entities/components/damage_component.gd" id="2_truq0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_35vb7"]
 radius = 4.0

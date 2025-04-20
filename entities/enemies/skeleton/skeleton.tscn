@@ -1,18 +1,18 @@
 [gd_scene load_steps=31 format=3 uid="uid://cqycyxq1nv4pa"]
 
-[ext_resource type="Script" path="res://entities/enemies/skeleton/skeleton.gd" id="1_3ghqt"]
+[ext_resource type="Script" uid="uid://d20kaj7r2bag4" path="res://entities/enemies/skeleton/skeleton.gd" id="1_3ghqt"]
 [ext_resource type="Texture2D" uid="uid://dtj0msbib567x" path="res://assets/0x72_DungeonTilesetII_v1.6.png" id="2_6xdao"]
-[ext_resource type="Script" path="res://entities/components/health_component.gd" id="2_r5w5v"]
-[ext_resource type="Script" path="res://entities/components/hitbox_component.gd" id="3_6e51r"]
-[ext_resource type="Script" path="res://entities/components/velocity_component.gd" id="4_frnk7"]
-[ext_resource type="Script" path="res://entities/enemies/components/pathfinding_component.gd" id="5_f8kv1"]
-[ext_resource type="Script" path="res://entities/components/damage_component.gd" id="6_1srtw"]
+[ext_resource type="Script" uid="uid://pn8dke6g2b6b" path="res://entities/components/health_component.gd" id="2_r5w5v"]
+[ext_resource type="Script" uid="uid://q8hcxid6pdlo" path="res://entities/components/hitbox_component.gd" id="3_6e51r"]
+[ext_resource type="Script" uid="uid://b2egrmqvxr0xj" path="res://entities/components/velocity_component.gd" id="4_frnk7"]
+[ext_resource type="Script" uid="uid://b5ytt78lwv0ea" path="res://entities/enemies/components/pathfinding_component.gd" id="5_f8kv1"]
+[ext_resource type="Script" uid="uid://de543k5gbwr5b" path="res://entities/components/damage_component.gd" id="6_1srtw"]
 [ext_resource type="Texture2D" uid="uid://b2xxl5rs2ijik" path="res://assets/progress_outline.png" id="7_2dtvq"]
-[ext_resource type="Script" path="res://entities/components/projectile_spawner_component.gd" id="7_i3m8e"]
-[ext_resource type="Script" path="res://entities/enemies/components/health_bar_component.gd" id="10_5qyoi"]
-[ext_resource type="Script" path="res://entities/enemies/components/player_tracking_component.gd" id="10_ff16j"]
-[ext_resource type="Script" path="res://entities/components/orientation_component.gd" id="11_3gxbu"]
-[ext_resource type="Script" path="res://entities/components/fov_component.gd" id="12_lja1g"]
+[ext_resource type="Script" uid="uid://3ogw5kcrnr0k" path="res://entities/components/projectile_spawner_component.gd" id="7_i3m8e"]
+[ext_resource type="Script" uid="uid://c7xpamyhdiymg" path="res://entities/enemies/components/health_bar_component.gd" id="10_5qyoi"]
+[ext_resource type="Script" uid="uid://ltuwdw82gobd" path="res://entities/enemies/components/player_tracking_component.gd" id="10_ff16j"]
+[ext_resource type="Script" uid="uid://c1dec3hnix6q1" path="res://entities/components/orientation_component.gd" id="11_3gxbu"]
+[ext_resource type="Script" uid="uid://4p0tbv3mot6r" path="res://entities/components/fov_component.gd" id="12_lja1g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7xj0l"]
 size = Vector2(12, 14)
@@ -164,8 +164,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ns16c"]
 _data = {
-"attack": SubResource("Animation_km7lc"),
-"move_disappear": SubResource("Animation_g17b7")
+&"attack": SubResource("Animation_km7lc"),
+&"move_disappear": SubResource("Animation_g17b7")
 }
 
 [node name="Skeleton" type="CharacterBody2D"]
