@@ -8,7 +8,6 @@ signal room_entered
 signal room_left
 
 @export var doors : Array[Door]
-@export var tile_layers : Array[TileMapLayer]
 
 var was_cleared := false
 
