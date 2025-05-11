@@ -8,3 +8,4 @@ class_name LevelResource
 @export var nb_rooms : int = 10
 @export var map_size : Vector2i = Vector2i(8,8)
 @export var tile_set: TileSet
+@export var enemies: Dictionary[Enemy.Type, PackedScene]

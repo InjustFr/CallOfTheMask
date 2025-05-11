@@ -1,7 +1,9 @@
-[gd_resource type="Resource" script_class="LevelResource" load_steps=11 format=3 uid="uid://dheeua60fgd3l"]
+[gd_resource type="Resource" script_class="LevelResource" load_steps=13 format=3 uid="uid://dheeua60fgd3l"]
 
+[ext_resource type="PackedScene" uid="uid://clqxa3jandqww" path="res://entities/enemies/imp/imp.tscn" id="1_p57w2"]
 [ext_resource type="PackedScene" uid="uid://cneltgs6x0fxa" path="res://level/room/enemy_room/enemy_room.tscn" id="1_t04pu"]
 [ext_resource type="PackedScene" uid="uid://b8xy42ki0y33x" path="res://level/room/enemy_room/pillar_enemy_room.tscn" id="2_p57w2"]
+[ext_resource type="PackedScene" uid="uid://d4dr7cigdptuw" path="res://entities/enemies/fire_spiter/fire_spiter.tscn" id="2_rdws3"]
 [ext_resource type="PackedScene" uid="uid://bwnwlspg10ltd" path="res://level/room/enemy_room/side_hole_enemy_room.tscn" id="3_rdws3"]
 [ext_resource type="PackedScene" uid="uid://chpnt7u48rbou" path="res://level/room/enemy_room/center_hole_enemy_room.tscn" id="4_jxlan"]
 [ext_resource type="PackedScene" uid="uid://bg6b5xcsjjhjc" path="res://level/room/enemy_room/center_platform_enemy_room.tscn" id="5_b04yx"]
@@ -19,3 +21,7 @@ start_room = ExtResource("9_kh1l6")
 nb_rooms = 10
 map_size = Vector2i(8, 8)
 tile_set = ExtResource("10_t04pu")
+enemies = Dictionary[int, PackedScene]({
+0: ExtResource("1_p57w2"),
+1: ExtResource("2_rdws3")
+})

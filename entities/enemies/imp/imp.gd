@@ -106,4 +106,3 @@ func attack_leave() -> void:
 	sprite.position = Vector2(0,0)
 	health_bar_component.position = health_bar_old_pos
 	damage_component.position = sprite.position
-

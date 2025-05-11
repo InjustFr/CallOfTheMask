@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cneltgs6x0fxa"]
+[gd_scene load_steps=17 format=3 uid="uid://cneltgs6x0fxa"]
 
 [ext_resource type="Script" uid="uid://b0xdujpdo1h01" path="res://level/room/enemy_room/enemy_room.gd" id="1_8eo7l"]
 [ext_resource type="TileSet" uid="uid://cnsvmirxe4l8x" path="res://assets/new_tile_set.tres" id="2_c14ef"]
@@ -7,9 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://cmjagyra7e6vy" path="res://level/room/left_door.tscn" id="5_b1fit"]
 [ext_resource type="PackedScene" uid="uid://g1ssunauwlh4" path="res://level/room/right_door.tscn" id="6_edy57"]
 [ext_resource type="Script" uid="uid://8r2g0q81fgyy" path="res://level/spawner/enemy_spawner.gd" id="7_yn46j"]
-[ext_resource type="Script" uid="uid://6h7l3s5mysi" path="res://level/spawner/imp_spawn_info.gd" id="8_46ouq"]
-[ext_resource type="Script" uid="uid://dsuvc5cc20rlt" path="res://level/spawner/skeleton_spawn_info.gd" id="9_ker4r"]
+[ext_resource type="Script" uid="uid://c12nhb0j1ugj" path="res://level/spawner/enemy_spawn_set.gd" id="10_aybvl"]
 [ext_resource type="Script" uid="uid://cmpah40h6aigg" path="res://level/collectable_spawner.gd" id="10_f4x5o"]
+[ext_resource type="Script" uid="uid://wlpduygoyopb" path="res://level/spawner/enemy_spawn_set_element.gd" id="11_6s2mr"]
 [ext_resource type="PackedScene" uid="uid://rwm3r0o4lvii" path="res://entities/collectables/coin/coin.tscn" id="11_mwp1h"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_8au2x"]
@@ -19,6 +19,30 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 512, 0, 512, 288,
 parsed_collision_mask = 1
 source_geometry_group_name = &"navigation_polygon_source_group"
 agent_radius = 16.0
+
+[sub_resource type="Resource" id="Resource_i0tmy"]
+script = ExtResource("11_6s2mr")
+amout = 4
+type = 0
+metadata/_custom_type_script = "uid://wlpduygoyopb"
+
+[sub_resource type="Resource" id="Resource_bspu7"]
+script = ExtResource("10_aybvl")
+enemies = Array[ExtResource("11_6s2mr")]([SubResource("Resource_i0tmy")])
+weight = 1
+metadata/_custom_type_script = "uid://c12nhb0j1ugj"
+
+[sub_resource type="Resource" id="Resource_ltijd"]
+script = ExtResource("11_6s2mr")
+amout = 3
+type = 1
+metadata/_custom_type_script = "uid://wlpduygoyopb"
+
+[sub_resource type="Resource" id="Resource_vo0q1"]
+script = ExtResource("10_aybvl")
+enemies = Array[ExtResource("11_6s2mr")]([SubResource("Resource_ltijd")])
+weight = 1
+metadata/_custom_type_script = "uid://c12nhb0j1ugj"
 
 [node name="enemy_room" type="Node2D" node_paths=PackedStringArray("doors")]
 y_sort_enabled = true
@@ -54,20 +78,6 @@ next_room_offset = Vector2i(-1, 0)
 position = Vector2(496, 144)
 next_room_offset = Vector2i(1, 0)
 
-[node name="EnemySpawner" type="Node" parent="." node_paths=PackedStringArray("spawn_region", "room", "enemies_spawning_node")]
-script = ExtResource("7_yn46j")
-spawn_region = NodePath("../NavigationRegion2D")
-room = NodePath("..")
-enemies_spawning_node = NodePath("../Enemies")
-
-[node name="ImpSpawnInfo" type="Node" parent="EnemySpawner"]
-script = ExtResource("8_46ouq")
-weight = 0.5
-
-[node name="SkeletonSpawnInfo" type="Node" parent="EnemySpawner"]
-script = ExtResource("9_ker4r")
-weight = 0.5
-
 [node name="Enemies" type="Node2D" parent="."]
 y_sort_enabled = true
 
@@ -80,6 +90,13 @@ collectable_scene = ExtResource("11_mwp1h")
 room = NodePath("..")
 spawn_min = 2
 spawn_max = 5
+
+[node name="EnemySpawner" type="Node" parent="." node_paths=PackedStringArray("spawn_region", "room", "enemies_spawning_node")]
+script = ExtResource("7_yn46j")
+spawn_region = NodePath("../NavigationRegion2D")
+room = NodePath("..")
+enemies_spawning_node = NodePath("../Enemies")
+enemy_spawn_sets = Array[ExtResource("10_aybvl")]([SubResource("Resource_bspu7"), SubResource("Resource_vo0q1")])
 
 [connection signal="cleared" from="." to="CoinSpawner" method="spawn"]
 [connection signal="timeout" from="SpawnerTimer" to="EnemySpawner" method="spawn"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b8xy42ki0y33x"]
+[gd_scene load_steps=17 format=3 uid="uid://b8xy42ki0y33x"]
 
 [ext_resource type="Script" uid="uid://b0xdujpdo1h01" path="res://level/room/enemy_room/enemy_room.gd" id="1_db33g"]
 [ext_resource type="TileSet" uid="uid://cnsvmirxe4l8x" path="res://assets/new_tile_set.tres" id="2_5el0f"]
@@ -7,10 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://cmjagyra7e6vy" path="res://level/room/left_door.tscn" id="5_33saw"]
 [ext_resource type="PackedScene" uid="uid://g1ssunauwlh4" path="res://level/room/right_door.tscn" id="6_3bjta"]
 [ext_resource type="Script" uid="uid://8r2g0q81fgyy" path="res://level/spawner/enemy_spawner.gd" id="7_h7oo0"]
-[ext_resource type="Script" uid="uid://dsuvc5cc20rlt" path="res://level/spawner/skeleton_spawn_info.gd" id="8_61drh"]
-[ext_resource type="Script" uid="uid://6h7l3s5mysi" path="res://level/spawner/imp_spawn_info.gd" id="9_kh406"]
 [ext_resource type="Script" uid="uid://cmpah40h6aigg" path="res://level/collectable_spawner.gd" id="9_seri8"]
 [ext_resource type="PackedScene" uid="uid://rwm3r0o4lvii" path="res://entities/collectables/coin/coin.tscn" id="10_3pmq3"]
+[ext_resource type="Script" uid="uid://c12nhb0j1ugj" path="res://level/spawner/enemy_spawn_set.gd" id="10_gwl87"]
+[ext_resource type="Script" uid="uid://wlpduygoyopb" path="res://level/spawner/enemy_spawn_set_element.gd" id="11_0qqr3"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_r7qd2"]
 vertices = PackedVector2Array(416, 208, 464, 240, 48, 240, 336, 208, 176, 208, 96, 208, 464, 48, 416, 80, 48, 48, 336, 80, 96, 80, 176, 80)
@@ -19,6 +19,30 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 512, 0, 512, 288,
 parsed_collision_mask = 1
 source_geometry_group_name = &"navigation_polygon_source_group"
 agent_radius = 16.0
+
+[sub_resource type="Resource" id="Resource_i0tmy"]
+script = ExtResource("11_0qqr3")
+amout = 4
+type = 0
+metadata/_custom_type_script = "uid://wlpduygoyopb"
+
+[sub_resource type="Resource" id="Resource_bspu7"]
+script = ExtResource("10_gwl87")
+enemies = Array[ExtResource("11_0qqr3")]([SubResource("Resource_i0tmy")])
+weight = 1
+metadata/_custom_type_script = "uid://c12nhb0j1ugj"
+
+[sub_resource type="Resource" id="Resource_ltijd"]
+script = ExtResource("11_0qqr3")
+amout = 3
+type = 1
+metadata/_custom_type_script = "uid://wlpduygoyopb"
+
+[sub_resource type="Resource" id="Resource_vo0q1"]
+script = ExtResource("10_gwl87")
+enemies = Array[ExtResource("11_0qqr3")]([SubResource("Resource_ltijd")])
+weight = 1
+metadata/_custom_type_script = "uid://c12nhb0j1ugj"
 
 [node name="PillarEnemyRoom" type="Node2D" node_paths=PackedStringArray("doors")]
 y_sort_enabled = true
@@ -54,20 +78,6 @@ next_room_offset = Vector2i(-1, 0)
 position = Vector2(496, 144)
 next_room_offset = Vector2i(1, 0)
 
-[node name="EnemySpawner" type="Node" parent="." node_paths=PackedStringArray("spawn_region", "room", "enemies_spawning_node")]
-script = ExtResource("7_h7oo0")
-spawn_region = NodePath("../NavigationRegion2D")
-room = NodePath("..")
-enemies_spawning_node = NodePath("../Enemies")
-
-[node name="SkeletonSpawnInfo" type="Node" parent="EnemySpawner"]
-script = ExtResource("8_61drh")
-weight = 0.5
-
-[node name="ImpSpawnInfo" type="Node" parent="EnemySpawner"]
-script = ExtResource("9_kh406")
-weight = 0.5
-
 [node name="Enemies" type="Node2D" parent="."]
 y_sort_enabled = true
 
@@ -80,6 +90,13 @@ collectable_scene = ExtResource("10_3pmq3")
 room = NodePath("..")
 spawn_min = 2
 spawn_max = 5
+
+[node name="EnemySpawner" type="Node" parent="." node_paths=PackedStringArray("spawn_region", "room", "enemies_spawning_node")]
+script = ExtResource("7_h7oo0")
+spawn_region = NodePath("../NavigationRegion2D")
+room = NodePath("..")
+enemies_spawning_node = NodePath("../Enemies")
+enemy_spawn_sets = Array[ExtResource("10_gwl87")]([SubResource("Resource_bspu7"), SubResource("Resource_vo0q1")])
 
 [connection signal="cleared" from="." to="CoinSpawner" method="spawn"]
 [connection signal="timeout" from="SpawnerTimer" to="EnemySpawner" method="spawn"]
