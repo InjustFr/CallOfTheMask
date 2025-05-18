@@ -7,6 +7,6 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [node name="MapRoom" type="PanelContainer"]
 clip_contents = true
-custom_minimum_size = Vector2(32, 18)
+custom_minimum_size = Vector2(96, 54)
 theme = ExtResource("1_7iac2")
 theme_override_styles/panel = SubResource("StyleBoxFlat_vkrnp")

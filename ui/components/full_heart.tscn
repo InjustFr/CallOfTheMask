@@ -7,4 +7,7 @@ atlas = ExtResource("1_vxnca")
 region = Rect2(289, 370, 13, 12)
 
 [node name="FullHeart" type="TextureRect"]
+offset_right = 13.0
+offset_bottom = 48.0
 texture = SubResource("AtlasTexture_mg8l1")
+expand_mode = 3

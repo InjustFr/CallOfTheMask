@@ -8,3 +8,4 @@ region = Rect2(305, 370, 13, 12)
 
 [node name="HalfHeart" type="TextureRect"]
 texture = SubResource("AtlasTexture_fbki8")
+expand_mode = 3

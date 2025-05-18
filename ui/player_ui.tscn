@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://gph4ll3hdsgo"]
+[gd_scene load_steps=8 format=3 uid="uid://gph4ll3hdsgo"]
 
 [ext_resource type="Theme" uid="uid://da1qk48nqy3s2" path="res://assets/ui_theme.tres" id="1_ymd8x"]
 [ext_resource type="PackedScene" uid="uid://bmtapdbpkgkpa" path="res://ui/components/map_view.tscn" id="2_imoyd"]
@@ -30,8 +30,8 @@ func _process(_delta: float) -> void:
 [sub_resource type="GDScript" id="GDScript_cc0i4"]
 script/source = "extends VBoxContainer
 
-@onready var coin_label : Label = $CoinLine/Label
-@onready var essence_label : Label = $EssenceLine/Label
+@onready var coin_label : Label = $Grid/Label
+@onready var essence_label : Label = $Grid/Label2
 
 func _init() -> void:
 	Global.player_changed.connect(_on_player_changed)
@@ -45,17 +45,12 @@ func _on_player_changed() -> void:
 
 func _on_coins_changed(value: int) -> void:
 	coin_label.text = \"Coins : \" + str(value)
-
-
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0vgdp"]
 atlas = ExtResource("2_lnv8k")
 region = Rect2(289, 385, 6, 7)
 margin = Rect2(1, 2.08165e-12, 2, 2.08165e-12)
-
-[sub_resource type="LabelSettings" id="LabelSettings_mssdt"]
-font_color = Color(1, 0, 0, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8toxb"]
 atlas = ExtResource("2_lnv8k")
@@ -85,11 +80,14 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="HeartContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 1
 size_flags_vertical = 0
+theme = ExtResource("1_ymd8x")
 script = SubResource("GDScript_ujfn2")
 
 [node name="MapView" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_imoyd")]
+custom_minimum_size = Vector2(288, 162)
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -108,27 +106,27 @@ alignment = 2
 layout_mode = 2
 script = SubResource("GDScript_cc0i4")
 
-[node name="CoinLine" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/ResourceContainer"]
+[node name="Grid" type="GridContainer" parent="MarginContainer/VBoxContainer2/ResourceContainer"]
 layout_mode = 2
+columns = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer2/ResourceContainer/CoinLine"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer2/ResourceContainer/Grid"]
 layout_mode = 2
 texture = SubResource("AtlasTexture_0vgdp")
+expand_mode = 3
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer2/ResourceContainer/CoinLine"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer2/ResourceContainer/Grid"]
 layout_mode = 2
 theme = ExtResource("1_ymd8x")
+theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "Coins : 0"
-label_settings = SubResource("LabelSettings_mssdt")
 
-[node name="EssenceLine" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/ResourceContainer"]
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer2/ResourceContainer/EssenceLine"]
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/VBoxContainer2/ResourceContainer/Grid"]
 layout_mode = 2
 texture = SubResource("AtlasTexture_8toxb")
+expand_mode = 3
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer2/ResourceContainer/EssenceLine"]
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer2/ResourceContainer/Grid"]
 layout_mode = 2
 theme = ExtResource("1_ymd8x")
 text = "Essence : 0"

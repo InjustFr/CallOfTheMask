@@ -1,16 +1,22 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://da1qk48nqy3s2"]
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://da1qk48nqy3s2"]
 
 [ext_resource type="FontFile" uid="uid://dry8qjomynonk" path="res://assets/VT323-Regular.ttf" id="1_qnnu6"]
 
+[sub_resource type="SystemFont" id="SystemFont_wf4hb"]
+font_names = PackedStringArray("Sans-Serif")
+
+[sub_resource type="SystemFont" id="SystemFont_rv7sn"]
+font_names = PackedStringArray("Lucida Grande")
+
 [resource]
-default_font = ExtResource("1_qnnu6")
-default_font_size = 12
+default_font = SubResource("SystemFont_rv7sn")
+default_font_size = 32
 Button/font_sizes/font_size = 24
 Fonts/fonts/large = ExtResource("1_qnnu6")
-Fonts/fonts/normal = ExtResource("1_qnnu6")
-GridContainer/constants/h_separation = 4
-GridContainer/constants/v_separation = 4
-MarginContainer/constants/margin_bottom = 4
-MarginContainer/constants/margin_left = 4
-MarginContainer/constants/margin_right = 4
-MarginContainer/constants/margin_top = 4
+Fonts/fonts/normal = SubResource("SystemFont_wf4hb")
+GridContainer/constants/h_separation = 16
+GridContainer/constants/v_separation = 16
+MarginContainer/constants/margin_bottom = 16
+MarginContainer/constants/margin_left = 16
+MarginContainer/constants/margin_right = 16
+MarginContainer/constants/margin_top = 16
